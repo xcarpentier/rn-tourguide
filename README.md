@@ -1,4 +1,4 @@
-<h1 align="center">RN-Copilot, a rewriting of React-Native-Copilot</h1>
+<h1 align="center">RN-TourGuide, a rewriting of React-Native-Copilot</h1>
 <h2 align="center">a rewriting of React-Native-Copilot</h2>
 
 <p align="center">
