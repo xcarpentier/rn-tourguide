@@ -6,6 +6,18 @@
 </p>
 
 <p align="center">
+  <img width="250" src="https://www.dropbox.com/s/9heua3qgd66125k/rn-tourguide.gif?dl=0&raw=1" alt="RN Tourguide" />
+</p>
+
+<div align="center">
+  <p align="center">
+    <a href="https://www.npmjs.com/package/rn-tourguide">
+      <img src="https://img.shields.io/npm/v/rn-tourguide.svg" alt="NPM Version" />
+    </a>
+  </p>
+</div>
+
+<p align="center">
   ⚠️ readme wip ⚠️
 </p>
 
