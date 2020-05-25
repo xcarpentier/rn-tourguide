@@ -33,9 +33,9 @@
   "author": "Xavier Carpentier <xcapetir@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/xcapentier/rn-tourguide/issues"
+    "url": "https://github.com/xcarpentier/rn-tourguide/issues"
   },
-  "homepage": "https://github.com/xcapentier/rn-tourguide#readme",
+  "homepage": "https://github.com/xcarpentier/rn-tourguide#readme",
   "devDependencies": {
     "@types/hoist-non-react-statics": "3.3.1",
     "@types/jest": "25.2.3",
