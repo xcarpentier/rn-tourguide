@@ -64,7 +64,7 @@ export const copilot = ({
   wrapperStyle,
   hideArrow,
   animationDuration,
-}: CopilotOptionProps = {}) => (WrappedComponent: any) => {
+}: CopilotOptionProps = {}) => (WrappedComponent: any): any => {
   class CopilotClass extends React.Component<any, State> {
     state: State = {
       steps: undefined,

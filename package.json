@@ -9,19 +9,18 @@
     "start": "yarn config:dev && expo start -c",
     "test": "TZ=Europe/Paris jest --no-watchman",
     "tsc": "node_modules/.bin/tsc --noEmit",
-    "bundle": "./scripts/gen_bundle_string.js",
-    "build": "yarn bundle && rm -rf lib/ && node_modules/.bin/tsc",
+    "build": "rm -rf lib/ && node_modules/.bin/tsc",
     "config:dev": "json -I -f package.json -e 'this.main=\"node_modules/expo/AppEntry.js\"'",
     "config:npm": "json -I -f package.json -e 'this.main=\"lib/index.js\"'",
     "lint": "tslint --project .",
-    "verify": "yarn lint && yarn tsc && yarn build",
+    "verify": "yarn test && yarn lint && yarn tsc && yarn build",
     "prepublishOnly": "yarn verify && yarn config:npm",
     "postpublish": "yarn config:dev",
     "cleaning": "rm -rf node_modules && rm -f yarn.lock && yarn cache clean && yarn install && watchman watch-del-all && rm -fr $TMPDIR/react-*"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xcarpentier/react-native-copilot.git"
+    "url": "git+https://github.com/xcarpentier/rn-tourguide.git"
   },
   "keywords": [
     "react-native",
@@ -34,9 +33,9 @@
   "author": "Xavier Carpentier <xcapetir@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/xcapentier/react-native-copilot/issues"
+    "url": "https://github.com/xcapentier/rn-tourguide/issues"
   },
-  "homepage": "https://github.com/xcapentier/react-native-copilot#readme",
+  "homepage": "https://github.com/xcapentier/rn-tourguide#readme",
   "devDependencies": {
     "@types/hoist-non-react-statics": "3.3.1",
     "@types/jest": "25.2.3",
