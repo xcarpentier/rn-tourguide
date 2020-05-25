@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "name": "rn-copilot",
+    "description": "rn-copilot",
+    "slug": "rn-copilot",
+    "privacy": "public",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "ios": {
+      "supportsTablet": true
+    }
+  }
+}
