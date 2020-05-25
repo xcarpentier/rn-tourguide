@@ -1,5 +1,5 @@
-<h1 align="center">RN-TourGuide, a rewriting of React-Native-Copilot</h1>
-<h2 align="center">a rewriting of React-Native-Copilot</h2>
+<h1 align="center">RN-TourGuide</h1>
+<h3 align="center">a rewriting of React-Native-Copilot</h3>
 
 <p align="center">
   A flexible tourguide for your react native app!
