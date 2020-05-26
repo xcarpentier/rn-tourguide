@@ -12,17 +12,19 @@ import {
 import Svg from 'react-native-svg'
 
 import { AnimatedSvgPath } from './AnimatedPath'
-import { ValueXY, SVGMaskPath, Step } from '../types'
+import { ValueXY, SVGMaskPath, Step, SVGMaskPathParam } from '../types'
 import { getFirstPath, getSecondPath, svgMaskPathMorph } from '../utilities'
 
 const windowDimensions = Dimensions.get('window')
 
-export const defaultSvgPath = ({ size, position, canvasSize }: any): string =>
-  `M0,0H${canvasSize.x}V${canvasSize.y}H0V0ZM${position.x._value},${
-    position.y._value
-  }H${position.x._value + size.x._value}V${position.y._value + size.y._value}H${
-    position.x._value
-  }V${position.y._value}Z`
+export const defaultSvgPath = ({
+  size,
+  position,
+  canvasSize,
+}: SVGMaskPathParam): string =>
+  `M0,0H${canvasSize.x}V${canvasSize.y}H0V0ZM${position.x},${position.y}H${
+    position.x + size.x
+  }V${position.y + size.y}H${position.x}V${position.y}Z`
 
 interface Props {
   size: ValueXY
