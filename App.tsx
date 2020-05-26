@@ -172,4 +172,5 @@ export default copilot({
   svgMaskPath,
   androidStatusBarVisible: false,
   animationDuration: 777,
+  maskOffset: 10,
 })(App)

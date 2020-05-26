@@ -61,13 +61,15 @@ const getInterpolator = (
   shape: Shape,
   position: ValueXY,
   size: ValueXY,
+  maskOffset: number = 0,
 ) => {
   return shape === 'circle'
     ? toCircle(
         cleanPath(previousPath),
         position.x + size.x / 2,
         position.y + size.y / 2,
-        Math.max(size.x, size.y) / 2,
+        Math.max(size.x, size.y) / 2 + maskOffset,
+        { maxSegmentLength: 5 },
       )
     : interpolate(cleanPath(previousPath), cleanPath(nextPath))
 }
@@ -76,6 +78,7 @@ export const svgMaskPathMorph = ({
   previousPath,
   nextPath,
   animation,
+  maskOffset,
   to: { position, size, shape },
 }: SVGMaskPathMorphParam) => {
   const interpolator = getInterpolator(
@@ -84,6 +87,7 @@ export const svgMaskPathMorph = ({
     shape!,
     position,
     size,
+    maskOffset,
   )
   return `${getCanvasPath(nextPath)}${interpolator(
     clamp(animation._value, 0, 1),

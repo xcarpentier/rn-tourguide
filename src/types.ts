@@ -51,6 +51,7 @@ export interface SVGMaskPathMorphParam {
   animation: AnimJSValue
   previousPath: SvgPath
   nextPath: SvgPath
+  maskOffset?: number // only for circle for now
   to: {
     position: ValueXY
     size: ValueXY

@@ -46,6 +46,7 @@ export interface CopilotOptionProps {
   svgMaskPath?: SVGMaskPath
   verticalOffset?: number
   wrapperStyle?: StyleProp<ViewStyle>
+  maskOffset?: number
   hideArrow?: boolean
   animationDuration?: number
 }
@@ -64,6 +65,7 @@ export const copilot = ({
   wrapperStyle,
   hideArrow,
   animationDuration,
+  maskOffset,
 }: CopilotOptionProps = {}) => (WrappedComponent: any): any => {
   class CopilotClass extends React.Component<any, State> {
     state: State = {
@@ -245,6 +247,7 @@ export const copilot = ({
             stopOnOutsideClick={stopOnOutsideClick}
             hideArrow={hideArrow}
             animationDuration={animationDuration}
+            maskOffset={maskOffset}
           />
         </View>
       )

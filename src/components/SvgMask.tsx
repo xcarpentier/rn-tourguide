@@ -35,6 +35,7 @@ interface Props {
   backdropColor: string
   svgMaskPath?: SVGMaskPath
   currentStepNumber?: number
+  maskOffset?: number
   currentStep?: Step
   easing?: (value: number) => number
   onClick?(event: GestureResponderEvent): boolean
@@ -59,6 +60,7 @@ class SvgMask extends Component<Props, State> {
     svgMaskPath: defaultSvgPath,
     size: { x: 0, y: 0 },
     position: { x: 0, y: 0 },
+    maskOffset: 0,
   }
 
   listenerID: any
@@ -103,20 +105,22 @@ class SvgMask extends Component<Props, State> {
   }
 
   getPath = () => {
-    const previousPath = this.state.previousPath
+    const { previousPath, animation, canvasSize } = this.state
+    const { maskOffset, size, position, currentStep } = this.props
     const nextPath = this.props.svgMaskPath!({
-      size: this.props.size,
-      position: this.props.position,
-      canvasSize: this.state.canvasSize!,
-      currentStepNumber: this.props.currentStepNumber!,
+      size,
+      position,
+      canvasSize: canvasSize!,
+      currentStepNumber: currentStep?.order!,
     })
     const path = svgMaskPathMorph({
-      animation: this.state.animation as any,
+      animation: animation as any,
       previousPath: getFirstPath(previousPath),
       nextPath: getFirstPath(nextPath),
+      maskOffset,
       to: {
-        position: this.props.position,
-        size: this.props.size,
+        position,
+        size,
         shape: this.props.currentStep?.shape,
       },
     })

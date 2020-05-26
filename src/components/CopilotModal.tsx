@@ -32,7 +32,7 @@ interface Props {
   tooltipComponent: any
   tooltipStyle?: StyleProp<ViewStyle>
   stepNumberComponent: any
-  overlay: 'svg' | 'view'
+  maskOffset?: number
   animated: boolean
   androidStatusBarVisible: boolean
   backdropColor: string
@@ -300,6 +300,7 @@ class CopilotModal extends React.Component<Props, State> {
       svgMaskPath={this.props.svgMaskPath}
       currentStepNumber={this.props.currentStepNumber}
       currentStep={this.props.currentStep}
+      maskOffset={this.props.maskOffset}
     />
   )
 
