@@ -11,6 +11,9 @@
 
 <div align="center">
   <p align="center">
+      <a href="https://www.npmjs.com/package/rn-tourguide">
+        <img alt="npm downloads" src="https://img.shields.io/npm/dm/rn-tourguide.svg"/>
+      </a>
     <a href="https://www.npmjs.com/package/rn-tourguide">
       <img src="https://img.shields.io/npm/v/rn-tourguide.svg" alt="NPM Version" />
     </a>
