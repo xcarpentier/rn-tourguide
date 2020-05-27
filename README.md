@@ -14,6 +14,10 @@
     <a href="https://www.npmjs.com/package/rn-tourguide">
       <img src="https://img.shields.io/npm/v/rn-tourguide.svg" alt="NPM Version" />
     </a>
+    <a href="http://reactnative.gallery/xcarpentier/rn-tourguide"><img src="https://img.shields.io/badge/reactnative.gallery-%F0%9F%8E%AC-green.svg"/></a>
+</a>
+  <a href="#hire-an-expert"><img src="https://img.shields.io/badge/%F0%9F%92%AA-hire%20an%20expert-brightgreen"/></a>
+
   </p>
 </div>
 
@@ -292,7 +296,11 @@ class HomeScreen {
 
 Issues and Pull Requests are always welcome.
 
+## Hire an expert!
+
+Looking for a ReactNative freelance expert with more than 14 years experience? Contact me from my [website](https://xaviercarpentier.com)!
+
 ## License
 
-[MIT](LICENSE) © 2020 Xavier CARPENTIER SAS, https://xaviercarpentier.com.
-[MIT](LICENSE) © 2017 OK GROW!, https://www.okgrow.com.
+- [MIT](LICENSE) © 2020 Xavier CARPENTIER SAS, https://xaviercarpentier.com.
+- [MIT](LICENSE) © 2017 OK GROW!, https://www.okgrow.com.
