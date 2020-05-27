@@ -162,12 +162,12 @@ const getInterpolator = (
       return separate(
         previousPath,
         [
-          previousPath,
           defaultSvgPath({
             size: sizeOffset(size, maskOffset),
             position: positionOffset(position, maskOffset),
             borderRadius,
           }),
+          previousPath,
         ],
         optionsKeep,
       )

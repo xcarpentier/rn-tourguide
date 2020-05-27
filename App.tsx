@@ -91,7 +91,7 @@ function App({ copilotEvents, start, stop }: Props) {
         </TourGuideZone>
         <View style={styles.middleView}>
           <TourGuideZone
-            zone={2}
+            zone={3}
             isTourGuide
             shape='circle'
             text={'With animated SVG morphing with awesome flubber 🍮💯'}
@@ -111,7 +111,7 @@ function App({ copilotEvents, start, stop }: Props) {
             <Text style={styles.buttonText}>START THE TUTORIAL!</Text>
           </TouchableOpacity>
 
-          <TourGuideZone zone={3} isTourGuide>
+          <TourGuideZone zone={2} isTourGuide shape={'rectangle_and_keep'}>
             <CopilotWrapper>
               <TouchableOpacity style={styles.button} onPress={() => start(4)}>
                 <Text style={styles.buttonText}>Step 4</Text>
@@ -129,7 +129,7 @@ function App({ copilotEvents, start, stop }: Props) {
           </TouchableOpacity>
         </View>
         <View style={styles.row}>
-          <TourGuideZone zone={4} isTourGuide shape={'rectangle_and_keep'}>
+          <TourGuideZone zone={4} isTourGuide shape={'circle'}>
             <CopilotWrapper>
               <Ionicons name='ios-contact' {...iconProps} />
             </CopilotWrapper>
@@ -164,5 +164,4 @@ function App({ copilotEvents, start, stop }: Props) {
 export default copilot({
   animated: true,
   androidStatusBarVisible: false,
-  animationDuration: 777,
 })(App)
