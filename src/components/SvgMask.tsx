@@ -21,7 +21,7 @@ interface Props {
   size: ValueXY
   position: ValueXY
   style: StyleProp<ViewStyle>
-  animationDuration: number
+  animationDuration?: number
   animated: boolean
   backdropColor: string
   currentStepNumber?: number
