@@ -1,6 +1,10 @@
 import * as React from 'react'
 
-export type Shape = 'circle' | 'rectangle' | 'custom'
+export type Shape =
+  | 'circle'
+  | 'rectangle'
+  | 'circle_and_keep'
+  | 'rectangle_and_keep'
 
 export interface Step {
   name: string
@@ -10,6 +14,8 @@ export interface Step {
   text: string
   wrapper: any
   shape?: Shape
+  maskOffset?: number
+  borderRadius?: number
 }
 export interface StepObject {
   [key: string]: Step
@@ -21,27 +27,11 @@ export interface ValueXY {
   y: number
 }
 
-export interface CopilotTooltipProps {
-  isFirstStep: boolean
-  isLastStep: boolean
-  handleNext: () => void
-  handlePrev: () => void
-  handleStop: () => void
-  currentStep: Step
-}
-
 export interface CopilotStepNumberProps {
   currentStepNumber: number
 }
 
-export interface SVGMaskPathParam {
-  currentStepNumber: number
-  size: ValueXY
-  position: ValueXY
-  canvasSize: ValueXY
-}
 export type SvgPath = string
-export type SVGMaskPath = (param: SVGMaskPathParam) => SvgPath | SvgPath[]
 
 // with flubber
 export interface AnimJSValue {
@@ -50,12 +40,12 @@ export interface AnimJSValue {
 export interface SVGMaskPathMorphParam {
   animation: AnimJSValue
   previousPath: SvgPath
-  nextPath: SvgPath
-  maskOffset?: number // only for circle for now
   to: {
     position: ValueXY
     size: ValueXY
     shape?: Shape
+    maskOffset?: number
+    borderRadius?: number
   }
 }
 export type SVGMaskPathMorph = (
@@ -101,4 +91,11 @@ export interface CopilotContext {
   registerStep(s: Step): void
   unregisterStep(name: string): void
   getCurrentStep(): Step
+}
+
+export interface Labels {
+  skip?: string
+  previous?: string
+  next?: string
+  finish?: string
 }

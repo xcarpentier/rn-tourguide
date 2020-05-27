@@ -43,7 +43,6 @@ export interface CopilotOptionProps {
   androidStatusBarVisible?: boolean
   backdropColor?: string
   stopOnOutsideClick?: boolean
-  svgMaskPath?: SVGMaskPath
   verticalOffset?: number
   wrapperStyle?: StyleProp<ViewStyle>
   maskOffset?: number
@@ -60,7 +59,6 @@ export const copilot = ({
   androidStatusBarVisible,
   backdropColor,
   stopOnOutsideClick = false,
-  svgMaskPath,
   verticalOffset = 0,
   wrapperStyle,
   hideArrow,
@@ -239,11 +237,9 @@ export const copilot = ({
             stepNumberComponent={stepNumberComponent}
             tooltipComponent={tooltipComponent}
             tooltipStyle={tooltipStyle}
-            overlay={'svg'}
             animated={animated}
             androidStatusBarVisible={androidStatusBarVisible}
             backdropColor={backdropColor}
-            svgMaskPath={svgMaskPath}
             stopOnOutsideClick={stopOnOutsideClick}
             hideArrow={hideArrow}
             animationDuration={animationDuration}

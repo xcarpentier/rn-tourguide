@@ -12,6 +12,8 @@ interface Props {
   shape?: Shape
   _copilot: CopilotContext
   children?: any
+  maskOffset?: number
+  borderRadius?: number
 }
 
 class ConnectedCopilotStep extends React.Component<Props> {
@@ -45,13 +47,16 @@ class ConnectedCopilotStep extends React.Component<Props> {
 
   register() {
     if (this.props._copilot) {
+      const { name, text, order, shape, maskOffset, borderRadius } = this.props
       this.props._copilot.registerStep({
-        name: this.props.name,
-        text: this.props.text,
-        order: this.props.order,
+        name,
+        text,
+        order,
         target: this,
         wrapper: this.wrapper,
-        shape: this.props.shape,
+        shape,
+        maskOffset,
+        borderRadius,
       })
     } else {
       console.warn('_copilot undefined')

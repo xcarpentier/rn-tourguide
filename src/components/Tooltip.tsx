@@ -3,19 +3,19 @@ import { View, Text, TouchableOpacity } from 'react-native'
 
 import Button from './Button'
 import styles from './style'
-import { Step } from '../types'
+import { Step, Labels } from '../types'
 
-interface Props {
+export interface TooltipProps {
   isFirstStep?: boolean
   isLastStep?: boolean
   currentStep: Step
-  labels?: { skip?: string; previous?: string; next?: string; finish?: string }
+  labels?: Labels
   handleNext?(): void
   handlePrev?(): void
   handleStop?(): void
 }
 
-const Tooltip = ({
+export const Tooltip = ({
   isFirstStep,
   isLastStep,
   handleNext,
@@ -23,7 +23,7 @@ const Tooltip = ({
   handleStop,
   currentStep,
   labels,
-}: Props) => (
+}: TooltipProps) => (
   <View
     style={{
       borderRadius: 16,
@@ -63,5 +63,3 @@ const Tooltip = ({
     </View>
   </View>
 )
-
-export default Tooltip

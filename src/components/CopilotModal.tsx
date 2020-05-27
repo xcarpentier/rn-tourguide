@@ -10,14 +10,14 @@ import {
   StyleProp,
   ViewStyle,
 } from 'react-native'
-import Tooltip from './Tooltip'
+import { TooltipProps, Tooltip } from './Tooltip'
 import styles, {
   MARGIN,
   ARROW_SIZE,
   STEP_NUMBER_DIAMETER,
   STEP_NUMBER_RADIUS,
 } from './style'
-import { SVGMaskPath, Step, ValueXY } from '../types'
+import { Step, ValueXY, Labels } from '../types'
 import SvgMask from './SvgMask'
 
 declare var __TEST__: boolean
@@ -29,17 +29,16 @@ interface Props {
   isFirstStep: boolean
   isLastStep: boolean
   animationDuration?: number
-  tooltipComponent: any
+  tooltipComponent: React.ComponentType<TooltipProps>
   tooltipStyle?: StyleProp<ViewStyle>
   stepNumberComponent: any
   maskOffset?: number
   animated: boolean
   androidStatusBarVisible: boolean
   backdropColor: string
-  labels: object
+  labels: Labels
   stopOnOutsideClick?: boolean
   hideArrow?: boolean
-  svgMaskPath?: SVGMaskPath
   easing(value: number): number
   stop(): void
   next(): void
@@ -79,7 +78,6 @@ class CopilotModal extends React.Component<Props, State> {
     tooltipComponent: Tooltip as any,
     tooltipStyle: {},
     stepNumberComponent: undefined,
-    overlay: 'svg',
     // If animated was not specified, rely on the default overlay type
     animated: true,
     androidStatusBarVisible: false,
@@ -297,7 +295,6 @@ class CopilotModal extends React.Component<Props, State> {
       easing={this.props.easing}
       animationDuration={this.props.animationDuration}
       backdropColor={this.props.backdropColor}
-      svgMaskPath={this.props.svgMaskPath}
       currentStepNumber={this.props.currentStepNumber}
       currentStep={this.props.currentStep}
       maskOffset={this.props.maskOffset}
@@ -316,6 +313,8 @@ class CopilotModal extends React.Component<Props, State> {
         ]}
       >
         <TooltipComponent
+          isFirstStep={this.props.isFirstStep}
+          isLastStep={this.props.isLastStep}
           currentStep={this.props.currentStep!}
           handleNext={this.handleNext}
           handlePrev={this.handlePrev}

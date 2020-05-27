@@ -10,6 +10,8 @@ interface Props {
   text: string
   shape?: Shape
   active?: boolean
+  maskOffset?: number
+  borderRadius?: number
 }
 
 class CopilotStep extends React.Component<Props> {

@@ -7,6 +7,8 @@ interface TourGuideZoneProps {
   isTourGuide?: boolean
   text?: string
   shape?: Shape
+  maskOffset?: number
+  borderRadius?: number
   children: React.ReactNode
 }
 
@@ -16,6 +18,8 @@ export const TourGuideZone = ({
   children,
   shape,
   text,
+  maskOffset,
+  borderRadius,
 }: TourGuideZoneProps) => {
   if (!isTourGuide) {
     return <>{children}</>
@@ -27,6 +31,8 @@ export const TourGuideZone = ({
       order={zone}
       name={`${zone}`}
       shape={shape}
+      maskOffset={maskOffset}
+      borderRadius={borderRadius}
     >
       {children}
     </CopilotStep>

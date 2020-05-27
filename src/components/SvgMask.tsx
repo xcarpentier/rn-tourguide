@@ -12,19 +12,10 @@ import {
 import Svg from 'react-native-svg'
 
 import { AnimatedSvgPath } from './AnimatedPath'
-import { ValueXY, SVGMaskPath, Step, SVGMaskPathParam } from '../types'
-import { getFirstPath, getSecondPath, svgMaskPathMorph } from '../utilities'
+import { ValueXY, Step } from '../types'
+import { svgMaskPathMorph } from '../utilities'
 
 const windowDimensions = Dimensions.get('window')
-
-export const defaultSvgPath = ({
-  size,
-  position,
-  canvasSize,
-}: SVGMaskPathParam): string =>
-  `M0,0H${canvasSize.x}V${canvasSize.y}H0V0ZM${position.x},${position.y}H${
-    position.x + size.x
-  }V${position.y + size.y}H${position.x}V${position.y}Z`
 
 interface Props {
   size: ValueXY
@@ -33,7 +24,6 @@ interface Props {
   animationDuration: number
   animated: boolean
   backdropColor: string
-  svgMaskPath?: SVGMaskPath
   currentStepNumber?: number
   maskOffset?: number
   currentStep?: Step
@@ -49,15 +39,19 @@ interface State {
   previousStepNumber?: number
   opacity: Animated.Value
   animation: Animated.Value
-  canvasSize?: ValueXY
+  canvasSize: ValueXY
   previousPath: string
 }
+const FIRST_PATH = `M0,0H${windowDimensions.width}V${
+  windowDimensions.height
+}H0V0ZM${windowDimensions.width / 2},${
+  windowDimensions.height / 2
+} h 1 v 1 h -1 Z`
 
 class SvgMask extends Component<Props, State> {
   static defaultProps = {
     animationDuration: 300,
     easing: Easing.linear,
-    svgMaskPath: defaultSvgPath,
     size: { x: 0, y: 0 },
     position: { x: 0, y: 0 },
     maskOffset: 0,
@@ -78,12 +72,7 @@ class SvgMask extends Component<Props, State> {
       position: props.position,
       opacity: new Animated.Value(0),
       animation: new Animated.Value(0),
-      previousSize: undefined,
-      previousPosition: undefined,
-      previousStepNumber: undefined,
-      previousPath: `M${windowDimensions.width / 2} ${
-        windowDimensions.height / 2
-      } h 1 v 1 h -1 Z`,
+      previousPath: FIRST_PATH,
     }
 
     this.listenerID = this.state.animation.addListener(this.animationListener)
@@ -105,30 +94,23 @@ class SvgMask extends Component<Props, State> {
   }
 
   getPath = () => {
-    const { previousPath, animation, canvasSize } = this.state
-    const { maskOffset, size, position, currentStep } = this.props
-    const nextPath = this.props.svgMaskPath!({
-      size,
-      position,
-      canvasSize: canvasSize!,
-      currentStepNumber: currentStep?.order!,
-    })
-    const path = svgMaskPathMorph({
+    const { previousPath, animation } = this.state
+    const { size, position, currentStep, maskOffset } = this.props
+    return svgMaskPathMorph({
       animation: animation as any,
-      previousPath: getFirstPath(previousPath),
-      nextPath: getFirstPath(nextPath),
-      maskOffset,
+      previousPath,
       to: {
         position,
         size,
-        shape: this.props.currentStep?.shape,
+        shape: currentStep?.shape,
+        maskOffset: currentStep?.maskOffset || maskOffset,
+        borderRadius: currentStep?.borderRadius,
       },
     })
-    return [getFirstPath(path), getSecondPath(path)]
   }
 
   animationListener = (): void => {
-    const d = this.getPath()[0]
+    const d = this.getPath()
     if (this.mask) {
       this.mask.setNativeProps({ d })
     }
@@ -156,20 +138,12 @@ class SvgMask extends Component<Props, State> {
     }
     Animated.parallel(animations, { stopTogether: false }).start((result) => {
       if (result.finished) {
-        this.setState(
-          {
-            previousPosition: this.props.position,
-            previousSize: this.props.size,
-            previousStepNumber: this.props.currentStepNumber,
-            previousPath: this.getPath()[0]!,
-          },
-          () => {
-            // @ts-ignore
-            if (this.state.animation._value === 1) {
-              this.state.animation.setValue(0)
-            }
-          },
-        )
+        this.setState({ previousPath: this.getPath() }, () => {
+          // @ts-ignore
+          if (this.state.animation._value === 1) {
+            this.state.animation.setValue(0)
+          }
+        })
       }
     })
   }
@@ -191,8 +165,7 @@ class SvgMask extends Component<Props, State> {
     if (!this.state.canvasSize) {
       return null
     }
-
-    const [path1, path2] = this.getPath()
+    const path = this.getPath()
     return (
       <View
         style={this.props.style}
@@ -211,18 +184,9 @@ class SvgMask extends Component<Props, State> {
             fill={this.props.backdropColor}
             strokeWidth={0}
             fillRule='evenodd'
-            d={path1}
+            d={path}
             opacity={this.state.opacity}
           />
-          {path2 && (
-            <AnimatedSvgPath
-              fill={this.props.backdropColor}
-              fillRule='evenodd'
-              strokeWidth={0}
-              d={path2}
-              opacity={this.state.opacity}
-            />
-          )}
         </Svg>
       </View>
     )

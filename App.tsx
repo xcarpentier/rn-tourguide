@@ -82,6 +82,7 @@ function App({ copilotEvents, start, stop }: Props) {
           zone={1}
           isTourGuide
           text={'A react-native-copilot remastered! 🎉'}
+          borderRadius={16}
         >
           <CopilotWrapper>
             <Text style={styles.title}>
@@ -114,22 +115,22 @@ function App({ copilotEvents, start, stop }: Props) {
           <TourGuideZone zone={3} isTourGuide>
             <CopilotWrapper>
               <TouchableOpacity style={styles.button} onPress={() => start(4)}>
-                <Text style={styles.buttonText}>step 4</Text>
+                <Text style={styles.buttonText}>Step 4</Text>
               </TouchableOpacity>
             </CopilotWrapper>
           </TourGuideZone>
           <TouchableOpacity style={styles.button} onPress={() => start(2)}>
-            <Text style={styles.buttonText}>step 2</Text>
+            <Text style={styles.buttonText}>Step 2</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={() => start(7)}>
-            <Text style={styles.buttonText}>step 7</Text>
+            <Text style={styles.buttonText}>Step 7</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={stop}>
-            <Text style={styles.buttonText}>stop</Text>
+            <Text style={styles.buttonText}>Stop</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.row}>
-          <TourGuideZone zone={4} isTourGuide shape={'circle'}>
+          <TourGuideZone zone={4} isTourGuide shape={'rectangle_and_keep'}>
             <CopilotWrapper>
               <Ionicons name='ios-contact' {...iconProps} />
             </CopilotWrapper>
@@ -161,16 +162,8 @@ function App({ copilotEvents, start, stop }: Props) {
   )
 }
 
-const svgMaskPath = ({ size, position, canvasSize }: SVGMaskPathParam) => {
-  return `M0,0H${canvasSize.x}V${canvasSize.y}H0V0ZM${position.x},${
-    position.y
-  }H${position.x + size.x}V${position.y + size.y}H${position.x}V${position.y}Z`
-}
-
 export default copilot({
   animated: true,
-  svgMaskPath,
   androidStatusBarVisible: false,
   animationDuration: 777,
-  maskOffset: 10,
 })(App)
