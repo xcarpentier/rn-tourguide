@@ -57,7 +57,7 @@ class HomeScreen extends Component {
 export default copilot()(HomeScreen)
 ```
 
-Before defining walkthrough steps for your react elements, you must make them `walkthroughable`. The easiest way to do that for built-in react native components, is using the `walkthroughable` HOC. Then you must wrap the element with `CopilotStep`.
+Example
 
 ```js
 import { copilot, TourGuideZone, CopilotWrapper } from 'rn-tourguide'
