@@ -1,8 +1,8 @@
 <h1 align="center">RN-TourGuide</h1>
-<h3 align="center">a rewriting of React-Native-Copilot</h3>
 
 <p align="center">
-  A flexible tourguide for your react native app!
+  A flexible <strong>tourguide</strong> for your react native app!
+  <br/><small>(a rewriting of react-native-copilot)</small>
 </p>
 
 <p align="center">
@@ -11,22 +11,20 @@
 
 <div align="center">
   <p align="center">
-      <a href="https://www.npmjs.com/package/rn-tourguide">
-        <img alt="npm downloads" src="https://img.shields.io/npm/dm/rn-tourguide.svg"/>
-      </a>
+    <a href="https://www.npmjs.com/package/rn-tourguide">
+      <img alt="npm downloads" src="https://img.shields.io/npm/dm/rn-tourguide.svg"/>
+    </a>
     <a href="https://www.npmjs.com/package/rn-tourguide">
       <img src="https://img.shields.io/npm/v/rn-tourguide.svg" alt="NPM Version" />
     </a>
-    <a href="http://reactnative.gallery/xcarpentier/rn-tourguide"><img src="https://img.shields.io/badge/reactnative.gallery-%F0%9F%8E%AC-green.svg"/></a>
-</a>
-  <a href="#hire-an-expert"><img src="https://img.shields.io/badge/%F0%9F%92%AA-hire%20an%20expert-brightgreen"/></a>
-
+    <a href="http://reactnative.gallery/xcarpentier/rn-tourguide">
+      <img src="https://img.shields.io/badge/reactnative.gallery-%F0%9F%8E%AC-green.svg"/></a>
+    </a>
+    <a href="#hire-an-expert">
+      <img src="https://img.shields.io/badge/%F0%9F%92%AA-hire%20an%20expert-brightgreen"/>
+    </a>
   </p>
 </div>
-
-<p align="center">
-  ⚠️ readme wip ⚠️
-</p>
 
 ## Installation
 
@@ -34,11 +32,15 @@
 yarn add rn-tourguide
 ```
 
-**Optional**: If you want to have the smooth SVG animation, you should install and link `react-native-svg`. If you are using Expo, **you can skip** this as Expo comes with `react-native-svg`.
-
 ```
 yarn add react-native-svg
 react-native link react-native-svg
+```
+
+If you are using Expo:
+
+```
+expo install react-native-svg
 ```
 
 ## Usage
@@ -58,32 +60,88 @@ export default copilot()(HomeScreen)
 Before defining walkthrough steps for your react elements, you must make them `walkthroughable`. The easiest way to do that for built-in react native components, is using the `walkthroughable` HOC. Then you must wrap the element with `CopilotStep`.
 
 ```js
-import { copilot, CopilotStep } from 'rn-tourguide'
-
-const CopilotText = walkthroughable(Text)
+import { copilot, TourGuideZone, CopilotWrapper } from 'rn-tourguide'
 
 class HomeScreen {
   render() {
     return (
       <View>
-        <CopilotStep
-          text='This is a hello world example!'
-          order={1}
-          name='hello'
+        <TourGuideZone
+          zone={1}
+          isTourGuide
+          text={'Tooltip 1'}
+          borderRadius={16}
         >
-          <CopilotText>Hello world!</CopilotText>
-        </CopilotStep>
+          <CopilotWrapper>
+            <Text style={styles.title}>
+              {'Welcome to the demo of\n"rn-tourguide"'}
+            </Text>
+          </CopilotWrapper>
+        </TourGuideZone>
+        <TourGuideZone
+          zone={2}
+          isTourGuide
+          text={'Tooltip 2, circle shape'}
+          shape={'circle'}
+        >
+          <CopilotWrapper>
+            <Text style={styles.title}>
+              {'Welcome to the demo of\n"rn-tourguide"'}
+            </Text>
+          </CopilotWrapper>
+        </TourGuideZone>
       </View>
     )
   }
 }
 ```
 
-Every `CopilotStep` must have these props:
+`TourGuide` props:
 
-1. **name**: A unique name for the walkthrough step.
-2. **order**: A positive number indicating the order of the step in the entire walkthrough.
-3. **text**: The text shown as the description for the step.
+```ts
+interface TourGuideZoneProps {
+  zone: number // A positive number indicating the order of the step in the entire walkthrough.
+  isTourGuide?: boolean // return children without wrapping id false
+  text?: string // text in tooltip
+  shape?: Shape // which shape
+  maskOffset?: number // offset around zone
+  borderRadius?: number // round corner when rectangle
+  children: React.ReactNode
+}
+
+type Shape = 'circle' | 'rectangle' | 'circle_and_keep' | 'rectangle_and_keep'
+
+interface CopilotOptionProps {
+  tooltipComponent?: React.ComponentType<TooltipProps>
+  tooltipStyle?: StyleProp<ViewStyle>
+  animated?: boolean
+  labels?: Labels
+  androidStatusBarVisible?: boolean
+  backdropColor?: string
+  stopOnOutsideClick?: boolean
+  verticalOffset?: number
+  wrapperStyle?: StyleProp<ViewStyle>
+  maskOffset?: number
+  animationDuration?: number
+}
+
+interface TooltipProps {
+  isFirstStep?: boolean
+  isLastStep?: boolean
+  currentStep: Step
+  labels?: Labels
+  handleNext?(): void
+  handlePrev?(): void
+  handleStop?(): void
+}
+
+interface Labels {
+  skip?: string
+  previous?: string
+  next?: string
+  finish?: string
+}
+```
 
 In order to start the tutorial, you can call the `start` prop function in the root component that is injected by `copilot`:
 
@@ -102,25 +160,6 @@ export default copilot()(HomeScreen)
 ```
 
 If you are looking for a working example, please check out [this link](https://github.com/xcarpentier/rn-tourguide/blob/master/App.tsx).
-
-### Overlays and animation
-
-The overlay in react-native copilot is the component that draws the dark transparent over the root component. React-native copilot comes with two overlay components: `svg`.
-
-The `svg` overlay uses an SVG path component for drawing the overlay. It offers a nice and smooth animation but it depends on `react-native-svg`. If you are using expo, you don't need to install anything and the svg overlay works out of the box. If not, you need to install and this package:
-
-```
-yarn add react-native-svg
-react-native link react-native-svg
-```
-
-You can specify the overlay when applying the `copilot` HOC:
-
-```js
-copilot({
-  animated: true, // or false
-})(RootComponent)
-```
 
 ### Custom tooltip component
 
@@ -167,64 +206,6 @@ You can customize the mask color - default is `rgba(0, 0, 0, 0.4)`, by passing a
 copilot({
   backdropColor: 'rgba(50, 50, 100, 0.9)',
 })(RootComponent)
-```
-
-### Custom svg mask Path
-
-You can customize the mask svg path by passing a function to the `copilot` HOC maker.
-
-function signature:
-
-```js
-SvgMaskPathFn = (args: {
-  size: Animated.valueXY,
-  position: Animated.valueXY,
-  canvasSize: {
-    x: number,
-    y: number,
-  },
-}) => string
-```
-
-Example with circle:
-
-```js
-const circleSvgPath = ({ position, canvasSize }): string =>
-  `M0,0H${canvasSize.x}V${canvasSize.y}H0V0ZM${position.x._value},${position.y._value}Za50 50 0 1 0 100 0 50 50 0 1 0-100 0`
-
-copilot({
-  svgMaskPath: circleSvgPath,
-})(RootComponent)
-```
-
-### Custom components as steps
-
-The components wrapped inside `CopilotStep`, will receive a `copilot` prop of type `Object` which the outermost rendered element of the component or the element that you want the tooltip be shown around, must extend.
-
-```js
-import { copilot, CopilotStep } from '@applications-developer/rn-copilot'
-
-const CustomComponent = ({ copilot }) => (
-  <View {...copilot}>
-    <Text>Hello world!</Text>
-  </View>
-)
-
-class HomeScreen {
-  render() {
-    return (
-      <View>
-        <CopilotStep
-          text='This is a hello world example!'
-          order={1}
-          name='hello'
-        >
-          <CustomComponent />
-        </CopilotStep>
-      </View>
-    )
-  }
-}
 ```
 
 ### Custom labels (for i18n)

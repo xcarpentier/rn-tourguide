@@ -8,7 +8,6 @@ import {
   CopilotWrapper,
   Step,
   TourGuideZoneByPosition,
-  SVGMaskPathParam,
 } from './src'
 
 const styles = StyleSheet.create({

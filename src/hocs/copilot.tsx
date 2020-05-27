@@ -17,7 +17,8 @@ import {
   getNextStep,
 } from '../utilities'
 
-import { Step, Steps, StepObject, SVGMaskPath } from '../types'
+import { Step, Steps, StepObject, Labels } from '../types'
+import { TooltipProps } from '../components/Tooltip'
 
 /*
 This is the maximum wait time for the steps to be registered before starting the tutorial
@@ -35,25 +36,22 @@ interface State {
 }
 
 export interface CopilotOptionProps {
-  tooltipComponent?: any
+  tooltipComponent?: React.ComponentType<TooltipProps>
   tooltipStyle?: StyleProp<ViewStyle>
-  stepNumberComponent?: any
   animated?: boolean
-  labels?: any
+  labels?: Labels
   androidStatusBarVisible?: boolean
   backdropColor?: string
   stopOnOutsideClick?: boolean
   verticalOffset?: number
   wrapperStyle?: StyleProp<ViewStyle>
   maskOffset?: number
-  hideArrow?: boolean
   animationDuration?: number
 }
 
 export const copilot = ({
   tooltipComponent,
   tooltipStyle,
-  stepNumberComponent,
   animated,
   labels,
   androidStatusBarVisible,
@@ -61,7 +59,6 @@ export const copilot = ({
   stopOnOutsideClick = false,
   verticalOffset = 0,
   wrapperStyle,
-  hideArrow,
   animationDuration,
   maskOffset,
 }: CopilotOptionProps = {}) => (WrappedComponent: any): any => {
@@ -234,14 +231,12 @@ export const copilot = ({
             currentStepNumber={this.getStepNumber()!}
             currentStep={this.state.currentStep}
             labels={labels}
-            stepNumberComponent={stepNumberComponent}
             tooltipComponent={tooltipComponent}
             tooltipStyle={tooltipStyle}
             animated={animated}
             androidStatusBarVisible={androidStatusBarVisible}
             backdropColor={backdropColor}
             stopOnOutsideClick={stopOnOutsideClick}
-            hideArrow={hideArrow}
             animationDuration={animationDuration}
             maskOffset={maskOffset}
           />
