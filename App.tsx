@@ -164,4 +164,5 @@ function App({ copilotEvents, start, stop }: Props) {
 export default copilot({
   animated: true,
   androidStatusBarVisible: false,
+  borderRadius: 16,
 })(App)

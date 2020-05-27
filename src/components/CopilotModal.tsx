@@ -33,6 +33,7 @@ interface Props {
   tooltipStyle?: StyleProp<ViewStyle>
   stepNumberComponent: any
   maskOffset?: number
+  borderRadius?: number
   animated: boolean
   androidStatusBarVisible: boolean
   backdropColor: string
@@ -298,6 +299,7 @@ class CopilotModal extends React.Component<Props, State> {
       currentStepNumber={this.props.currentStepNumber}
       currentStep={this.props.currentStep}
       maskOffset={this.props.maskOffset}
+      borderRadius={this.props.borderRadius}
     />
   )
 

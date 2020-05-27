@@ -26,6 +26,7 @@ interface Props {
   backdropColor: string
   currentStepNumber?: number
   maskOffset?: number
+  borderRadius?: number
   currentStep?: Step
   easing?: (value: number) => number
   onClick?(event: GestureResponderEvent): boolean
@@ -42,6 +43,7 @@ interface State {
   canvasSize: ValueXY
   previousPath: string
 }
+
 const FIRST_PATH = `M0,0H${windowDimensions.width}V${
   windowDimensions.height
 }H0V0ZM${windowDimensions.width / 2},${
@@ -50,7 +52,6 @@ const FIRST_PATH = `M0,0H${windowDimensions.width}V${
 
 class SvgMask extends Component<Props, State> {
   static defaultProps = {
-    animationDuration: 300,
     easing: Easing.linear,
     size: { x: 0, y: 0 },
     position: { x: 0, y: 0 },
@@ -95,7 +96,7 @@ class SvgMask extends Component<Props, State> {
 
   getPath = () => {
     const { previousPath, animation } = this.state
-    const { size, position, currentStep, maskOffset } = this.props
+    const { size, position, currentStep, maskOffset, borderRadius } = this.props
     return svgMaskPathMorph({
       animation: animation as any,
       previousPath,
@@ -104,7 +105,7 @@ class SvgMask extends Component<Props, State> {
         size,
         shape: currentStep?.shape,
         maskOffset: currentStep?.maskOffset || maskOffset,
-        borderRadius: currentStep?.borderRadius,
+        borderRadius: currentStep?.borderRadius || borderRadius,
       },
     })
   }

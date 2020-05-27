@@ -46,6 +46,7 @@ export interface CopilotOptionProps {
   verticalOffset?: number
   wrapperStyle?: StyleProp<ViewStyle>
   maskOffset?: number
+  borderRadius?: number
   animationDuration?: number
 }
 
@@ -61,6 +62,7 @@ export const copilot = ({
   wrapperStyle,
   animationDuration,
   maskOffset,
+  borderRadius,
 }: CopilotOptionProps = {}) => (WrappedComponent: any): any => {
   class CopilotClass extends React.Component<any, State> {
     state: State = {
@@ -239,6 +241,7 @@ export const copilot = ({
             stopOnOutsideClick={stopOnOutsideClick}
             animationDuration={animationDuration}
             maskOffset={maskOffset}
+            borderRadius={borderRadius}
           />
         </View>
       )
