@@ -163,7 +163,7 @@ If you are looking for a working example, please check out [this link](https://g
 
 ### Custom tooltip component
 
-You can customize the tooltip by passing a component to the `copilot` HOC maker. If you are looking for an example tooltip component, take a look at [the default tooltip implementation](https://github.com/xcarpentier/rn-tourguide/blob/master/src/components/Tooltip.js).
+You can customize the tooltip by passing a component to the `copilot` HOC maker. If you are looking for an example tooltip component, take a look at [the default tooltip implementation](https://github.com/xcarpentier/rn-tourguide/blob/master/src/components/Tooltip.tsx).
 
 ```js
 const TooltipComponent = ({
@@ -220,16 +220,6 @@ copilot({
     skip: 'Überspringen',
     finish: 'Beenden',
   },
-})(RootComponent)
-```
-
-### Adjust vertical position
-
-In order to adjust vertical position pass `verticalOffset` to the `copilot` HOC.
-
-```js
-copilot({
-  verticalOffset: 36,
 })(RootComponent)
 ```
 
