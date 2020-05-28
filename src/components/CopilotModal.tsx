@@ -18,7 +18,7 @@ import styles, {
   STEP_NUMBER_RADIUS,
 } from './style'
 import { Step, ValueXY, Labels } from '../types'
-import SvgMask from './SvgMask'
+import { SvgMask } from './SvgMask'
 
 declare var __TEST__: boolean
 
@@ -296,7 +296,6 @@ class CopilotModal extends React.Component<Props, State> {
       easing={this.props.easing}
       animationDuration={this.props.animationDuration}
       backdropColor={this.props.backdropColor}
-      currentStepNumber={this.props.currentStepNumber}
       currentStep={this.props.currentStep}
       maskOffset={this.props.maskOffset}
       borderRadius={this.props.borderRadius}

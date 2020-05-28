@@ -8,7 +8,7 @@ import {
 } from './types'
 // @ts-ignore
 import { interpolate, toCircle, separate } from 'flubber'
-import memoize from 'lodash.memoize'
+import memoize from 'memoize-one'
 import clamp from 'lodash.clamp'
 
 export const getFirstStep = (steps: Steps): Step | null =>
@@ -42,15 +42,6 @@ export const getNextStep = (
     .filter((_step) => _step.order > step!.order)
     .reduce((a: Step | null, b) => (!a || a.order > b.order ? b : a), null) ||
   step
-
-export const hasTwoPath = (pathOrPaths: string | string[]) =>
-  typeof pathOrPaths !== 'string' && Array.isArray(pathOrPaths)
-
-export const getFirstPath = (pathOrPaths: string | string[]): string =>
-  (!hasTwoPath(pathOrPaths) ? pathOrPaths : pathOrPaths[0]) as string
-
-export const getSecondPath = (pathOrPaths: string | string[]) =>
-  hasTwoPath(pathOrPaths) ? pathOrPaths[1] : undefined
 
 const headPath = /^M0,0H\d*\.?\d*V\d*\.?\d*H0V0Z/
 const cleanPath = memoize((path: string) => path.replace(headPath, '').trim())
@@ -100,81 +91,100 @@ export const circleSvgPath = ({
   } 0 ${radius} ${radius} 0 1 0 -${radius * 2} 0`
 }
 
-const sizeOffset = (size: ValueXY, maskOffset: number = 0) =>
+const sizeOffset = memoize((size: ValueXY, maskOffset: number = 0) =>
   maskOffset
     ? {
         x: size.x + maskOffset,
         y: size.y + maskOffset,
       }
-    : size
+    : size,
+)
 
-const positionOffset = (position: ValueXY, maskOffset: number = 0) =>
+const positionOffset = memoize((position: ValueXY, maskOffset: number = 0) =>
   maskOffset
     ? {
         x: position.x - maskOffset / 2,
         y: position.y - maskOffset / 2,
       }
-    : position
+    : position,
+)
 
-const getInterpolator = (
-  previousPath: string,
-  shape: Shape,
-  position: ValueXY,
-  size: ValueXY,
-  maskOffset: number = 0,
-  borderRadius: number = 0,
-) => {
-  const options = { maxSegmentLength: 5 }
-  const optionsKeep = { single: true }
-  const getDefaultInterpolate = () =>
-    interpolate(
-      previousPath,
-      defaultSvgPath({
-        size: sizeOffset(size, maskOffset),
-        position: positionOffset(position, maskOffset),
-        borderRadius,
-      }),
-      options,
-    )
-  const getCircleInterpolator = () =>
-    toCircle(
-      previousPath,
-      position.x + size.x / 2,
-      position.y + size.y / 2,
-      Math.max(size.x, size.y) / 2 + maskOffset,
-      options,
-    )
+const getMaxSegmentLength = (shape: Shape) => {
   switch (shape) {
     case 'circle':
-      return getCircleInterpolator()
-    case 'rectangle':
-      return getDefaultInterpolate()
     case 'circle_and_keep':
-      return separate(
-        previousPath,
-        [
-          previousPath,
-          circleSvgPath({ size: sizeOffset(size, maskOffset), position }),
-        ],
-        optionsKeep,
-      )
+      return 7
     case 'rectangle_and_keep':
-      return separate(
-        previousPath,
-        [
-          defaultSvgPath({
-            size: sizeOffset(size, maskOffset),
-            position: positionOffset(position, maskOffset),
-            borderRadius,
-          }),
-          previousPath,
-        ],
-        optionsKeep,
-      )
+      return 25
+
     default:
-      return getDefaultInterpolate()
+      return 15
   }
 }
+
+const getInterpolator = memoize(
+  (
+    previousPath: string,
+    shape: Shape,
+    position: ValueXY,
+    size: ValueXY,
+    maskOffset: number = 0,
+    borderRadius: number = 0,
+  ) => {
+    const options = {
+      maxSegmentLength: getMaxSegmentLength(shape),
+    }
+    const optionsKeep = { single: true }
+    const getDefaultInterpolate = () =>
+      interpolate(
+        previousPath,
+        defaultSvgPath({
+          size: sizeOffset(size, maskOffset),
+          position: positionOffset(position, maskOffset),
+          borderRadius,
+        }),
+        options,
+      )
+    const getCircleInterpolator = () =>
+      toCircle(
+        previousPath,
+        position.x + size.x / 2,
+        position.y + size.y / 2,
+        Math.max(size.x, size.y) / 2 + maskOffset,
+        options,
+      )
+    switch (shape) {
+      case 'circle':
+        return getCircleInterpolator()
+      case 'rectangle':
+        return getDefaultInterpolate()
+      case 'circle_and_keep':
+        return separate(
+          previousPath,
+          [
+            previousPath,
+            circleSvgPath({ size: sizeOffset(size, maskOffset), position }),
+          ],
+          optionsKeep,
+        )
+      case 'rectangle_and_keep':
+        return separate(
+          previousPath,
+          [
+            defaultSvgPath({
+              size: sizeOffset(size, maskOffset),
+              position: positionOffset(position, maskOffset),
+              borderRadius,
+            }),
+            previousPath,
+          ],
+          optionsKeep,
+        )
+      default:
+        return getDefaultInterpolate()
+    }
+  },
+)
 
 export const svgMaskPathMorph = ({
   previousPath,
@@ -189,7 +199,6 @@ export const svgMaskPathMorph = ({
     maskOffset,
     borderRadius,
   )
-  // console.warn({ interpolator })
 
   return `${getCanvasPath(previousPath)}${interpolator(
     clamp(animation._value, 0, 1),

@@ -78,7 +78,7 @@ function App({ copilotEvents, start, stop }: Props) {
     <>
       <View style={styles.container}>
         <TourGuideZone
-          zone={1}
+          zone={2}
           isTourGuide
           text={'A react-native-copilot remastered! 🎉'}
           borderRadius={16}
@@ -90,8 +90,25 @@ function App({ copilotEvents, start, stop }: Props) {
           </CopilotWrapper>
         </TourGuideZone>
         <View style={styles.middleView}>
+          <TouchableOpacity style={styles.button} onPress={() => start()}>
+            <Text style={styles.buttonText}>START THE TUTORIAL!</Text>
+          </TouchableOpacity>
+
+          <TourGuideZone zone={3} isTourGuide shape={'rectangle_and_keep'}>
+            <CopilotWrapper>
+              <TouchableOpacity style={styles.button} onPress={() => start(4)}>
+                <Text style={styles.buttonText}>Step 4</Text>
+              </TouchableOpacity>
+            </CopilotWrapper>
+          </TourGuideZone>
+          <TouchableOpacity style={styles.button} onPress={() => start(2)}>
+            <Text style={styles.buttonText}>Step 2</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={stop}>
+            <Text style={styles.buttonText}>Stop</Text>
+          </TouchableOpacity>
           <TourGuideZone
-            zone={3}
+            zone={1}
             isTourGuide
             shape='circle'
             text={'With animated SVG morphing with awesome flubber 🍮💯'}
@@ -106,24 +123,6 @@ function App({ copilotEvents, start, stop }: Props) {
               />
             </CopilotWrapper>
           </TourGuideZone>
-
-          <TouchableOpacity style={styles.button} onPress={() => start()}>
-            <Text style={styles.buttonText}>START THE TUTORIAL!</Text>
-          </TouchableOpacity>
-
-          <TourGuideZone zone={2} isTourGuide shape={'rectangle_and_keep'}>
-            <CopilotWrapper>
-              <TouchableOpacity style={styles.button} onPress={() => start(4)}>
-                <Text style={styles.buttonText}>Step 4</Text>
-              </TouchableOpacity>
-            </CopilotWrapper>
-          </TourGuideZone>
-          <TouchableOpacity style={styles.button} onPress={() => start(2)}>
-            <Text style={styles.buttonText}>Step 2</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={stop}>
-            <Text style={styles.buttonText}>Stop</Text>
-          </TouchableOpacity>
         </View>
         <View style={styles.row}>
           <TourGuideZone zone={4} isTourGuide shape={'circle'}>

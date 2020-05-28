@@ -6,7 +6,6 @@ import {
   Dimensions,
   StyleProp,
   ViewStyle,
-  GestureResponderEvent,
   LayoutChangeEvent,
   Platform,
 } from 'react-native'
@@ -25,20 +24,15 @@ interface Props {
   animationDuration?: number
   animated: boolean
   backdropColor: string
-  currentStepNumber?: number
   maskOffset?: number
   borderRadius?: number
   currentStep?: Step
   easing?: (value: number) => number
-  onClick?(event: GestureResponderEvent): boolean
 }
 
 interface State {
   size: ValueXY
   position: ValueXY
-  previousSize?: ValueXY
-  previousPosition?: ValueXY
-  previousStepNumber?: number
   opacity: Animated.Value
   animation: Animated.Value
   canvasSize: ValueXY
@@ -51,7 +45,9 @@ const FIRST_PATH = `M0,0H${windowDimensions.width}V${
   windowDimensions.height / 2
 } h 1 v 1 h -1 Z`
 
-class SvgMask extends Component<Props, State> {
+const IS_WEB = Platform.OS !== 'web'
+
+export class SvgMask extends Component<Props, State> {
   static defaultProps = {
     easing: Easing.linear,
     size: { x: 0, y: 0 },
@@ -59,7 +55,7 @@ class SvgMask extends Component<Props, State> {
     maskOffset: 0,
   }
 
-  listenerID: any
+  listenerID: string
   mask: React.RefObject<PathProps> = React.createRef()
 
   constructor(props: Props) {
@@ -111,12 +107,16 @@ class SvgMask extends Component<Props, State> {
     })
   }
 
-  animationListener = (): void => {
+  animationListener = () => {
+    setTimeout(this.updatePath, 0)
+  }
+
+  updatePath = () => {
     const d = this.getPath()
     if (this.mask && this.mask.current) {
-      if (Platform.OS !== 'web') {
+      if (IS_WEB) {
         // @ts-ignore
-        this.mask.current?.setNativeProps({ d })
+        this.mask.current.setNativeProps({ d })
       } else {
         // @ts-ignore
         this.mask.current._touchableNode.setAttribute('d', d)
@@ -130,7 +130,7 @@ class SvgMask extends Component<Props, State> {
         toValue: 1,
         duration: this.props.animationDuration,
         easing: this.props.easing,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }),
     ]
     // @ts-ignore
@@ -173,7 +173,6 @@ class SvgMask extends Component<Props, State> {
     if (!this.state.canvasSize) {
       return null
     }
-    const path = this.getPath()
     return (
       <View
         style={this.props.style}
@@ -190,7 +189,7 @@ class SvgMask extends Component<Props, State> {
             fill={this.props.backdropColor}
             strokeWidth={0}
             fillRule='evenodd'
-            d={path}
+            d={FIRST_PATH}
             opacity={this.state.opacity as any}
           />
         </Svg>
@@ -198,5 +197,3 @@ class SvgMask extends Component<Props, State> {
     )
   }
 }
-
-export default SvgMask
