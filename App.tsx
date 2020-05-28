@@ -148,18 +148,19 @@ function App({ copilotEvents, start, stop }: Props) {
           </TourGuideZone>
         </View>
       </View>
-      <TourGuideZoneByPosition
-        zone={7}
-        shape={'circle'}
-        isTourGuide
-        bottom={30}
-        left={35}
-        width={300}
-        height={300}
-      />
     </>
   )
 }
+
+// {/* <TourGuideZoneByPosition
+//         zone={7}
+//         shape={'circle'}
+//         isTourGuide
+//         bottom={30}
+//         left={35}
+//         width={300}
+//         height={300}
+//       /> */}
 
 export default copilot({
   animated: true,
