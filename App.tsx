@@ -152,7 +152,7 @@ function App({ copilotEvents, start, stop }: Props) {
         zone={7}
         shape={'circle'}
         isTourGuide
-        top={30}
+        bottom={30}
         left={35}
         width={300}
         height={300}
