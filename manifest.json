@@ -1,9 +1,9 @@
 {
-  "description": "rn-copilot",
+  "description": "rn-tourguide",
   "display": "standalone",
   "lang": "en",
-  "name": "rn-copilot",
-  "short_name": "rn-copilot",
+  "name": "rn-tourguide",
+  "short_name": "rn-tourguide",
   "start_url": "/?utm_source=web_app_manifest",
   "orientation": "portrait"
 }

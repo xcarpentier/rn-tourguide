@@ -4,8 +4,8 @@
     "app.js.map": "/rn-tourguide/static/js/app.6f81eb63.chunk.js.map",
     "runtime~app.js": "/rn-tourguide/static/js/runtime~app.93803312.js",
     "runtime~app.js.map": "/rn-tourguide/static/js/runtime~app.93803312.js.map",
-    "static/js/2.9b71aba5.chunk.js": "/rn-tourguide/static/js/2.9b71aba5.chunk.js",
-    "static/js/2.9b71aba5.chunk.js.map": "/rn-tourguide/static/js/2.9b71aba5.chunk.js.map",
+    "static/js/2.ac8abe99.chunk.js": "/rn-tourguide/static/js/2.ac8abe99.chunk.js",
+    "static/js/2.ac8abe99.chunk.js.map": "/rn-tourguide/static/js/2.ac8abe99.chunk.js.map",
     "fonts/AntDesign.ttf": "/rn-tourguide/./fonts/AntDesign.ttf",
     "fonts/Entypo.ttf": "/rn-tourguide/./fonts/Entypo.ttf",
     "fonts/Feather.ttf": "/rn-tourguide/./fonts/Feather.ttf",
@@ -27,7 +27,7 @@
   },
   "entrypoints": [
     "static/js/runtime~app.93803312.js",
-    "static/js/2.9b71aba5.chunk.js",
+    "static/js/2.ac8abe99.chunk.js",
     "static/js/app.6f81eb63.chunk.js"
   ]
 }
