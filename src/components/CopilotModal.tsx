@@ -91,7 +91,7 @@ export class CopilotModal extends React.Component<Props, State> {
   state = {
     tooltip: {},
     containerVisible: false,
-    tooltipTranslateY: new Animated.Value(width * 0.7),
+    tooltipTranslateY: new Animated.Value(width),
     opacity: new Animated.Value(0),
     layout: undefined,
     size: undefined,
@@ -213,30 +213,25 @@ export class CopilotModal extends React.Component<Props, State> {
     }
 
     const duration = this.props.animationDuration! + 200
-    const thirdDuration = duration / 3
-    const twoThirdDuration = duration - thirdDuration
     const toValue =
       verticalPosition === 'bottom' ? tooltip.top : obj.top - MARGIN - 135
     const translateAnim = Animated.timing(this.state.tooltipTranslateY, {
       toValue,
-      duration: thirdDuration,
+      duration,
       easing: this.props.easing,
+      useNativeDriver: true,
+    })
+    const opacityAnim = Animated.timing(this.state.opacity, {
+      toValue: 1,
+      duration,
+      easing: this.props.easing,
+      useNativeDriver: true,
     })
     // @ts-ignore
     if (toValue !== this.state.tooltipTranslateY._value) {
-      Animated.sequence([
-        Animated.timing(this.state.opacity, {
-          toValue: 0,
-          duration: twoThirdDuration,
-        }),
-        Animated.parallel([
-          translateAnim,
-          Animated.timing(this.state.opacity, {
-            toValue: 1,
-            duration: twoThirdDuration,
-          }),
-        ]),
-      ]).start()
+      Animated.parallel([translateAnim, opacityAnim]).start()
+    } else {
+      opacityAnim.start()
     }
 
     this.setState({
@@ -254,6 +249,7 @@ export class CopilotModal extends React.Component<Props, State> {
   }
 
   animateMove(obj = {}): Promise<void> {
+    this.state.opacity.setValue(0)
     return new Promise((resolve) => {
       this.setState({ containerVisible: true }, () =>
         this._animateMove(obj as any).then(resolve),
