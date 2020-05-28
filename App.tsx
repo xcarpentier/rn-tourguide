@@ -121,9 +121,6 @@ function App({ copilotEvents, start, stop }: Props) {
           <TouchableOpacity style={styles.button} onPress={() => start(2)}>
             <Text style={styles.buttonText}>Step 2</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => start(7)}>
-            <Text style={styles.buttonText}>Step 7</Text>
-          </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={stop}>
             <Text style={styles.buttonText}>Stop</Text>
           </TouchableOpacity>
