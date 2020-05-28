@@ -9,12 +9,10 @@ interface Props {
   children?: any
 }
 
-const Button = ({ wrapperStyle, style, children, ...rest }: Props) => (
+export const Button = ({ wrapperStyle, style, children, ...rest }: Props) => (
   <View style={[styles.button, wrapperStyle]}>
     <Text style={[styles.buttonText, style]} {...rest}>
       {children}
     </Text>
   </View>
 )
-
-export default Button

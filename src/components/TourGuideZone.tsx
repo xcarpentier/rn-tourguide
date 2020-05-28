@@ -1,5 +1,5 @@
 import * as React from 'react'
-import CopilotStep from './CopilotStep'
+import { CopilotStep } from './CopilotStep'
 import { Shape } from '../types'
 
 interface TourGuideZoneProps {

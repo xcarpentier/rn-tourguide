@@ -1,7 +1,7 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 
-import ConnectedCopilotStep from './ConnectedCopilotStep'
+import { ConnectedCopilotStep } from './ConnectedCopilotStep'
 import { CopilotContext, Shape } from '../types'
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
   borderRadius?: number
 }
 
-class CopilotStep extends React.Component<Props> {
+export class CopilotStep extends React.Component<Props> {
   static contextTypes = {
     _copilot: PropTypes.object,
   }
@@ -31,5 +31,3 @@ class CopilotStep extends React.Component<Props> {
     )
   }
 }
-
-export default CopilotStep

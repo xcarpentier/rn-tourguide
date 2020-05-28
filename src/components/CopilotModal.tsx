@@ -72,7 +72,7 @@ interface Move {
   height: number
 }
 
-class CopilotModal extends React.Component<Props, State> {
+export class CopilotModal extends React.Component<Props, State> {
   static defaultProps = {
     easing: Easing.elastic(0.7),
     animationDuration: 400,
@@ -353,5 +353,3 @@ class CopilotModal extends React.Component<Props, State> {
     )
   }
 }
-
-export default CopilotModal

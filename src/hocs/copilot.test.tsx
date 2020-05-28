@@ -2,7 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 import renderer from 'react-test-renderer'
 import { copilot, CopilotStep } from '../index'
-import CopilotModal from '../components/CopilotModal'
+import { CopilotModal } from '../components/CopilotModal'
 
 interface SampleComponentProps {
   secondStepActive?: boolean

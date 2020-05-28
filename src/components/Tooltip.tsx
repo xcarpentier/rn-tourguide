@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 
-import Button from './Button'
+import { Button } from './Button'
 import styles from './style'
 import { Step, Labels } from '../types'
 

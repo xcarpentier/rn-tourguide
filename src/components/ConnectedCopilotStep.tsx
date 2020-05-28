@@ -16,7 +16,7 @@ interface Props {
   borderRadius?: number
 }
 
-class ConnectedCopilotStep extends React.Component<Props> {
+export class ConnectedCopilotStep extends React.Component<Props> {
   static defaultProps = {
     active: true,
   }
@@ -120,5 +120,3 @@ class ConnectedCopilotStep extends React.Component<Props> {
     return React.cloneElement(this.props.children, { copilot })
   }
 }
-
-export default ConnectedCopilotStep

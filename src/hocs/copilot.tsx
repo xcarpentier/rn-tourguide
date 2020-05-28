@@ -6,7 +6,7 @@ import { View, StyleProp, ViewStyle } from 'react-native'
 import mitt from 'mitt'
 import hoistStatics from 'hoist-non-react-statics'
 
-import CopilotModal from '../components/CopilotModal'
+import { CopilotModal } from '../components/CopilotModal'
 import { OFFSET_WIDTH } from '../components/style'
 
 import {
@@ -221,7 +221,7 @@ export const copilot = ({
             copilotEvents={this.eventEmitter}
           />
           <CopilotModal
-            ref={(modal) => {
+            ref={(modal: any) => {
               this.modal = modal
             }}
             next={this.next}
