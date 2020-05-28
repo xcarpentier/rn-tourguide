@@ -8,8 +8,9 @@ import {
   ViewStyle,
   GestureResponderEvent,
   LayoutChangeEvent,
+  Platform,
 } from 'react-native'
-import Svg from 'react-native-svg'
+import Svg, { PathProps } from 'react-native-svg'
 
 import { AnimatedSvgPath } from './AnimatedPath'
 import { ValueXY, Step } from '../types'
@@ -59,7 +60,7 @@ class SvgMask extends Component<Props, State> {
   }
 
   listenerID: any
-  mask: any
+  mask: React.RefObject<PathProps> = React.createRef()
 
   constructor(props: Props) {
     super(props)
@@ -112,8 +113,14 @@ class SvgMask extends Component<Props, State> {
 
   animationListener = (): void => {
     const d = this.getPath()
-    if (this.mask) {
-      this.mask.setNativeProps({ d })
+    if (this.mask && this.mask.current) {
+      if (Platform.OS !== 'web') {
+        // @ts-ignore
+        this.mask.current?.setNativeProps({ d })
+      } else {
+        // @ts-ignore
+        this.mask.current._touchableNode.setAttribute('d', d)
+      }
     }
   }
 
@@ -179,14 +186,12 @@ class SvgMask extends Component<Props, State> {
           height={this.state.canvasSize.y}
         >
           <AnimatedSvgPath
-            ref={(ref: any) => {
-              this.mask = ref
-            }}
+            ref={this.mask}
             fill={this.props.backdropColor}
             strokeWidth={0}
             fillRule='evenodd'
             d={path}
-            opacity={this.state.opacity}
+            opacity={this.state.opacity as any}
           />
         </Svg>
       </View>
