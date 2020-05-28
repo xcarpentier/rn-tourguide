@@ -1,0 +1,9 @@
+{
+  "description": "rn-copilot",
+  "display": "standalone",
+  "lang": "en",
+  "name": "rn-copilot",
+  "short_name": "rn-copilot",
+  "start_url": "/?utm_source=web_app_manifest",
+  "orientation": "portrait"
+}
