@@ -221,18 +221,20 @@ export class CopilotModal extends React.Component<Props, State> {
       easing: this.props.easing,
       useNativeDriver: true,
     })
-    const opacityAnim = Animated.timing(this.state.opacity, {
-      toValue: 1,
-      duration,
-      easing: this.props.easing,
-      useNativeDriver: true,
-    })
+    // const opacityAnim = Animated.timing(this.state.opacity, {
+    //   toValue: 1,
+    //   duration,
+    //   easing: this.props.easing,
+    //   useNativeDriver: true,
+    // })
     // @ts-ignore
     if (toValue !== this.state.tooltipTranslateY._value) {
-      Animated.parallel([translateAnim, opacityAnim]).start()
-    } else {
-      opacityAnim.start()
+      // Animated.parallel([translateAnim, opacityAnim]).start()
+      translateAnim.start()
     }
+    // else {
+    //   // opacityAnim.start()
+    // }
 
     this.setState({
       tooltip,
@@ -249,7 +251,7 @@ export class CopilotModal extends React.Component<Props, State> {
   }
 
   animateMove(obj = {}): Promise<void> {
-    this.setState({ opacity: new Animated.Value(0) })
+    // this.setState({ opacity: new Animated.Value(0) })
     return new Promise((resolve) => {
       this.setState({ containerVisible: true }, () =>
         this._animateMove(obj as any).then(resolve),
@@ -293,7 +295,7 @@ export class CopilotModal extends React.Component<Props, State> {
 
   renderTooltip() {
     const { tooltipComponent: TooltipComponent } = this.props
-    const { opacity } = this.state
+    // const { opacity } = this.state
     return (
       <Animated.View
         key='tooltip'
@@ -301,7 +303,7 @@ export class CopilotModal extends React.Component<Props, State> {
           styles.tooltip,
           this.props.tooltipStyle,
           {
-            opacity,
+            // opacity,
             transform: [{ translateY: this.state.tooltipTranslateY }],
           },
         ]}
