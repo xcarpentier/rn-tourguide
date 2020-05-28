@@ -249,7 +249,7 @@ export class CopilotModal extends React.Component<Props, State> {
   }
 
   animateMove(obj = {}): Promise<void> {
-    this.state.opacity.setValue(0)
+    this.setState({ opacity: new Animated.Value(0) })
     return new Promise((resolve) => {
       this.setState({ containerVisible: true }, () =>
         this._animateMove(obj as any).then(resolve),
