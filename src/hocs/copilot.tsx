@@ -38,7 +38,6 @@ interface State {
 export interface CopilotOptionProps {
   tooltipComponent?: React.ComponentType<TooltipProps>
   tooltipStyle?: StyleProp<ViewStyle>
-  animated?: boolean
   labels?: Labels
   androidStatusBarVisible?: boolean
   backdropColor?: string
@@ -53,11 +52,9 @@ export interface CopilotOptionProps {
 export const copilot = ({
   tooltipComponent,
   tooltipStyle,
-  animated,
   labels,
   androidStatusBarVisible,
   backdropColor,
-  stopOnOutsideClick = false,
   verticalOffset = 0,
   wrapperStyle,
   animationDuration,
@@ -183,7 +180,8 @@ export const copilot = ({
 
       if (!currentStep) {
         this.startTries += 1
-        requestAnimationFrame(() => this.start(fromStep))
+        // requestAnimationFrame(() => this.start(fromStep))
+        this.start(fromStep)
       } else {
         this.eventEmitter.emit('start')
         await this.setCurrentStep(currentStep)
@@ -235,10 +233,8 @@ export const copilot = ({
             labels={labels}
             tooltipComponent={tooltipComponent}
             tooltipStyle={tooltipStyle}
-            animated={animated}
             androidStatusBarVisible={androidStatusBarVisible}
             backdropColor={backdropColor}
-            stopOnOutsideClick={stopOnOutsideClick}
             animationDuration={animationDuration}
             maskOffset={maskOffset}
             borderRadius={borderRadius}

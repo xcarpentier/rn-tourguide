@@ -101,11 +101,13 @@ export class ConnectedCopilotStep extends React.Component<Props> {
             reject,
           )
         } else {
-          requestAnimationFrame(measure)
+          // requestAnimationFrame(measure)
+          measure()
         }
       }
 
-      requestAnimationFrame(measure)
+      // requestAnimationFrame(measure)
+      measure()
     })
   }
 

@@ -22,7 +22,6 @@ interface Props {
   position: ValueXY
   style: StyleProp<ViewStyle>
   animationDuration?: number
-  animated: boolean
   backdropColor: string
   maskOffset?: number
   borderRadius?: number
@@ -108,10 +107,6 @@ export class SvgMask extends Component<Props, State> {
   }
 
   animationListener = () => {
-    setTimeout(this.updatePath, 0)
-  }
-
-  updatePath = () => {
     const d = this.getPath()
     if (this.mask && this.mask.current) {
       if (IS_WEB) {

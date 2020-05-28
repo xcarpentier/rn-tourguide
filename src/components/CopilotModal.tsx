@@ -9,6 +9,7 @@ import {
   LayoutChangeEvent,
   StyleProp,
   ViewStyle,
+  Dimensions,
 } from 'react-native'
 import { TooltipProps, Tooltip } from './Tooltip'
 import styles, {
@@ -31,15 +32,11 @@ interface Props {
   animationDuration?: number
   tooltipComponent: React.ComponentType<TooltipProps>
   tooltipStyle?: StyleProp<ViewStyle>
-  stepNumberComponent: any
   maskOffset?: number
   borderRadius?: number
-  animated: boolean
   androidStatusBarVisible: boolean
   backdropColor: string
   labels: Labels
-  stopOnOutsideClick?: boolean
-  hideArrow?: boolean
   easing(value: number): number
   stop(): void
   next(): void
@@ -55,11 +52,8 @@ interface Layout {
 
 interface State {
   tooltip: object
-  arrow: object
-  animatedValues: object
   notAnimated?: boolean
   containerVisible: boolean
-  animated?: boolean
   layout?: Layout
   size?: ValueXY
   position?: ValueXY
@@ -72,20 +66,17 @@ interface Move {
   height: number
 }
 
+const { width } = Dimensions.get('window')
+
 export class CopilotModal extends React.Component<Props, State> {
   static defaultProps = {
     easing: Easing.elastic(0.7),
     animationDuration: 400,
     tooltipComponent: Tooltip as any,
     tooltipStyle: {},
-    stepNumberComponent: undefined,
-    // If animated was not specified, rely on the default overlay type
-    animated: true,
     androidStatusBarVisible: false,
     backdropColor: 'rgba(0, 0, 0, 0.4)',
     labels: {},
-    stopOnOutsideClick: false,
-    hideArrow: false,
   }
 
   layout?: Layout = {
@@ -97,15 +88,8 @@ export class CopilotModal extends React.Component<Props, State> {
 
   state = {
     tooltip: {},
-    arrow: {},
-    animatedValues: {
-      top: new Animated.Value(0),
-      stepNumberLeft: new Animated.Value(0),
-    },
-    animated: true,
     containerVisible: false,
-    tooltipTranslateY: new Animated.Value(400),
-    opacity: new Animated.Value(1),
+    tooltipTranslateY: new Animated.Value(width / 2),
     layout: undefined,
     size: undefined,
     position: undefined,
@@ -235,9 +219,7 @@ export class CopilotModal extends React.Component<Props, State> {
 
     this.setState({
       tooltip,
-      arrow,
       layout,
-      animated: this.props.animated,
       size: {
         x: obj.width,
         y: obj.height,
@@ -252,17 +234,13 @@ export class CopilotModal extends React.Component<Props, State> {
   animateMove(obj = {}): Promise<void> {
     return new Promise((resolve) => {
       this.setState({ containerVisible: true }, () =>
-        requestAnimationFrame(async () => {
-          await this._animateMove(obj as any)
-          resolve()
-        }),
+        this._animateMove(obj as any).then(resolve),
       )
     })
   }
 
-  reset(): void {
+  reset() {
     this.setState({
-      animated: false,
       containerVisible: false,
       layout: undefined,
     })
@@ -281,15 +259,8 @@ export class CopilotModal extends React.Component<Props, State> {
     this.props.stop()
   }
 
-  handleMaskClick = () => {
-    if (this.props.stopOnOutsideClick) {
-      this.handleStop()
-    }
-  }
-
   renderMask = () => (
     <SvgMask
-      animated={this.props.animated}
       style={styles.overlayContainer}
       size={this.state.size!}
       position={this.state.position!}
@@ -304,7 +275,7 @@ export class CopilotModal extends React.Component<Props, State> {
 
   renderTooltip() {
     const { tooltipComponent: TooltipComponent } = this.props
-    return [
+    return (
       <Animated.View
         key='tooltip'
         style={[
@@ -322,8 +293,8 @@ export class CopilotModal extends React.Component<Props, State> {
           handleStop={this.handleStop}
           labels={this.props.labels}
         />
-      </Animated.View>,
-    ]
+      </Animated.View>
+    )
   }
 
   render() {
