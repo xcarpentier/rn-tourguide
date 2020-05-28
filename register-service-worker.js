@@ -3,7 +3,7 @@
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker
-      .register('/xcarpentier/rn-tourguide/expo-service-worker.js', { scope: '/xcarpentier/rn-tourguide/' })
+      .register('/rn-tourguide/expo-service-worker.js', { scope: '/rn-tourguide/' })
       .then(function(info) {
         // console.info('Registered service-worker', info);
       })
