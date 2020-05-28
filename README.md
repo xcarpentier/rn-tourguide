@@ -2,6 +2,7 @@
 
 <p align="center">
   A flexible <strong>tourguide</strong> for your react native app!
+  <br/><small>🎉 Web capable 🎉</small>
   <br/><small>(a rewriting of react-native-copilot)</small>
 </p>
 
