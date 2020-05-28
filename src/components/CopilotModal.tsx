@@ -57,6 +57,8 @@ interface State {
   layout?: Layout
   size?: ValueXY
   position?: ValueXY
+  tooltipTranslateY: Animated.Value
+  opacity: Animated.Value
 }
 
 interface Move {
@@ -89,7 +91,8 @@ export class CopilotModal extends React.Component<Props, State> {
   state = {
     tooltip: {},
     containerVisible: false,
-    tooltipTranslateY: new Animated.Value(width / 2),
+    tooltipTranslateY: new Animated.Value(width * 0.7),
+    opacity: new Animated.Value(0),
     layout: undefined,
     size: undefined,
     position: undefined,
@@ -209,13 +212,32 @@ export class CopilotModal extends React.Component<Props, State> {
       arrow.left = tooltip.left + MARGIN
     }
 
-    Animated.timing(this.state.tooltipTranslateY, {
-      toValue:
-        verticalPosition === 'bottom' ? tooltip.top : obj.top - MARGIN - 125,
-      duration: this.props.animationDuration,
+    const duration = this.props.animationDuration! + 200
+    const thirdDuration = duration / 3
+    const twoThirdDuration = duration - thirdDuration
+    const toValue =
+      verticalPosition === 'bottom' ? tooltip.top : obj.top - MARGIN - 135
+    const translateAnim = Animated.timing(this.state.tooltipTranslateY, {
+      toValue,
+      duration: thirdDuration,
       easing: this.props.easing,
-      useNativeDriver: true,
-    }).start()
+    })
+    // @ts-ignore
+    if (toValue !== this.state.tooltipTranslateY._value) {
+      Animated.sequence([
+        Animated.timing(this.state.opacity, {
+          toValue: 0,
+          duration: twoThirdDuration,
+        }),
+        Animated.parallel([
+          translateAnim,
+          Animated.timing(this.state.opacity, {
+            toValue: 1,
+            duration: twoThirdDuration,
+          }),
+        ]),
+      ]).start()
+    }
 
     this.setState({
       tooltip,
@@ -275,13 +297,17 @@ export class CopilotModal extends React.Component<Props, State> {
 
   renderTooltip() {
     const { tooltipComponent: TooltipComponent } = this.props
+    const { opacity } = this.state
     return (
       <Animated.View
         key='tooltip'
         style={[
           styles.tooltip,
           this.props.tooltipStyle,
-          { transform: [{ translateY: this.state.tooltipTranslateY }] },
+          {
+            opacity,
+            transform: [{ translateY: this.state.tooltipTranslateY }],
+          },
         ]}
       >
         <TooltipComponent
