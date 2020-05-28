@@ -1,11 +1,11 @@
 {
   "files": {
-    "app.js": "/rn-tourguide/static/js/app.c01f794e.chunk.js",
-    "app.js.map": "/rn-tourguide/static/js/app.c01f794e.chunk.js.map",
+    "app.js": "/rn-tourguide/static/js/app.9b92f778.chunk.js",
+    "app.js.map": "/rn-tourguide/static/js/app.9b92f778.chunk.js.map",
     "runtime~app.js": "/rn-tourguide/static/js/runtime~app.93803312.js",
     "runtime~app.js.map": "/rn-tourguide/static/js/runtime~app.93803312.js.map",
-    "static/js/2.b0a66f98.chunk.js": "/rn-tourguide/static/js/2.b0a66f98.chunk.js",
-    "static/js/2.b0a66f98.chunk.js.map": "/rn-tourguide/static/js/2.b0a66f98.chunk.js.map",
+    "static/js/2.b1906396.chunk.js": "/rn-tourguide/static/js/2.b1906396.chunk.js",
+    "static/js/2.b1906396.chunk.js.map": "/rn-tourguide/static/js/2.b1906396.chunk.js.map",
     "fonts/AntDesign.ttf": "/rn-tourguide/./fonts/AntDesign.ttf",
     "fonts/Entypo.ttf": "/rn-tourguide/./fonts/Entypo.ttf",
     "fonts/Feather.ttf": "/rn-tourguide/./fonts/Feather.ttf",
@@ -27,7 +27,7 @@
   },
   "entrypoints": [
     "static/js/runtime~app.93803312.js",
-    "static/js/2.b0a66f98.chunk.js",
-    "static/js/app.c01f794e.chunk.js"
+    "static/js/2.b1906396.chunk.js",
+    "static/js/app.9b92f778.chunk.js"
   ]
 }
