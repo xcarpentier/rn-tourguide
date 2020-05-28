@@ -1,14 +1,10 @@
 {
   "expo": {
-    "name": "rn-copilot",
-    "description": "rn-copilot",
-    "slug": "rn-copilot",
+    "name": "rn-tourguide",
+    "description": "rn-tourguide",
+    "slug": "rn-tourguide",
     "privacy": "public",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
     "ios": {
