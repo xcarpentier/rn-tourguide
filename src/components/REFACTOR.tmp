@@ -17,7 +17,7 @@ import { svgMaskPathMorph } from '../utilities'
 
 const windowDimensions = Dimensions.get('window')
 
-interface Props {
+export interface SvgMaskProps {
   size: ValueXY
   position: ValueXY
   style: StyleProp<ViewStyle>
@@ -46,19 +46,17 @@ const FIRST_PATH = `M0,0H${windowDimensions.width}V${
 
 const IS_WEB = Platform.OS !== 'web'
 
-export class SvgMask extends Component<Props, State> {
-  static defaultProps = {
-    easing: Easing.linear,
-    size: { x: 0, y: 0 },
-    position: { x: 0, y: 0 },
-    maskOffset: 0,
-  }
+export const SvgMask = ({
+  easing = Easing.linear,
+  size = { x: 0, y: 0 },
+  position = { x: 0, y: 0 },
+  maskOffset = 0,
+}: SvgMaskProps) => {
+  const [localSize, setLocalSize] = React.s
 
-  listenerID: string
-  mask: React.RefObject<PathProps> = React.createRef()
+  // listenerID: string
+  // mask: React.RefObject<PathProps> = React.createRef()
 
-  constructor(props: Props) {
-    super(props)
 
     this.state = {
       canvasSize: {
@@ -73,7 +71,7 @@ export class SvgMask extends Component<Props, State> {
     }
 
     this.listenerID = this.state.animation.addListener(this.animationListener)
-  }
+
 
   componentDidUpdate(prevProps: Props) {
     if (

@@ -6,7 +6,7 @@ import { View, StyleProp, ViewStyle } from 'react-native'
 import mitt from 'mitt'
 import hoistStatics from 'hoist-non-react-statics'
 
-import { CopilotModal } from '../components/CopilotModal'
+import { CopilotModal, CopilotModalProps } from '../components/CopilotModal'
 import { OFFSET_WIDTH } from '../components/style'
 
 import {
@@ -74,7 +74,7 @@ export const copilot = ({
 
     eventEmitter = new mitt()
 
-    modal: any
+    modal = React.createRef<CopilotModalProps>()
 
     constructor(props: any) {
       super(props)
@@ -199,7 +199,8 @@ export const copilot = ({
     async moveToCurrentStep(): Promise<void> {
       const size = await this.state.currentStep!.target.measure()
 
-      await this.modal.animateMove({
+      // @ts-ignore
+      await this.modal.current?.animateMove({
         width: size.width + OFFSET_WIDTH,
         height: size.height + OFFSET_WIDTH,
         left: size.x - OFFSET_WIDTH / 2,
@@ -219,9 +220,7 @@ export const copilot = ({
             copilotEvents={this.eventEmitter}
           />
           <CopilotModal
-            ref={(modal: any) => {
-              this.modal = modal
-            }}
+            ref={this.modal as any}
             next={this.next}
             prev={this.prev}
             stop={this.stop}
