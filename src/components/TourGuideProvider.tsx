@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { ITourGuideContext, TourGuideContext } from './TourGuideContext'
-import { Steps, Step } from '../types'
+// import { Steps, Step } from '../types'
 
-interface State {
-  steps?: Steps
-  currentStep?: Step
-  visible: boolean
-}
+// interface State {
+//   steps?: Steps
+//   currentStep?: Step
+//   visible: boolean
+// }
 
 export interface TourGuideProviderProps extends ITourGuideContext {
   children: React.ReactNode
@@ -18,11 +18,12 @@ export const TourGuideProvider = ({
   wrapperStyle,
   ...props
 }: TourGuideProviderProps) => {
-  const [state, setState] = React.useState<State>({
-    steps: undefined,
-    currentStep: undefined,
-    visible: false,
-  })
+  // TODO:
+  // const [state, setState] = React.useState<State>({
+  //   steps: undefined,
+  //   currentStep: undefined,
+  //   visible: false,
+  // })
 
   return (
     <View style={[styles.container, wrapperStyle]}>
