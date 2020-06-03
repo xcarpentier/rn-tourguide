@@ -30,9 +30,6 @@ interface State {
   steps?: Steps
   currentStep?: Step
   visible: boolean
-  androidStatusBarVisible?: boolean
-  backdropColor?: string
-  stopOnOutsideClick?: boolean
 }
 
 export interface CopilotOptionProps {
@@ -72,7 +69,7 @@ export const copilot = ({
 
     mounted = false
 
-    eventEmitter = new mitt()
+    eventEmitter: mitt.Emitter = new mitt()
 
     modal = React.createRef<CopilotModalProps>()
 
@@ -180,7 +177,6 @@ export const copilot = ({
 
       if (!currentStep) {
         this.startTries += 1
-        // requestAnimationFrame(() => this.start(fromStep))
         this.start(fromStep)
       } else {
         this.eventEmitter.emit('start')

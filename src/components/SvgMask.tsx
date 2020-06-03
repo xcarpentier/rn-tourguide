@@ -55,6 +55,7 @@ export class SvgMask extends Component<Props, State> {
   }
 
   listenerID: string
+  rafID: number
   mask: React.RefObject<PathProps> = React.createRef()
 
   constructor(props: Props) {
@@ -88,6 +89,9 @@ export class SvgMask extends Component<Props, State> {
     if (this.listenerID) {
       this.state.animation.removeListener(this.listenerID)
     }
+    if (this.rafID) {
+      cancelAnimationFrame(this.rafID)
+    }
   }
 
   getPath = () => {
@@ -108,15 +112,17 @@ export class SvgMask extends Component<Props, State> {
 
   animationListener = () => {
     const d = this.getPath()
-    if (this.mask && this.mask.current) {
-      if (IS_WEB) {
-        // @ts-ignore
-        this.mask.current.setNativeProps({ d })
-      } else {
-        // @ts-ignore
-        this.mask.current._touchableNode.setAttribute('d', d)
+    this.rafID = requestAnimationFrame(() => {
+      if (this.mask && this.mask.current) {
+        if (IS_WEB) {
+          // @ts-ignore
+          this.mask.current.setNativeProps({ d })
+        } else {
+          // @ts-ignore
+          this.mask.current._touchableNode.setAttribute('d', d)
+        }
       }
-    }
+    })
   }
 
   animate = () => {

@@ -2,13 +2,7 @@ import * as React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
-import {
-  copilot,
-  TourGuideZone,
-  CopilotWrapper,
-  Step,
-  TourGuideZoneByPosition,
-} from './src'
+import { copilot, TourGuideZone, CopilotWrapper, Step } from './src'
 
 const styles = StyleSheet.create({
   container: {
@@ -159,7 +153,6 @@ function App({ copilotEvents, start, stop }: Props) {
 //       /> */}
 
 export default copilot({
-  animated: true,
   androidStatusBarVisible: false,
   borderRadius: 16,
 })(App)
