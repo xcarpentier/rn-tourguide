@@ -24,9 +24,8 @@ declare var __TEST__: boolean
 
 export interface CopilotModalProps {
   ref: any
-  currentStepNumber: number
   currentStep?: Step
-  visible: boolean
+  visible?: boolean
   isFirstStep: boolean
   isLastStep: boolean
   animationDuration?: number

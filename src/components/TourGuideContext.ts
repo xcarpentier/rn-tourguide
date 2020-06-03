@@ -1,8 +1,5 @@
 import * as React from 'react'
-import { StyleProp, ViewStyle } from 'react-native'
-
-import { TooltipProps } from './Tooltip'
-import { Labels } from '../types'
+import { Step } from '../types'
 
 export type Handler = (event?: any) => void
 export interface Emitter {
@@ -12,20 +9,11 @@ export interface Emitter {
 }
 
 export interface ITourGuideContext {
-  tooltipComponent?: React.ComponentType<TooltipProps>
-  tooltipStyle?: StyleProp<ViewStyle>
-  labels?: Labels
-  androidStatusBarVisible?: boolean
-  backdropColor?: string
-  stopOnOutsideClick?: boolean
-  verticalOffset?: number
-  wrapperStyle?: StyleProp<ViewStyle>
-  maskOffset?: number
-  borderRadius?: number
-  animationDuration?: number
   eventEmitter?: Emitter
-  start?(): void
+  registerStep?(step: Step): void
+  unregisterStep?(stepName: string): void
+  getCurrentStep?(): Step | undefined
+  start?(fromStep?: number): void
   stop?(): void
 }
-
 export const TourGuideContext = React.createContext<ITourGuideContext>({})

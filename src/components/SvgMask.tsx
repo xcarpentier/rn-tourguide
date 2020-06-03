@@ -60,6 +60,7 @@ export class SvgMask extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props)
+    console.log('SvgMask')
 
     this.state = {
       canvasSize: {
@@ -81,6 +82,7 @@ export class SvgMask extends Component<Props, State> {
       prevProps.position !== this.props.position ||
       prevProps.size !== this.props.size
     ) {
+      console.log('animate')
       this.animate()
     }
   }

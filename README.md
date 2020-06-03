@@ -51,54 +51,101 @@ expo install react-native-svg
 
 ## Usage
 
-Use the `copilot()` higher order component for the screen component that you want to use copilot with:
+```tsx
+import {
+  TourGuideProvider, // Main provider
+  TourGuideZone, // Main wrapper of highlight component
+  TourGuideZoneByPosition, // Component to use mask on overlay (ie, position absolute)
+  useTourGuideController, // hook to start, etc.
+} from 'rn-tourguide'
 
-```js
-import { copilot } from 'rn-tourguide'
-
-class HomeScreen extends Component {
-  /* ... */
+// Add <TourGuideProvider/> at the root of you app!
+function App() {
+  return (
+    <TourGuideProvider {...{ borderRadius: 16 }}>
+      <AppContent />
+    </TourGuideProvider>
+  )
 }
 
-export default copilot()(HomeScreen)
-```
+const AppContent = () => {
+  const iconProps = { size: 40, color: '#888' }
 
-Example
+  // Use Hooks to control!
+  const { start, stop, eventEmitter } = useTourGuideController()
 
-```js
-import { copilot, TourGuideZone, CopilotWrapper } from 'rn-tourguide'
+  React.useEffect(() => {
+    eventEmitter.on('start', () => console.log('start'))
+    eventEmitter.on('stop', () => console.log('stop'))
+    eventEmitter.on('stepChange', () => console.log(`stepChange`))
 
-class HomeScreen {
-  render() {
-    return (
-      <View>
+    return () => eventEmitter.off('*', null)
+  }, [])
+
+  return (
+    <View style={styles.container}>
+      {/*
+
+          Use TourGuideZone only to wrap your component
+
+      */}
+      <TourGuideZone
+        zone={2}
+        text={'A react-native-copilot remastered! 🎉'}
+        borderRadius={16}
+      >
+        <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      </TourGuideZone>
+      <View style={styles.middleView}>
+        <TouchableOpacity style={styles.button} onPress={() => start()}>
+          <Text style={styles.buttonText}>START THE TUTORIAL!</Text>
+        </TouchableOpacity>
+
+        <TourGuideZone zone={3} shape={'rectangle_and_keep'}>
+          <TouchableOpacity style={styles.button} onPress={() => start(4)}>
+            <Text style={styles.buttonText}>Step 4</Text>
+          </TouchableOpacity>
+        </TourGuideZone>
+        <TouchableOpacity style={styles.button} onPress={() => start(2)}>
+          <Text style={styles.buttonText}>Step 2</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={stop}>
+          <Text style={styles.buttonText}>Stop</Text>
+        </TouchableOpacity>
         <TourGuideZone
           zone={1}
-          isTourGuide
-          text={'Tooltip 1'}
-          borderRadius={16}
+          shape='circle'
+          text={'With animated SVG morphing with awesome flubber 🍮💯'}
         >
-          <CopilotWrapper>
-            <Text style={styles.title}>
-              {'Welcome to the demo of\n"rn-tourguide"'}
-            </Text>
-          </CopilotWrapper>
-        </TourGuideZone>
-        <TourGuideZone
-          zone={2}
-          isTourGuide
-          text={'Tooltip 2, circle shape'}
-          shape={'circle'}
-        >
-          <CopilotWrapper>
-            <Text style={styles.title}>
-              {'Welcome to the demo of\n"rn-tourguide"'}
-            </Text>
-          </CopilotWrapper>
+          <Image source={{ uri }} style={styles.profilePhoto} />
         </TourGuideZone>
       </View>
-    )
-  }
+      <View style={styles.row}>
+        <TourGuideZone zone={4} shape={'circle'}>
+          <Ionicons name='ios-contact' {...iconProps} />
+        </TourGuideZone>
+        <Ionicons name='ios-chatbubbles' {...iconProps} />
+        <Ionicons name='ios-globe' {...iconProps} />
+        <TourGuideZone zone={5}>
+          <Ionicons name='ios-navigate' {...iconProps} />
+        </TourGuideZone>
+        <TourGuideZone zone={6} shape={'circle'}>
+          <Ionicons name='ios-rainy' {...iconProps} />
+        </TourGuideZone>
+        <TourGuideZoneByPosition
+          zone={7}
+          shape={'circle'}
+          isTourGuide
+          bottom={30}
+          left={35}
+          width={300}
+          height={300}
+        />
+      </View>
+    </View>
+  )
 }
 ```
 
@@ -117,18 +164,18 @@ interface TourGuideZoneProps {
 
 type Shape = 'circle' | 'rectangle' | 'circle_and_keep' | 'rectangle_and_keep'
 
-interface CopilotOptionProps {
+export interface TourGuideProviderProps {
   tooltipComponent?: React.ComponentType<TooltipProps>
   tooltipStyle?: StyleProp<ViewStyle>
-  animated?: boolean
   labels?: Labels
   androidStatusBarVisible?: boolean
   backdropColor?: string
-  stopOnOutsideClick?: boolean
   verticalOffset?: number
   wrapperStyle?: StyleProp<ViewStyle>
   maskOffset?: number
+  borderRadius?: number
   animationDuration?: number
+  children: React.ReactNode
 }
 
 interface TooltipProps {
@@ -149,20 +196,23 @@ interface Labels {
 }
 ```
 
-In order to start the tutorial, you can call the `start` prop function in the root component that is injected by `copilot`:
+In order to start the tutorial, you can call the `start` function from `useTourGuideController` hook:
 
 ```js
-class HomeScreen extends Component {
-  handleStartButtonPress() {
-    this.props.start()
-  }
+function HomeScreen() {
+  const { start } = useTourGuideController()
+
+  React.useEffect(() => {
+    start()
+  }, [])
+
 
   render() {
     // ...
   }
 }
 
-export default copilot()(HomeScreen)
+export default HomeScreen
 ```
 
 If you are looking for a working example, please check out [this link](https://github.com/xcarpentier/rn-tourguide/blob/master/App.tsx).
@@ -183,94 +233,65 @@ const TooltipComponent = ({
   // ...
 );
 
-copilot({
-  tooltipComponent: TooltipComponent
-})(RootComponent)
+<TourGuideProvider {...{tooltipComponent: TooltipComponent}}>
+// ...
+</TourGuideProvider>
 ```
 
 ### Custom tooltip styling
 
 You can customize tooltips style:
 
-```js
+```tsx
 const style = {
   backgroundColor: '#9FA8DA',
   borderRadius: 10,
   paddingTop: 5,
 }
 
-copilot({
-  tooltipStyle: style,
-})(RootComponent)
+<TourGuideProvider {...{ tooltipStyle: style }}>
+// ...
+</TourGuideProvider>
 ```
 
 ### Custom mask color
 
 You can customize the mask color - default is `rgba(0, 0, 0, 0.4)`, by passing a color string to the `copilot` HOC maker.
 
-```js
-copilot({
-  backdropColor: 'rgba(50, 50, 100, 0.9)',
-})(RootComponent)
+```tsx
+<TourGuideProvider {...{ backdropColor: 'rgba(50, 50, 100, 0.9)' }}>
+  // ...
+</TourGuideProvider>
 ```
 
 ### Custom labels (for i18n)
 
 You can localize labels:
 
-```js
-copilot({
-  labels: {
-    previous: 'Vorheriger',
-    next: 'Nächster',
-    skip: 'Überspringen',
-    finish: 'Beenden',
-  },
-})(RootComponent)
+```tsx
+<TourGuideProvider
+  {...{
+    labels: {
+      previous: 'Vorheriger',
+      next: 'Nächster',
+      skip: 'Überspringen',
+      finish: 'Beenden',
+    },
+  }}
+>
+  // ...
+</TourGuideProvider>
 ```
-
-### Triggering the tutorial
-
-Use `this.props.start()` in the root component in order to trigger the tutorial. You can either invoke it with a touch event or in `componentDidMount`. Note that the component and all its descendants must be mounted before starting the tutorial since the `CopilotStep`s need to be registered first.
 
 ### Listening to the events
 
-Along with `this.props.start()`, `copilot` HOC passes `copilotEvents` function to the component to help you with tracking of tutorial progress. It utilizes [mitt](https://github.com/developit/mitt) under the hood, you can see how full API there.
+Along with `start()`, `useTourGuideController` passes `copilotEvents` function to the component to help you with tracking of tutorial progress. It utilizes [mitt](https://github.com/developit/mitt) under the hood, you can see how full API there.
 
 List of available events is:
 
 - `start` — Copilot tutorial has started.
 - `stop` — Copilot tutorial has ended or skipped.
 - `stepChange` — Next step is triggered. Passes [`Step`](https://github.com/mohebifar/react-native-copilot/blob/master/src/types.js#L2) instance as event handler argument.
-
-**Example:**
-
-```js
-import { copilot, CopilotStep } from '@applications-developer/rn-copilot'
-
-const CustomComponent = ({ copilot }) => (
-  <View {...copilot}>
-    <Text>Hello world!</Text>
-  </View>
-)
-
-class HomeScreen {
-  componentDidMount() {
-    this.props.copilotEvents.on('stop', () => {
-      // Copilot tutorial finished!
-    })
-  }
-
-  componentWillUnmount() {
-    // Don't forget to disable event handlers to prevent errors
-    this.props.copilotEvents.off('stop')
-  }
-
-  render() {
-    // ...
-  }
-}
-```
 
 ## Contributing
 

@@ -27,10 +27,6 @@ export interface ValueXY {
   y: number
 }
 
-export interface CopilotStepNumberProps {
-  currentStepNumber: number
-}
-
 export type SvgPath = string
 
 // with flubber
@@ -85,12 +81,6 @@ export interface CopilotStepProps {
   order: number // A positive number indicating the order of the step in the entire walkthrough
   text: string // The text shown as the description for the step
   active?: boolean // If set to false the step is ignored
-}
-
-export interface CopilotContext {
-  registerStep(s: Step): void
-  unregisterStep(name: string): void
-  getCurrentStep(): Step
 }
 
 export interface Labels {

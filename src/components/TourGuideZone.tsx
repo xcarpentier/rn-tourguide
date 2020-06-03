@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { CopilotStep } from './CopilotStep'
 import { Shape } from '../types'
+import { CopilotWrapper } from './CopilotWrapper'
 
 export interface TourGuideZoneProps {
   zone: number
@@ -13,7 +14,7 @@ export interface TourGuideZoneProps {
 }
 
 export const TourGuideZone = ({
-  isTourGuide,
+  isTourGuide = true,
   zone,
   children,
   shape,
@@ -34,7 +35,7 @@ export const TourGuideZone = ({
       maskOffset={maskOffset}
       borderRadius={borderRadius}
     >
-      {children}
+      <CopilotWrapper>{children}</CopilotWrapper>
     </CopilotStep>
   )
 }

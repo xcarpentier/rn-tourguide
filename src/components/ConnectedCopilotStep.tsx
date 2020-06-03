@@ -1,6 +1,7 @@
 import * as React from 'react'
 
-import { CopilotContext, Shape } from '../types'
+import { Shape } from '../types'
+import { ITourGuideContext } from './TourGuideContext'
 
 declare var __TEST__: boolean
 
@@ -10,7 +11,7 @@ interface Props {
   order: number
   active?: boolean
   shape?: Shape
-  _copilot: CopilotContext
+  _copilot: ITourGuideContext
   children?: any
   maskOffset?: number
   borderRadius?: number
@@ -48,23 +49,31 @@ export class ConnectedCopilotStep extends React.Component<Props> {
   register() {
     if (this.props._copilot) {
       const { name, text, order, shape, maskOffset, borderRadius } = this.props
-      this.props._copilot.registerStep({
-        name,
-        text,
-        order,
-        target: this,
-        wrapper: this.wrapper,
-        shape,
-        maskOffset,
-        borderRadius,
-      })
+      if (this.props._copilot.registerStep) {
+        this.props._copilot.registerStep({
+          name,
+          text,
+          order,
+          target: this,
+          wrapper: this.wrapper,
+          shape,
+          maskOffset,
+          borderRadius,
+        })
+      } else {
+        console.warn('registerStep undefined')
+      }
     } else {
       console.warn('_copilot undefined')
     }
   }
 
   unregister() {
-    this.props._copilot.unregisterStep(this.props.name)
+    if (this.props._copilot.unregisterStep) {
+      this.props._copilot.unregisterStep(this.props.name)
+    } else {
+      console.warn('unregisterStep undefined')
+    }
   }
 
   measure() {
@@ -101,13 +110,11 @@ export class ConnectedCopilotStep extends React.Component<Props> {
             reject,
           )
         } else {
-          // requestAnimationFrame(measure)
-          measure()
+          requestAnimationFrame(measure)
         }
       }
 
-      // requestAnimationFrame(measure)
-      measure()
+      requestAnimationFrame(measure)
     })
   }
 

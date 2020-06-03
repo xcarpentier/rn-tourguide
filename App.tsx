@@ -2,7 +2,86 @@ import * as React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
-import { copilot, TourGuideZone, CopilotWrapper, Step } from './src'
+import { TourGuideZone, TourGuideProvider, useTourGuideController } from './src'
+
+const uri =
+  'https://pbs.twimg.com/profile_images/1223192265969016833/U8AX9Lfn_400x400.jpg'
+
+// Add <TourGuideProvider/> at the root of you app!
+function App() {
+  return (
+    <TourGuideProvider {...{ borderRadius: 16 }}>
+      <AppContent />
+    </TourGuideProvider>
+  )
+}
+
+const AppContent = () => {
+  const iconProps = { size: 40, color: '#888' }
+
+  // Use Hooks to control!
+  const { start, stop, eventEmitter } = useTourGuideController()
+
+  React.useEffect(() => {
+    eventEmitter.on('start', () => console.log('start'))
+    eventEmitter.on('stop', () => console.log('stop'))
+    eventEmitter.on('stepChange', () => console.log(`stepChange`))
+
+    return () => eventEmitter.off('*', null)
+  }, [])
+
+  return (
+    <View style={styles.container}>
+      {/* Use TourGuideZone only to wrap */}
+      <TourGuideZone
+        zone={2}
+        text={'A react-native-copilot remastered! 🎉'}
+        borderRadius={16}
+      >
+        <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      </TourGuideZone>
+      <View style={styles.middleView}>
+        <TouchableOpacity style={styles.button} onPress={() => start()}>
+          <Text style={styles.buttonText}>START THE TUTORIAL!</Text>
+        </TouchableOpacity>
+
+        <TourGuideZone zone={3} shape={'rectangle_and_keep'}>
+          <TouchableOpacity style={styles.button} onPress={() => start(4)}>
+            <Text style={styles.buttonText}>Step 4</Text>
+          </TouchableOpacity>
+        </TourGuideZone>
+        <TouchableOpacity style={styles.button} onPress={() => start(2)}>
+          <Text style={styles.buttonText}>Step 2</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={stop}>
+          <Text style={styles.buttonText}>Stop</Text>
+        </TouchableOpacity>
+        <TourGuideZone
+          zone={1}
+          shape='circle'
+          text={'With animated SVG morphing with awesome flubber 🍮💯'}
+        >
+          <Image source={{ uri }} style={styles.profilePhoto} />
+        </TourGuideZone>
+      </View>
+      <View style={styles.row}>
+        <TourGuideZone zone={4} shape={'circle'}>
+          <Ionicons name='ios-contact' {...iconProps} />
+        </TourGuideZone>
+        <Ionicons name='ios-chatbubbles' {...iconProps} />
+        <Ionicons name='ios-globe' {...iconProps} />
+        <TourGuideZone zone={5}>
+          <Ionicons name='ios-navigate' {...iconProps} />
+        </TourGuideZone>
+        <TourGuideZone zone={6} shape={'circle'}>
+          <Ionicons name='ios-rainy' {...iconProps} />
+        </TourGuideZone>
+      </View>
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -50,109 +129,4 @@ const styles = StyleSheet.create({
   },
 })
 
-interface Props {
-  copilotEvents: any
-  start(stepNumber?: number): void
-  stop(): void
-}
-
-function App({ copilotEvents, start, stop }: Props) {
-  const handleStepChange = (step: Step) =>
-    console.log(`Current step is: ${step.name}`)
-
-  React.useEffect(() => {
-    copilotEvents.on('stepChange', handleStepChange)
-
-    return () => {
-      copilotEvents.off('*')
-    }
-  }, [])
-  const iconProps = { size: 40, color: '#888' }
-  return (
-    <>
-      <View style={styles.container}>
-        <TourGuideZone
-          zone={2}
-          isTourGuide
-          text={'A react-native-copilot remastered! 🎉'}
-          borderRadius={16}
-        >
-          <CopilotWrapper>
-            <Text style={styles.title}>
-              {'Welcome to the demo of\n"rn-tourguide"'}
-            </Text>
-          </CopilotWrapper>
-        </TourGuideZone>
-        <View style={styles.middleView}>
-          <TouchableOpacity style={styles.button} onPress={() => start()}>
-            <Text style={styles.buttonText}>START THE TUTORIAL!</Text>
-          </TouchableOpacity>
-
-          <TourGuideZone zone={3} isTourGuide shape={'rectangle_and_keep'}>
-            <CopilotWrapper>
-              <TouchableOpacity style={styles.button} onPress={() => start(4)}>
-                <Text style={styles.buttonText}>Step 4</Text>
-              </TouchableOpacity>
-            </CopilotWrapper>
-          </TourGuideZone>
-          <TouchableOpacity style={styles.button} onPress={() => start(2)}>
-            <Text style={styles.buttonText}>Step 2</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={stop}>
-            <Text style={styles.buttonText}>Stop</Text>
-          </TouchableOpacity>
-          <TourGuideZone
-            zone={1}
-            isTourGuide
-            shape='circle'
-            text={'With animated SVG morphing with awesome flubber 🍮💯'}
-          >
-            <CopilotWrapper>
-              <Image
-                source={{
-                  uri:
-                    'https://pbs.twimg.com/profile_images/1223192265969016833/U8AX9Lfn_400x400.jpg',
-                }}
-                style={styles.profilePhoto}
-              />
-            </CopilotWrapper>
-          </TourGuideZone>
-        </View>
-        <View style={styles.row}>
-          <TourGuideZone zone={4} isTourGuide shape={'circle'}>
-            <CopilotWrapper>
-              <Ionicons name='ios-contact' {...iconProps} />
-            </CopilotWrapper>
-          </TourGuideZone>
-          <Ionicons name='ios-chatbubbles' {...iconProps} />
-          <Ionicons name='ios-globe' {...iconProps} />
-          <TourGuideZone zone={5} isTourGuide>
-            <CopilotWrapper>
-              <Ionicons name='ios-navigate' {...iconProps} />
-            </CopilotWrapper>
-          </TourGuideZone>
-          <TourGuideZone zone={6} isTourGuide shape={'circle'}>
-            <CopilotWrapper>
-              <Ionicons name='ios-rainy' {...iconProps} />
-            </CopilotWrapper>
-          </TourGuideZone>
-        </View>
-      </View>
-    </>
-  )
-}
-
-// {/* <TourGuideZoneByPosition
-//         zone={7}
-//         shape={'circle'}
-//         isTourGuide
-//         bottom={30}
-//         left={35}
-//         width={300}
-//         height={300}
-//       /> */}
-
-export default copilot({
-  androidStatusBarVisible: false,
-  borderRadius: 16,
-})(App)
+export default App

@@ -1,8 +1,8 @@
 import * as React from 'react'
-import PropTypes from 'prop-types'
 
 import { ConnectedCopilotStep } from './ConnectedCopilotStep'
-import { CopilotContext, Shape } from '../types'
+import { Shape } from '../types'
+import { TourGuideContext } from './TourGuideContext'
 
 interface Props {
   name: string
@@ -12,22 +12,10 @@ interface Props {
   active?: boolean
   maskOffset?: number
   borderRadius?: number
+  children: React.ReactNode
 }
 
-export class CopilotStep extends React.Component<Props> {
-  static contextTypes = {
-    _copilot: PropTypes.object,
-  }
-
-  context: {
-    _copilot: CopilotContext
-  }
-
-  render() {
-    return (
-      <ConnectedCopilotStep
-        {...{ ...this.props, _copilot: this.context._copilot }}
-      />
-    )
-  }
+export const CopilotStep = (props: Props) => {
+  const _copilot = React.useContext(TourGuideContext)
+  return <ConnectedCopilotStep {...{ ...props, _copilot }} />
 }
