@@ -11,12 +11,7 @@ import {
   ViewStyle,
 } from 'react-native'
 import { TooltipProps, Tooltip } from './Tooltip'
-import styles, {
-  MARGIN,
-  ARROW_SIZE,
-  STEP_NUMBER_DIAMETER,
-  STEP_NUMBER_RADIUS,
-} from './style'
+import styles, { MARGIN, ARROW_SIZE } from './style'
 import { IStep, ValueXY, Labels } from '../types'
 import { SvgMask } from './SvgMask'
 
@@ -146,15 +141,6 @@ export class Modal extends React.Component<ModalProps, State> {
       obj.top -= StatusBar.currentHeight || 30
     }
 
-    let stepNumberLeft = obj.left - STEP_NUMBER_RADIUS
-
-    if (stepNumberLeft < 0) {
-      stepNumberLeft = obj.left + obj.width - STEP_NUMBER_RADIUS
-      if (stepNumberLeft > layout.width! - STEP_NUMBER_DIAMETER) {
-        stepNumberLeft = layout.width! - STEP_NUMBER_DIAMETER
-      }
-    }
-
     const center = {
       x: obj.left! + obj.width! / 2,
       y: obj.top! + obj.height! / 2,
@@ -227,8 +213,11 @@ export class Modal extends React.Component<ModalProps, State> {
       useNativeDriver: true,
     })
     this.state.opacity.setValue(0)
-    // @ts-ignore
-    if (toValue !== this.state.tooltipTranslateY._value) {
+    if (
+      // @ts-ignore
+      toValue !== this.state.tooltipTranslateY._value &&
+      !this.props.currentStep?.keepTooltipPosition
+    ) {
       Animated.parallel([translateAnim, opacityAnim]).start()
     } else {
       opacityAnim.start()

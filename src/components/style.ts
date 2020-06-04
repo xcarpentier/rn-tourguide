@@ -1,7 +1,5 @@
 import { StyleSheet } from 'react-native'
 
-export const STEP_NUMBER_RADIUS: number = 14
-export const STEP_NUMBER_DIAMETER: number = STEP_NUMBER_RADIUS * 2
 export const Z_INDEX: number = 100
 export const MARGIN: number = 13
 export const OFFSET_WIDTH: number = 4
@@ -40,27 +38,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     width: '80%',
-  },
-  stepNumberContainer: {
-    position: 'absolute',
-    width: STEP_NUMBER_DIAMETER,
-    height: STEP_NUMBER_DIAMETER,
-    overflow: 'hidden',
-    zIndex: Z_INDEX + 1,
-  },
-  stepNumber: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 2,
-    borderRadius: STEP_NUMBER_RADIUS,
-    borderColor: '#FFFFFF',
-    backgroundColor: '#27ae60',
-  },
-  stepNumberText: {
-    fontSize: 10,
-    backgroundColor: 'transparent',
-    color: '#FFFFFF',
   },
   button: {
     padding: 10,

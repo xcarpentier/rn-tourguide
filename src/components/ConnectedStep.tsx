@@ -15,6 +15,7 @@ interface Props {
   children?: any
   maskOffset?: number
   borderRadius?: number
+  keepTooltipPosition?: boolean
 }
 
 export class ConnectedStep extends React.Component<Props> {
@@ -47,22 +48,12 @@ export class ConnectedStep extends React.Component<Props> {
   }
 
   register() {
-    if (this.props.context) {
-      const { name, text, order, shape, maskOffset, borderRadius } = this.props
-      if (this.props.context.registerStep) {
-        this.props.context.registerStep({
-          name,
-          text,
-          order,
-          target: this,
-          wrapper: this.wrapper,
-          shape,
-          maskOffset,
-          borderRadius,
-        })
-      } else {
-        console.warn('registerStep undefined')
-      }
+    if (this.props.context && this.props.context.registerStep) {
+      this.props.context.registerStep({
+        target: this,
+        wrapper: this.wrapper,
+        ...this.props,
+      })
     } else {
       console.warn('context undefined')
     }

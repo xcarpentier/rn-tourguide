@@ -46,6 +46,7 @@ const AppContent = () => {
     <View style={styles.container}>
       {/* Use TourGuideZone only to wrap */}
       <TourGuideZone
+        keepTooltipPosition
         zone={2}
         text={'A react-native-copilot remastered! 🎉'}
         borderRadius={16}

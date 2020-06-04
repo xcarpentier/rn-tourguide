@@ -13,6 +13,7 @@ interface Props {
   maskOffset?: number
   borderRadius?: number
   children: React.ReactNode
+  keepTooltipPosition?: boolean
 }
 
 export const Step = (props: Props) => {

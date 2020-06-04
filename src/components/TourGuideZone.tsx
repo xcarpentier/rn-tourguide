@@ -14,6 +14,7 @@ export interface TourGuideZoneProps {
   borderRadius?: number
   children?: React.ReactNode
   style?: StyleProp<ViewStyle>
+  keepTooltipPosition?: boolean
 }
 
 export const TourGuideZone = ({
@@ -25,6 +26,7 @@ export const TourGuideZone = ({
   maskOffset,
   borderRadius,
   style,
+  keepTooltipPosition,
 }: TourGuideZoneProps) => {
   if (!isTourGuide) {
     return <>{children}</>
@@ -35,9 +37,7 @@ export const TourGuideZone = ({
       text={text ?? `Zone ${zone}`}
       order={zone}
       name={`${zone}`}
-      shape={shape}
-      maskOffset={maskOffset}
-      borderRadius={borderRadius}
+      {...{ shape, maskOffset, borderRadius, keepTooltipPosition }}
     >
       <Wrapper {...{ style }}>{children}</Wrapper>
     </Step>
