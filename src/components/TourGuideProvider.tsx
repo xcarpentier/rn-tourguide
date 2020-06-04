@@ -49,7 +49,6 @@ export const TourGuideProvider = ({
   const [currentStep, updateCurrentStep] = useState<Step | undefined>()
   const [steps, setSteps] = useState<Steps>({})
   const [startTries, setStartTries] = useState<number>(0)
-  console.log({ currentStep: currentStep?.name, visible })
   const mounted = useIsMounted()
 
   const eventEmitter = useMemo(() => new mitt(), [])
