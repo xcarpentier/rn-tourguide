@@ -17,14 +17,14 @@ import styles, {
   STEP_NUMBER_DIAMETER,
   STEP_NUMBER_RADIUS,
 } from './style'
-import { Step, ValueXY, Labels } from '../types'
+import { IStep, ValueXY, Labels } from '../types'
 import { SvgMask } from './SvgMask'
 
 declare var __TEST__: boolean
 
-export interface CopilotModalProps {
+export interface ModalProps {
   ref: any
-  currentStep?: Step
+  currentStep?: IStep
   visible?: boolean
   isFirstStep: boolean
   isLastStep: boolean
@@ -67,7 +67,7 @@ interface Move {
   height: number
 }
 
-export class CopilotModal extends React.Component<CopilotModalProps, State> {
+export class Modal extends React.Component<ModalProps, State> {
   static defaultProps = {
     easing: Easing.elastic(0.7),
     animationDuration: 400,
@@ -95,11 +95,11 @@ export class CopilotModal extends React.Component<CopilotModalProps, State> {
     position: undefined,
   }
 
-  constructor(props: CopilotModalProps) {
+  constructor(props: ModalProps) {
     super(props)
   }
 
-  componentDidUpdate(prevProps: CopilotModalProps) {
+  componentDidUpdate(prevProps: ModalProps) {
     if (prevProps.visible === true && this.props.visible === false) {
       this.reset()
     }

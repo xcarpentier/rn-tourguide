@@ -11,13 +11,13 @@ interface Props {
   order: number
   active?: boolean
   shape?: Shape
-  _copilot: ITourGuideContext
+  context: ITourGuideContext
   children?: any
   maskOffset?: number
   borderRadius?: number
 }
 
-export class ConnectedCopilotStep extends React.Component<Props> {
+export class ConnectedStep extends React.Component<Props> {
   static defaultProps = {
     active: true,
   }
@@ -47,10 +47,10 @@ export class ConnectedCopilotStep extends React.Component<Props> {
   }
 
   register() {
-    if (this.props._copilot) {
+    if (this.props.context) {
       const { name, text, order, shape, maskOffset, borderRadius } = this.props
-      if (this.props._copilot.registerStep) {
-        this.props._copilot.registerStep({
+      if (this.props.context.registerStep) {
+        this.props.context.registerStep({
           name,
           text,
           order,
@@ -64,13 +64,13 @@ export class ConnectedCopilotStep extends React.Component<Props> {
         console.warn('registerStep undefined')
       }
     } else {
-      console.warn('_copilot undefined')
+      console.warn('context undefined')
     }
   }
 
   unregister() {
-    if (this.props._copilot.unregisterStep) {
-      this.props._copilot.unregisterStep(this.props.name)
+    if (this.props.context.unregisterStep) {
+      this.props.context.unregisterStep(this.props.name)
     } else {
       console.warn('unregisterStep undefined')
     }

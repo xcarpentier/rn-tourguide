@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Step } from '../types'
+import { IStep } from '../types'
 
 export type Handler = (event?: any) => void
 export interface Emitter {
@@ -10,9 +10,9 @@ export interface Emitter {
 
 export interface ITourGuideContext {
   eventEmitter?: Emitter
-  registerStep?(step: Step): void
+  registerStep?(step: IStep): void
   unregisterStep?(stepName: string): void
-  getCurrentStep?(): Step | undefined
+  getCurrentStep?(): IStep | undefined
   start?(fromStep?: number): void
   stop?(): void
 }

@@ -1,8 +1,20 @@
 import * as React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Platform,
+} from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
-import { TourGuideZone, TourGuideProvider, useTourGuideController } from './src'
+import {
+  TourGuideZone,
+  TourGuideProvider,
+  useTourGuideController,
+  TourGuideZoneByPosition,
+} from './src'
 
 const uri =
   'https://pbs.twimg.com/profile_images/1223192265969016833/U8AX9Lfn_400x400.jpg'
@@ -79,6 +91,17 @@ const AppContent = () => {
           <Ionicons name='ios-rainy' {...iconProps} />
         </TourGuideZone>
       </View>
+      {Platform.OS !== 'web' ? (
+        <TourGuideZoneByPosition
+          zone={7}
+          shape={'circle'}
+          isTourGuide
+          top={30}
+          left={35}
+          width={300}
+          height={300}
+        />
+      ) : null}
     </View>
   )
 }

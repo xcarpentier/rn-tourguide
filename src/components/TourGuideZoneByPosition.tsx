@@ -1,18 +1,17 @@
 import * as React from 'react'
 import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native'
 import { TourGuideZone } from './TourGuideZone'
-import { CopilotWrapper } from './CopilotWrapper'
 import { Shape } from '../types'
 
 interface TourGuideZoneByPositionProps {
   zone: number
   isTourGuide?: boolean
-  top?: number
-  left?: number
-  right?: number
-  bottom?: number
-  width?: number
-  height?: number
+  top?: number | string
+  left?: number | string
+  right?: number | string
+  bottom?: number | string
+  width?: number | string
+  height?: number | string
   shape?: Shape
   containerStyle?: StyleProp<ViewStyle>
 }
@@ -38,18 +37,19 @@ export const TourGuideZoneByPosition = ({
       pointerEvents='none'
       style={[StyleSheet.absoluteFillObject, containerStyle]}
     >
-      <TourGuideZone zone={zone} isTourGuide shape={shape}>
-        <CopilotWrapper
-          style={{
-            height,
-            width,
-            top,
-            right,
-            bottom,
-            left,
-          }}
-        />
-      </TourGuideZone>
+      <TourGuideZone
+        zone={zone}
+        isTourGuide
+        shape={shape}
+        style={{
+          height,
+          width,
+          top,
+          right,
+          bottom,
+          left,
+        }}
+      />
     </View>
   )
 }

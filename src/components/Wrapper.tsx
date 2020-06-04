@@ -1,16 +1,12 @@
 import * as React from 'react'
 import { View, StyleProp, ViewStyle } from 'react-native'
 
-interface CopilotWrapperProps {
+interface WrapperProps {
   copilot?: any
   children?: React.ReactNode
   style?: StyleProp<ViewStyle>
 }
-export const CopilotWrapper = ({
-  copilot,
-  children,
-  style,
-}: CopilotWrapperProps) => (
+export const Wrapper = ({ copilot, children, style }: WrapperProps) => (
   <View style={style} {...copilot}>
     {children}
   </View>

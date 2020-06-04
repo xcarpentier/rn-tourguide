@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { ConnectedCopilotStep } from './ConnectedCopilotStep'
+import { ConnectedStep } from './ConnectedStep'
 import { Shape } from '../types'
 import { TourGuideContext } from './TourGuideContext'
 
@@ -15,7 +15,7 @@ interface Props {
   children: React.ReactNode
 }
 
-export const CopilotStep = (props: Props) => {
-  const _copilot = React.useContext(TourGuideContext)
-  return <ConnectedCopilotStep {...{ ...props, _copilot }} />
+export const Step = (props: Props) => {
+  const context = React.useContext(TourGuideContext)
+  return <ConnectedStep {...{ ...props, context }} />
 }

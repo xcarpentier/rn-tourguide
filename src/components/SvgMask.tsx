@@ -12,7 +12,7 @@ import {
 import Svg, { PathProps } from 'react-native-svg'
 
 import { AnimatedSvgPath } from './AnimatedPath'
-import { ValueXY, Step } from '../types'
+import { ValueXY, IStep } from '../types'
 import { svgMaskPathMorph } from '../utilities'
 
 const windowDimensions = Dimensions.get('window')
@@ -25,7 +25,7 @@ interface Props {
   backdropColor: string
   maskOffset?: number
   borderRadius?: number
-  currentStep?: Step
+  currentStep?: IStep
   easing?(value: number): number
 }
 

@@ -1,5 +1,5 @@
 import {
-  Step,
+  IStep,
   Steps,
   SVGMaskPathMorphParam,
   ValueXY,
@@ -11,36 +11,36 @@ import { interpolate, toCircle, separate } from 'flubber'
 import memoize from 'memoize-one'
 import clamp from 'lodash.clamp'
 
-export const getFirstStep = (steps: Steps): Step | null =>
+export const getFirstStep = (steps: Steps): IStep | null =>
   steps &&
   Object.values(steps).reduce(
-    (a: Step | null, b) => (!a || a.order > b.order ? b : a),
+    (a: IStep | null, b) => (!a || a.order > b.order ? b : a),
     null,
   )
 
-export const getLastStep = (steps: Steps): Step | null =>
+export const getLastStep = (steps: Steps): IStep | null =>
   steps &&
   Object.values(steps).reduce(
-    (a: Step | null, b) => (!a || a.order < b.order ? b : a),
+    (a: IStep | null, b) => (!a || a.order < b.order ? b : a),
     null,
   )
 
-export const getStepNumber = (steps: Steps, step?: Step): number | undefined =>
+export const getStepNumber = (steps: Steps, step?: IStep): number | undefined =>
   step &&
   Object.values(steps).filter((_step) => _step.order <= step.order).length
 
-export const getPrevStep = (steps: Steps, step?: Step): Step | null =>
+export const getPrevStep = (steps: Steps, step?: IStep): IStep | null =>
   Object.values(steps)
     .filter((_step) => _step.order < step!.order)
-    .reduce((a: Step | null, b) => (!a || a.order < b.order ? b : a), null)
+    .reduce((a: IStep | null, b) => (!a || a.order < b.order ? b : a), null)
 
 export const getNextStep = (
   steps: Steps,
-  step?: Step,
-): Step | null | undefined =>
+  step?: IStep,
+): IStep | null | undefined =>
   Object.values(steps)
     .filter((_step) => _step.order > step!.order)
-    .reduce((a: Step | null, b) => (!a || a.order > b.order ? b : a), null) ||
+    .reduce((a: IStep | null, b) => (!a || a.order > b.order ? b : a), null) ||
   step
 
 const headPath = /^M0,0H\d*\.?\d*V\d*\.?\d*H0V0Z/
@@ -109,18 +109,18 @@ const positionOffset = memoize((position: ValueXY, maskOffset: number = 0) =>
     : position,
 )
 
-const getMaxSegmentLength = (shape: Shape) => {
+const getMaxSegmentLength = memoize((shape: Shape) => {
   switch (shape) {
     case 'circle':
     case 'circle_and_keep':
-      return 7
+      return 10
     case 'rectangle_and_keep':
       return 25
 
     default:
       return 15
   }
-}
+})
 
 const getInterpolator = memoize(
   (

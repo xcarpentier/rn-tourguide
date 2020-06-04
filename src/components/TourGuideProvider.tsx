@@ -2,10 +2,10 @@ import * as React from 'react'
 import { StyleSheet, StyleProp, ViewStyle, View } from 'react-native'
 import mitt from 'mitt'
 
-import { Steps, Step, Labels, StepObject } from '../types'
+import { Steps, IStep, Labels, StepObject } from '../types'
 import { TourGuideContext } from '../components/TourGuideContext'
 import { useIsMounted } from '../hooks/useIsMounted'
-import { CopilotModal } from './CopilotModal'
+import { Modal } from './Modal'
 import { TooltipProps } from './Tooltip'
 import { OFFSET_WIDTH } from './style'
 import * as utils from '../utilities'
@@ -46,7 +46,7 @@ export const TourGuideProvider = ({
   verticalOffset,
 }: TourGuideProviderProps) => {
   const [visible, setVisible] = useState<boolean | undefined>(undefined)
-  const [currentStep, updateCurrentStep] = useState<Step | undefined>()
+  const [currentStep, updateCurrentStep] = useState<IStep | undefined>()
   const [steps, setSteps] = useState<Steps>({})
   const [startTries, setStartTries] = useState<number>(0)
   const mounted = useIsMounted()
@@ -78,7 +78,7 @@ export const TourGuideProvider = ({
     })
   }
 
-  const setCurrentStep = (step?: Step) =>
+  const setCurrentStep = (step?: IStep) =>
     new Promise<void>((resolve) => {
       updateCurrentStep(() => {
         eventEmitter.emit('stepChange', step)
@@ -87,10 +87,10 @@ export const TourGuideProvider = ({
       })
     })
 
-  const getNextStep = (step: Step | undefined = currentStep) =>
+  const getNextStep = (step: IStep | undefined = currentStep) =>
     utils.getNextStep(steps!, step)
 
-  const getPrevStep = (step: Step | undefined = currentStep) =>
+  const getPrevStep = (step: IStep | undefined = currentStep) =>
     utils.getPrevStep(steps!, step)
 
   const getFirstStep = () => utils.getFirstStep(steps!)
@@ -112,7 +112,7 @@ export const TourGuideProvider = ({
     setCurrentStep(undefined)
   }
 
-  const registerStep = (step: Step) => {
+  const registerStep = (step: IStep) => {
     setSteps((previousSteps) => ({
       ...previousSteps,
       [step.name]: step,
@@ -166,7 +166,7 @@ export const TourGuideProvider = ({
         }}
       >
         {children}
-        <CopilotModal
+        <Modal
           ref={modal}
           {...{
             next,

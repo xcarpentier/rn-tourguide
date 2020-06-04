@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 
-import { CopilotStep } from './CopilotStep'
+import { Step } from './Step'
 import { Shape } from '../types'
-import { CopilotWrapper } from './CopilotWrapper'
+import { Wrapper } from './Wrapper'
 
 export interface TourGuideZoneProps {
   zone: number
@@ -12,7 +12,7 @@ export interface TourGuideZoneProps {
   shape?: Shape
   maskOffset?: number
   borderRadius?: number
-  children: React.ReactNode
+  children?: React.ReactNode
   style?: StyleProp<ViewStyle>
 }
 
@@ -31,7 +31,7 @@ export const TourGuideZone = ({
   }
 
   return (
-    <CopilotStep
+    <Step
       text={text ?? `Zone ${zone}`}
       order={zone}
       name={`${zone}`}
@@ -39,7 +39,7 @@ export const TourGuideZone = ({
       maskOffset={maskOffset}
       borderRadius={borderRadius}
     >
-      <CopilotWrapper {...{ style }}>{children}</CopilotWrapper>
-    </CopilotStep>
+      <Wrapper {...{ style }}>{children}</Wrapper>
+    </Step>
   )
 }
