@@ -14,6 +14,7 @@ interface TourGuideZoneByPositionProps {
   height?: number | string
   shape?: Shape
   containerStyle?: StyleProp<ViewStyle>
+  keepTooltipPosition?: boolean
 }
 
 export const TourGuideZoneByPosition = ({
@@ -27,6 +28,7 @@ export const TourGuideZoneByPosition = ({
   bottom,
   shape,
   containerStyle,
+  keepTooltipPosition,
 }: TourGuideZoneByPositionProps) => {
   if (!isTourGuide) {
     return null
@@ -38,9 +40,8 @@ export const TourGuideZoneByPosition = ({
       style={[StyleSheet.absoluteFillObject, containerStyle]}
     >
       <TourGuideZone
-        zone={zone}
         isTourGuide
-        shape={shape}
+        {...{ zone, shape, keepTooltipPosition }}
         style={{
           height,
           width,
