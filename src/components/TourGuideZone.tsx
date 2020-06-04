@@ -11,6 +11,7 @@ export interface TourGuideZoneProps {
   maskOffset?: number
   borderRadius?: number
   children: React.ReactNode
+  style?: StyleProp<ViewStyle>
 }
 
 export const TourGuideZone = ({
@@ -21,6 +22,7 @@ export const TourGuideZone = ({
   text,
   maskOffset,
   borderRadius,
+  style,
 }: TourGuideZoneProps) => {
   if (!isTourGuide) {
     return <>{children}</>
@@ -35,7 +37,7 @@ export const TourGuideZone = ({
       maskOffset={maskOffset}
       borderRadius={borderRadius}
     >
-      <CopilotWrapper>{children}</CopilotWrapper>
+      <CopilotWrapper {...{ style }}>{children}</CopilotWrapper>
     </CopilotStep>
   )
 }
