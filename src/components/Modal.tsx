@@ -2,18 +2,18 @@ import * as React from 'react'
 import {
   Animated,
   Easing,
-  View,
-  StatusBar,
-  Platform,
-  StyleSheet,
   LayoutChangeEvent,
+  Platform,
+  StatusBar,
   StyleProp,
+  StyleSheet,
+  View,
   ViewStyle,
 } from 'react-native'
-import { TooltipProps, Tooltip } from './Tooltip'
-import styles, { MARGIN, ARROW_SIZE } from './style'
-import { IStep, ValueXY, Labels } from '../types'
+import { IStep, Labels, ValueXY } from '../types'
+import styles, { MARGIN } from './style'
 import { SvgMask } from './SvgMask'
+import { Tooltip, TooltipProps } from './Tooltip'
 
 declare var __TEST__: boolean
 
@@ -163,23 +163,11 @@ export class Modal extends React.Component<ModalProps, State> {
       maxWidth: 0,
       left: 0,
     }
-    const arrow = {
-      borderBottomColor: '',
-      top: 0,
-      borderTopColor: '',
-      bottom: 0,
-      right: 0,
-      left: 0,
-    }
 
     if (verticalPosition === 'bottom') {
       tooltip.top = obj.top + obj.height + MARGIN
-      arrow.borderBottomColor = '#fff'
-      arrow.top = tooltip.top - ARROW_SIZE * 2
     } else {
       tooltip.bottom = layout.height! - (obj.top - MARGIN)
-      arrow.borderTopColor = '#fff'
-      arrow.bottom = tooltip.bottom - ARROW_SIZE * 2
     }
 
     if (horizontalPosition === 'left') {
@@ -187,12 +175,10 @@ export class Modal extends React.Component<ModalProps, State> {
       tooltip.right =
         tooltip.right === 0 ? tooltip.right + MARGIN : tooltip.right
       tooltip.maxWidth = layout.width! - tooltip.right - MARGIN
-      arrow.right = tooltip.right + MARGIN
     } else {
       tooltip.left = Math.max(obj.left, 0)
       tooltip.left = tooltip.left === 0 ? tooltip.left + MARGIN : tooltip.left
       tooltip.maxWidth = layout.width! - tooltip.left - MARGIN
-      arrow.left = tooltip.left + MARGIN
     }
 
     const duration = this.props.animationDuration! + 200

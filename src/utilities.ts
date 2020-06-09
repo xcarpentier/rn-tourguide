@@ -1,15 +1,15 @@
+// @ts-ignore
+import { interpolate, separate, splitPathString, toCircle } from 'flubber'
+import clamp from 'lodash.clamp'
+import memoize from 'memoize-one'
 import {
   IStep,
+  Shape,
   Steps,
   SVGMaskPathMorphParam,
-  ValueXY,
-  Shape,
   SvgPath,
+  ValueXY,
 } from './types'
-// @ts-ignore
-import { interpolate, toCircle, separate } from 'flubber'
-import memoize from 'memoize-one'
-import clamp from 'lodash.clamp'
 
 export const getFirstStep = (steps: Steps): IStep | null =>
   steps &&
@@ -85,10 +85,13 @@ export const circleSvgPath = ({
   size: ValueXY
   position: ValueXY
 }): SvgPath => {
-  const radius = Math.max(size.x, size.y) / 2
-  return `M${position.x},${position.y}A${radius} ${radius} 0 1 0 ${
-    radius * 2
-  } 0 ${radius} ${radius} 0 1 0 -${radius * 2} 0`
+  const radius = Math.round(Math.max(size.x, size.y) / 2)
+  return [
+    `M${position.x - size.x / 8},${position.y + size.y / 2}`,
+    `a${radius} ${radius} 0 1 0 ${radius * 2} 0 ${radius} ${radius} 0 1 0-${
+      radius * 2
+    } 0`,
+  ].join('')
 }
 
 const sizeOffset = memoize((size: ValueXY, maskOffset: number = 0) =>
@@ -113,13 +116,18 @@ const getMaxSegmentLength = memoize((shape: Shape) => {
   switch (shape) {
     case 'circle':
     case 'circle_and_keep':
-      return 10
+      return 15
     case 'rectangle_and_keep':
       return 25
 
     default:
       return 15
   }
+})
+
+const getSplitPathSliceOne = memoize((path: SvgPath) => {
+  const splitPath = splitPathString(path)
+  return splitPath.length > 1 ? splitPath.slice(1).join('') : path
 })
 
 const getInterpolator = memoize(
@@ -153,33 +161,39 @@ const getInterpolator = memoize(
         Math.max(size.x, size.y) / 2 + maskOffset,
         options,
       )
+
     switch (shape) {
       case 'circle':
         return getCircleInterpolator()
       case 'rectangle':
         return getDefaultInterpolate()
-      case 'circle_and_keep':
+      case 'circle_and_keep': {
+        const path = getSplitPathSliceOne(previousPath)
         return separate(
           previousPath,
           [
-            previousPath,
+            path,
             circleSvgPath({ size: sizeOffset(size, maskOffset), position }),
           ],
           optionsKeep,
         )
-      case 'rectangle_and_keep':
+      }
+
+      case 'rectangle_and_keep': {
+        const path = getSplitPathSliceOne(previousPath)
         return separate(
           previousPath,
           [
+            path,
             defaultSvgPath({
               size: sizeOffset(size, maskOffset),
               position: positionOffset(position, maskOffset),
               borderRadius,
             }),
-            previousPath,
           ],
           optionsKeep,
         )
+      }
       default:
         return getDefaultInterpolate()
     }

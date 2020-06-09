@@ -1,19 +1,18 @@
+import { Ionicons } from '@expo/vector-icons'
 import * as React from 'react'
 import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
   Image,
   Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
-
 import {
-  TourGuideZone,
   TourGuideProvider,
-  useTourGuideController,
+  TourGuideZone,
   TourGuideZoneByPosition,
+  useTourGuideController,
 } from './src'
 
 const uri =
@@ -46,8 +45,8 @@ const AppContent = () => {
     <View style={styles.container}>
       {/* Use TourGuideZone only to wrap */}
       <TourGuideZone
-        keepTooltipPosition
-        zone={2}
+        zone={1}
+        shape={'rectangle_and_keep'}
         text={'A react-native-copilot remastered! 🎉'}
         borderRadius={16}
       >
@@ -72,15 +71,15 @@ const AppContent = () => {
           <Text style={styles.buttonText}>Stop</Text>
         </TouchableOpacity>
         <TourGuideZone
-          zone={1}
-          shape='circle'
+          zone={2}
+          shape='circle_and_keep'
           text={'With animated SVG morphing with awesome flubber 🍮💯'}
         >
           <Image source={{ uri }} style={styles.profilePhoto} />
         </TourGuideZone>
       </View>
       <View style={styles.row}>
-        <TourGuideZone zone={4} shape={'circle'}>
+        <TourGuideZone zone={4} shape={'circle_and_keep'}>
           <Ionicons name='ios-contact' {...iconProps} />
         </TourGuideZone>
         <Ionicons name='ios-chatbubbles' {...iconProps} />
@@ -88,7 +87,7 @@ const AppContent = () => {
         <TourGuideZone zone={5}>
           <Ionicons name='ios-navigate' {...iconProps} />
         </TourGuideZone>
-        <TourGuideZone zone={6} shape={'circle'}>
+        <TourGuideZone zone={6} shape={'circle_and_keep'}>
           <Ionicons name='ios-rainy' {...iconProps} />
         </TourGuideZone>
       </View>

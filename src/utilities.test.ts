@@ -1,5 +1,5 @@
+import { IStep } from './types'
 import * as utilities from './utilities'
-import { Step } from './types'
 
 describe('getFirstStep', () => {
   test('empty steps array', () => {
@@ -14,7 +14,7 @@ describe('getFirstStep', () => {
       { name: 'Step3', order: 2 },
     ]
 
-    const firstStep = utilities.getFirstStep(steps as Step[])
+    const firstStep = utilities.getFirstStep(steps as IStep[])
     expect(firstStep).toBe(steps[0])
   })
 
@@ -25,7 +25,7 @@ describe('getFirstStep', () => {
       { name: 'Step2', order: 1 },
     ]
 
-    const firstStep = utilities.getFirstStep(steps as Step[])
+    const firstStep = utilities.getFirstStep(steps as IStep[])
     expect(firstStep).toBe(steps[1])
   })
 
@@ -36,7 +36,7 @@ describe('getFirstStep', () => {
       { name: 'Step2', order: 150 },
     ]
 
-    const firstStep = utilities.getFirstStep(steps as Step[])
+    const firstStep = utilities.getFirstStep(steps as IStep[])
     expect(firstStep).toBe(steps[1])
   })
 })
@@ -54,7 +54,7 @@ describe('getLastStep', () => {
       { name: 'Step3', order: 2 },
     ]
 
-    const lastStep = utilities.getLastStep(steps as Step[])
+    const lastStep = utilities.getLastStep(steps as IStep[])
     expect(lastStep).toBe(steps[2])
   })
 
@@ -65,7 +65,7 @@ describe('getLastStep', () => {
       { name: 'Step2', order: 1 },
     ]
 
-    const lastStep = utilities.getLastStep(steps as Step[])
+    const lastStep = utilities.getLastStep(steps as IStep[])
     expect(lastStep).toBe(steps[0])
   })
 
@@ -76,7 +76,7 @@ describe('getLastStep', () => {
       { name: 'Step2', order: 150 },
     ]
 
-    const lastStep = utilities.getLastStep(steps as Step[])
+    const lastStep = utilities.getLastStep(steps as IStep[])
     expect(lastStep).toBe(steps[0])
   })
 })
@@ -92,7 +92,7 @@ describe('getStepNumber', () => {
       { name: 'Step1', order: 1 },
       { name: 'Step2', order: 2 },
       { name: 'Step3', order: 3 },
-    ] as Step[]
+    ] as IStep[]
 
     expect(utilities.getStepNumber(steps, steps[0])).toBe(1)
     expect(utilities.getStepNumber(steps, steps[1])).toBe(2)
@@ -104,7 +104,7 @@ describe('getStepNumber', () => {
       { name: 'Step2', order: 400 },
       { name: 'Step3', order: 670 },
       { name: 'Step1', order: 140 },
-    ] as Step[]
+    ] as IStep[]
 
     expect(utilities.getStepNumber(steps, steps[0])).toBe(2)
     expect(utilities.getStepNumber(steps, steps[1])).toBe(3)
@@ -123,7 +123,7 @@ describe('getPrevStep', () => {
       { name: 'Step1', order: 1 },
       { name: 'Step2', order: 2 },
       { name: 'Step3', order: 3 },
-    ] as Step[]
+    ] as IStep[]
 
     expect(utilities.getPrevStep(steps, steps[0])).toBe(null)
     expect(utilities.getPrevStep(steps, steps[1])).toBe(steps[0])
@@ -135,7 +135,7 @@ describe('getPrevStep', () => {
       { name: 'Step2', order: 400 },
       { name: 'Step3', order: 670 },
       { name: 'Step1', order: 140 },
-    ] as Step[]
+    ] as IStep[]
 
     expect(utilities.getPrevStep(steps, steps[0])).toBe(steps[2])
     expect(utilities.getPrevStep(steps, steps[1])).toBe(steps[0])
@@ -154,7 +154,7 @@ describe('getNextStep', () => {
       { name: 'Step1', order: 1 },
       { name: 'Step2', order: 2 },
       { name: 'Step3', order: 3 },
-    ] as Step[]
+    ] as IStep[]
 
     expect(utilities.getNextStep(steps, steps[0])).toBe(steps[1])
     expect(utilities.getNextStep(steps, steps[1])).toBe(steps[2])
@@ -166,7 +166,7 @@ describe('getNextStep', () => {
       { name: 'Step2', order: 400 },
       { name: 'Step3', order: 670 },
       { name: 'Step1', order: 140 },
-    ] as Step[]
+    ] as IStep[]
 
     expect(utilities.getNextStep(steps, steps[0])).toBe(steps[1])
     // expect(utilities.getNextStep(steps, steps[1])).toBe(null);
