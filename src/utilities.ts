@@ -116,7 +116,7 @@ const getMaxSegmentLength = memoize((shape: Shape) => {
   switch (shape) {
     case 'circle':
     case 'circle_and_keep':
-      return 15
+      return 7
     case 'rectangle_and_keep':
       return 25
 
