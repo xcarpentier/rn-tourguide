@@ -10,10 +10,13 @@ export interface Emitter {
 
 export interface ITourGuideContext {
   eventEmitter?: Emitter
+  canStart: boolean
   registerStep?(step: IStep): void
   unregisterStep?(stepName: string): void
   getCurrentStep?(): IStep | undefined
   start?(fromStep?: number): void
   stop?(): void
 }
-export const TourGuideContext = React.createContext<ITourGuideContext>({})
+export const TourGuideContext = React.createContext<ITourGuideContext>({
+  canStart: false,
+})

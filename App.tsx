@@ -21,7 +21,7 @@ const uri =
 // Add <TourGuideProvider/> at the root of you app!
 function App() {
   return (
-    <TourGuideProvider {...{ borderRadius: 16, startAtMount: true }}>
+    <TourGuideProvider {...{ borderRadius: 16 }}>
       <AppContent />
     </TourGuideProvider>
   )
@@ -31,16 +31,21 @@ const AppContent = () => {
   const iconProps = { size: 40, color: '#888' }
 
   // Use Hooks to control!
-  const { start, stop, eventEmitter } = useTourGuideController()
+  const { start, canStart, stop, eventEmitter } = useTourGuideController()
+
+  React.useEffect(() => {
+    // start at mount
+    if (canStart) {
+      start()
+    }
+  }, [canStart]) // wait until everything is registered
 
   React.useEffect(() => {
     eventEmitter.on('start', () => console.log('start'))
     eventEmitter.on('stop', () => console.log('stop'))
     eventEmitter.on('stepChange', () => console.log(`stepChange`))
-
     return () => eventEmitter.off('*', null)
   }, [])
-
   return (
     <View style={styles.container}>
       {/* Use TourGuideZone only to wrap */}

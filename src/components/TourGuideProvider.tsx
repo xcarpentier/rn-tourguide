@@ -49,6 +49,7 @@ export const TourGuideProvider = ({
   const [visible, setVisible] = useState<boolean | undefined>(undefined)
   const [currentStep, updateCurrentStep] = useState<IStep | undefined>()
   const [steps, setSteps] = useState<Steps>({})
+  const [canStart, setCanStart] = useState<boolean>(false)
 
   const startTries = useRef<number>(0)
   const mounted = useIsMounted()
@@ -70,8 +71,11 @@ export const TourGuideProvider = ({
   }, [visible, currentStep])
 
   useEffect(() => {
-    if (startAtMount && mounted && Object.entries(steps).length > 0) {
-      start()
+    if (mounted && Object.entries(steps).length > 0) {
+      setCanStart(true)
+      if (startAtMount) {
+        start()
+      }
     }
   }, [mounted, steps])
 
@@ -172,6 +176,7 @@ export const TourGuideProvider = ({
           getCurrentStep,
           start,
           stop,
+          canStart,
         }}
       >
         {children}

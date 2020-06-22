@@ -74,6 +74,13 @@ const AppContent = () => {
   // Use Hooks to control!
   const { start, stop, eventEmitter } = useTourGuideController()
 
+  // Can start at mount 🎉
+  React.useEffect(() => {
+    if (canStart) {
+      start()
+    }
+  }, [canStart]) // but need to wait until everything is registered 😁
+
   React.useEffect(() => {
     eventEmitter.on('start', () => console.log('start'))
     eventEmitter.on('stop', () => console.log('stop'))
@@ -159,6 +166,7 @@ interface TourGuideZoneProps {
   shape?: Shape // which shape
   maskOffset?: number // offset around zone
   borderRadius?: number // round corner when rectangle
+  startAtMount?: boolean //  start at mount
   children: React.ReactNode
 }
 
