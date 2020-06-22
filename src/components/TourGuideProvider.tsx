@@ -1,14 +1,13 @@
-import * as React from 'react'
-import { StyleSheet, StyleProp, ViewStyle, View } from 'react-native'
 import mitt from 'mitt'
-
-import { Steps, IStep, Labels, StepObject } from '../types'
+import * as React from 'react'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { TourGuideContext } from '../components/TourGuideContext'
 import { useIsMounted } from '../hooks/useIsMounted'
-import { Modal } from './Modal'
-import { TooltipProps } from './Tooltip'
-import { OFFSET_WIDTH } from './style'
+import { IStep, Labels, StepObject, Steps } from '../types'
 import * as utils from '../utilities'
+import { Modal } from './Modal'
+import { OFFSET_WIDTH } from './style'
+import { TooltipProps } from './Tooltip'
 
 const { useMemo, useEffect, useState, useRef } = React
 
@@ -23,6 +22,7 @@ export interface TourGuideProviderProps {
   tooltipStyle?: StyleProp<ViewStyle>
   labels?: Labels
   androidStatusBarVisible?: boolean
+  startAtMount?: boolean
   backdropColor?: string
   verticalOffset?: number
   wrapperStyle?: StyleProp<ViewStyle>
@@ -44,11 +44,13 @@ export const TourGuideProvider = ({
   maskOffset,
   borderRadius,
   verticalOffset,
+  startAtMount = false,
 }: TourGuideProviderProps) => {
   const [visible, setVisible] = useState<boolean | undefined>(undefined)
   const [currentStep, updateCurrentStep] = useState<IStep | undefined>()
   const [steps, setSteps] = useState<Steps>({})
-  const [startTries, setStartTries] = useState<number>(0)
+
+  const startTries = useRef<number>(0)
   const mounted = useIsMounted()
 
   const eventEmitter = useMemo(() => new mitt(), [])
@@ -66,6 +68,12 @@ export const TourGuideProvider = ({
       moveToCurrentStep()
     }
   }, [visible, currentStep])
+
+  useEffect(() => {
+    if (startAtMount && mounted && Object.entries(steps).length > 0) {
+      start()
+    }
+  }, [mounted, steps])
 
   const moveToCurrentStep = async () => {
     const size = await currentStep!.target.measure()
@@ -113,10 +121,12 @@ export const TourGuideProvider = ({
   }
 
   const registerStep = (step: IStep) => {
-    setSteps((previousSteps) => ({
-      ...previousSteps,
-      [step.name]: step,
-    }))
+    setSteps((previousSteps) => {
+      return {
+        ...previousSteps,
+        [step.name]: step,
+      }
+    })
   }
 
   const unregisterStep = (stepName: string) => {
@@ -137,19 +147,18 @@ export const TourGuideProvider = ({
       ? (steps as StepObject)[fromStep]
       : getFirstStep()
 
-    if (startTries > MAX_START_TRIES) {
-      setStartTries(0)
+    if (startTries.current > MAX_START_TRIES) {
+      startTries.current = 0
       return
     }
-
     if (!currentStep) {
-      setStartTries(startTries + 1)
-      start(fromStep)
+      startTries.current += 1
+      requestAnimationFrame(() => start(fromStep))
     } else {
       eventEmitter.emit('start')
       await setCurrentStep(currentStep!)
       setVisible(true)
-      setStartTries(0)
+      startTries.current = 0
     }
   }
 
