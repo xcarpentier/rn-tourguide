@@ -72,7 +72,7 @@ const AppContent = () => {
   const iconProps = { size: 40, color: '#888' }
 
   // Use Hooks to control!
-  const { start, stop, eventEmitter } = useTourGuideController()
+  const { start, stop, eventEmitter, canStart } = useTourGuideController()
 
   // Can start at mount 🎉
   React.useEffect(() => {
