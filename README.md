@@ -72,14 +72,21 @@ const AppContent = () => {
   const iconProps = { size: 40, color: '#888' }
 
   // Use Hooks to control!
-  const { start, stop, eventEmitter, canStart } = useTourGuideController()
+  const {
+    canStart, // a boolean indicate if you can start tour guide
+    start, // a function to start the tourguide
+    stop, // a function  to stopping it
+    eventEmitter, // an object for listening some events
+  } = useTourGuideController()
 
   // Can start at mount 🎉
+  // you need to wait until everything is registered 😁
   React.useEffect(() => {
     if (canStart) {
+      // 👈 test if you can start otherwise nothing will happen
       start()
     }
-  }, [canStart]) // but need to wait until everything is registered 😁
+  }, [canStart]) // 👈 don't miss it!
 
   React.useEffect(() => {
     eventEmitter.on('start', () => console.log('start'))
