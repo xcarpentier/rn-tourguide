@@ -1,7 +1,6 @@
 import * as React from 'react'
-
-import { ConnectedStep } from './ConnectedStep'
 import { Shape } from '../types'
+import { ConnectedStep } from './ConnectedStep'
 import { TourGuideContext } from './TourGuideContext'
 
 interface Props {
@@ -14,6 +13,7 @@ interface Props {
   borderRadius?: number
   children: React.ReactNode
   keepTooltipPosition?: boolean
+  tooltipBottomOffset?: number
 }
 
 export const Step = (props: Props) => {

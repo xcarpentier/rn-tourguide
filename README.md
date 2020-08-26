@@ -174,6 +174,8 @@ interface TourGuideZoneProps {
   maskOffset?: number // offset around zone
   borderRadius?: number // round corner when rectangle
   startAtMount?: boolean //  start at mount
+  keepTooltipPosition?: boolean
+  tooltipBottomOffset?: number
   children: React.ReactNode
 }
 

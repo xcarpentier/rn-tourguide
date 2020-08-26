@@ -76,7 +76,7 @@ const AppContent = () => {
           <Text style={styles.buttonText}>Stop</Text>
         </TouchableOpacity>
         <TourGuideZone
-          zone={1}
+          zone={7}
           shape='circle'
           text={'With animated SVG morphing with awesome flubber 🍮💯'}
         >
@@ -84,7 +84,7 @@ const AppContent = () => {
         </TourGuideZone>
       </View>
       <View style={styles.row}>
-        <TourGuideZone zone={4} shape={'circle'}>
+        <TourGuideZone zone={4} shape={'circle'} tooltipBottomOffset={200}>
           <Ionicons name='ios-contact' {...iconProps} />
         </TourGuideZone>
         <Ionicons name='ios-chatbubbles' {...iconProps} />
@@ -98,13 +98,13 @@ const AppContent = () => {
       </View>
       {Platform.OS !== 'web' ? (
         <TourGuideZoneByPosition
-          zone={7}
+          zone={1}
           shape={'circle'}
           isTourGuide
-          top={30}
-          left={35}
-          width={300}
-          height={300}
+          top={191}
+          left={88}
+          width={64}
+          height={64}
         />
       ) : null}
     </View>

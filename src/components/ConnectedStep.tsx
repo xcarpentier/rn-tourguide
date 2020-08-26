@@ -1,5 +1,4 @@
 import * as React from 'react'
-
 import { Shape } from '../types'
 import { ITourGuideContext } from './TourGuideContext'
 
@@ -16,6 +15,7 @@ interface Props {
   maskOffset?: number
   borderRadius?: number
   keepTooltipPosition?: boolean
+  tooltipBottomOffset?: number
 }
 
 export class ConnectedStep extends React.Component<Props> {
