@@ -275,6 +275,7 @@ export class Modal extends React.Component<ModalProps, State> {
     const { opacity } = this.state
     return (
       <Animated.View
+        pointerEvents='box-none'
         key='tooltip'
         style={[
           styles.tooltip,
