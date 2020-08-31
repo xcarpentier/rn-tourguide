@@ -219,6 +219,7 @@ const getInterpolator = memoize(
               size: sizeOffset(size, maskOffset),
               position: positionOffset(position, maskOffset),
               borderRadius,
+              borderRadiusObject,
             }),
           ],
           optionsKeep,

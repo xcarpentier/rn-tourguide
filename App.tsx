@@ -99,7 +99,7 @@ const AppContent = () => {
       {Platform.OS !== 'web' ? (
         <TourGuideZoneByPosition
           zone={1}
-          shape={'rectangle'}
+          shape={'rectangle_and_keep'}
           isTourGuide
           top={191}
           left={88}
