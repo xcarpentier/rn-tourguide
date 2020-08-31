@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
-import { Shape } from '../types'
+import { BorderRadiusObject, Shape } from '../types'
 import { Step } from './Step'
 import { Wrapper } from './Wrapper'
 
@@ -15,6 +15,7 @@ export interface TourGuideZoneProps {
   style?: StyleProp<ViewStyle>
   keepTooltipPosition?: boolean
   tooltipBottomOffset?: number
+  borderRadiusObject?: BorderRadiusObject
 }
 
 export const TourGuideZone = ({
@@ -28,6 +29,7 @@ export const TourGuideZone = ({
   style,
   keepTooltipPosition,
   tooltipBottomOffset,
+  borderRadiusObject,
 }: TourGuideZoneProps) => {
   if (!isTourGuide) {
     return <>{children}</>
@@ -44,6 +46,7 @@ export const TourGuideZone = ({
         borderRadius,
         keepTooltipPosition,
         tooltipBottomOffset,
+        borderRadiusObject,
       }}
     >
       <Wrapper {...{ style }}>{children}</Wrapper>

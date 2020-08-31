@@ -10,7 +10,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
-import { IStep, Labels, ValueXY } from '../types'
+import { BorderRadiusObject, IStep, Labels, ValueXY } from '../types'
 import styles, { MARGIN } from './style'
 import { SvgMask } from './SvgMask'
 import { Tooltip, TooltipProps } from './Tooltip'
@@ -28,6 +28,7 @@ export interface ModalProps {
   tooltipStyle?: StyleProp<ViewStyle>
   maskOffset?: number
   borderRadius?: number
+  borderRadiusObject?: BorderRadiusObject
   androidStatusBarVisible: boolean
   backdropColor: string
   labels: Labels

@@ -99,12 +99,16 @@ const AppContent = () => {
       {Platform.OS !== 'web' ? (
         <TourGuideZoneByPosition
           zone={1}
-          shape={'circle'}
+          shape={'rectangle'}
           isTourGuide
           top={191}
           left={88}
           width={64}
           height={64}
+          borderRadiusObject={{
+            topLeft: 0,
+            bottomRight: 0,
+          }}
         />
       ) : null}
     </View>

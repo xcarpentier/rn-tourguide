@@ -1,19 +1,18 @@
 import React, { Component } from 'react'
 import {
-  View,
   Animated,
-  Easing,
   Dimensions,
-  StyleProp,
-  ViewStyle,
+  Easing,
   LayoutChangeEvent,
   Platform,
+  StyleProp,
+  View,
+  ViewStyle,
 } from 'react-native'
 import Svg, { PathProps } from 'react-native-svg'
-
-import { AnimatedSvgPath } from './AnimatedPath'
-import { ValueXY, IStep } from '../types'
+import { IStep, ValueXY } from '../types'
 import { svgMaskPathMorph } from '../utilities'
+import { AnimatedSvgPath } from './AnimatedPath'
 
 const windowDimensions = Dimensions.get('window')
 
@@ -97,6 +96,7 @@ export class SvgMask extends Component<Props, State> {
   getPath = () => {
     const { previousPath, animation } = this.state
     const { size, position, currentStep, maskOffset, borderRadius } = this.props
+
     return svgMaskPathMorph({
       animation: animation as any,
       previousPath,
@@ -106,6 +106,7 @@ export class SvgMask extends Component<Props, State> {
         shape: currentStep?.shape,
         maskOffset: currentStep?.maskOffset || maskOffset,
         borderRadius: currentStep?.borderRadius || borderRadius,
+        borderRadiusObject: currentStep?.borderRadiusObject,
       },
     })
   }

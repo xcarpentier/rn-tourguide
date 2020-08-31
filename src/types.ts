@@ -16,6 +16,7 @@ export interface IStep {
   borderRadius?: number
   keepTooltipPosition?: boolean
   tooltipBottomOffset?: number
+  borderRadiusObject?: BorderRadiusObject
 }
 export interface StepObject {
   [key: string]: IStep
@@ -25,6 +26,13 @@ export type Steps = StepObject | IStep[]
 export interface ValueXY {
   x: number
   y: number
+}
+
+export interface BorderRadiusObject {
+  topLeft?: number
+  topRight?: number
+  bottomRight?: number
+  bottomLeft?: number
 }
 
 export type SvgPath = string
@@ -42,6 +50,7 @@ export interface SVGMaskPathMorphParam {
     shape?: Shape
     maskOffset?: number
     borderRadius?: number
+    borderRadiusObject?: BorderRadiusObject
   }
 }
 export type SVGMaskPathMorph = (

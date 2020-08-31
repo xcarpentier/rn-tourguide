@@ -3,6 +3,7 @@ import { interpolate, separate, splitPathString, toCircle } from 'flubber'
 import clamp from 'lodash.clamp'
 import memoize from 'memoize-one'
 import {
+  BorderRadiusObject,
   IStep,
   Shape,
   Steps,
@@ -53,25 +54,52 @@ const getCanvasPath = memoize((path: string) => {
   return ''
 })
 
+const getBorderRadiusOrDefault = (
+  borderRadius?: number,
+  defaultRadius: number = 0,
+) => (borderRadius || borderRadius === 0 ? borderRadius : defaultRadius)
+
 export const defaultSvgPath = ({
   size,
   position,
   borderRadius: radius,
+  borderRadiusObject,
 }: {
   size: ValueXY
   position: ValueXY
   borderRadius: number
+  borderRadiusObject?: BorderRadiusObject
 }): SvgPath => {
   if (radius) {
+    const borderRadiusTopRight = getBorderRadiusOrDefault(
+      borderRadiusObject?.topRight,
+      radius,
+    )
+    const borderRadiusTopLeft = getBorderRadiusOrDefault(
+      borderRadiusObject?.topLeft,
+      radius,
+    )
+    const borderRadiusBottomRight = getBorderRadiusOrDefault(
+      borderRadiusObject?.bottomRight,
+      radius,
+    )
+    const borderRadiusBottomLeft = getBorderRadiusOrDefault(
+      borderRadiusObject?.bottomLeft,
+      radius,
+    )
+
     return `M${position.x},${position.y}H${
       position.x + size.x
-    } a${radius},${radius} 0 0 1 ${radius},${radius}V${
-      position.y + size.y - radius
-    } a${radius},${radius} 0 0 1 -${radius},${radius}H${
+    } a${borderRadiusTopRight},${borderRadiusTopRight} 0 0 1 ${borderRadiusTopRight},${borderRadiusTopRight}V${
+      position.y + size.y - borderRadiusTopRight
+    } a${borderRadiusBottomRight},${borderRadiusBottomRight} 0 0 1 -${borderRadiusBottomRight},${borderRadiusBottomRight}H${
       position.x
-    } a${radius},${radius} 0 0 1 -${radius},-${radius}V${
-      position.y + radius
-    } a${radius},${radius} 0 0 1 ${radius},-${radius}Z`
+    } a${borderRadiusBottomLeft},${borderRadiusBottomLeft} 0 0 1 -${borderRadiusBottomLeft},-${borderRadiusBottomLeft}V${
+      position.y +
+      (borderRadiusBottomLeft > borderRadiusTopLeft
+        ? borderRadiusTopLeft
+        : borderRadiusBottomLeft)
+    } a${borderRadiusTopLeft},${borderRadiusTopLeft} 0 0 1 ${borderRadiusTopLeft},-${borderRadiusTopLeft}Z`
   }
   return `M${position.x},${position.y}H${position.x + size.x}V${
     position.y + size.y
@@ -138,6 +166,7 @@ const getInterpolator = memoize(
     size: ValueXY,
     maskOffset: number = 0,
     borderRadius: number = 0,
+    borderRadiusObject?: BorderRadiusObject,
   ) => {
     const options = {
       maxSegmentLength: getMaxSegmentLength(shape),
@@ -150,6 +179,7 @@ const getInterpolator = memoize(
           size: sizeOffset(size, maskOffset),
           position: positionOffset(position, maskOffset),
           borderRadius,
+          borderRadiusObject,
         }),
         options,
       )
@@ -203,7 +233,7 @@ const getInterpolator = memoize(
 export const svgMaskPathMorph = ({
   previousPath,
   animation,
-  to: { position, size, shape, maskOffset, borderRadius },
+  to: { position, size, shape, maskOffset, borderRadius, borderRadiusObject },
 }: SVGMaskPathMorphParam) => {
   const interpolator = getInterpolator(
     cleanPath(previousPath),
@@ -212,6 +242,7 @@ export const svgMaskPathMorph = ({
     size,
     maskOffset,
     borderRadius,
+    borderRadiusObject,
   )
 
   return `${getCanvasPath(previousPath)}${interpolator(
