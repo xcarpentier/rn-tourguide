@@ -70,7 +70,7 @@ export const defaultSvgPath = ({
   borderRadius: number
   borderRadiusObject?: BorderRadiusObject
 }): SvgPath => {
-  if (radius) {
+  if (radius || borderRadiusObject) {
     const borderRadiusTopRight = getBorderRadiusOrDefault(
       borderRadiusObject?.topRight,
       radius,
