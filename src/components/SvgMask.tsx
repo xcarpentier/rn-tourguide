@@ -14,7 +14,7 @@ import { IStep, ValueXY } from '../types'
 import { svgMaskPathMorph } from '../utilities'
 import { AnimatedSvgPath } from './AnimatedPath'
 
-const windowDimensions = Dimensions.get('window')
+const screenDimensions = Dimensions.get('screen')
 
 interface Props {
   size: ValueXY
@@ -37,10 +37,10 @@ interface State {
   previousPath: string
 }
 
-const FIRST_PATH = `M0,0H${windowDimensions.width}V${
-  windowDimensions.height
-}H0V0ZM${windowDimensions.width / 2},${
-  windowDimensions.height / 2
+const FIRST_PATH = `M0,0H${screenDimensions.width}V${
+  screenDimensions.height
+}H0V0ZM${screenDimensions.width / 2},${
+  screenDimensions.height / 2
 } h 1 v 1 h -1 Z`
 
 const IS_WEB = Platform.OS !== 'web'
@@ -62,8 +62,8 @@ export class SvgMask extends Component<Props, State> {
 
     this.state = {
       canvasSize: {
-        x: windowDimensions.width,
-        y: windowDimensions.height,
+        x: screenDimensions.width,
+        y: screenDimensions.height,
       },
       size: props.size,
       position: props.position,
