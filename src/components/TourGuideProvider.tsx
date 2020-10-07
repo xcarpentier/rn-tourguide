@@ -71,10 +71,14 @@ export const TourGuideProvider = ({
   }, [visible, currentStep])
 
   useEffect(() => {
-    if (mounted && Object.entries(steps).length > 0) {
-      setCanStart(true)
-      if (startAtMount) {
-        start()
+    if (mounted) {
+      if (Object.entries(steps).length > 0) {
+        setCanStart(true)
+        if (startAtMount) {
+          start()
+        }
+      } else {
+        setCanStart(false)
       }
     }
   }, [mounted, steps])
