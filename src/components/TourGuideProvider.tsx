@@ -141,11 +141,11 @@ export const TourGuideProvider = ({
     if (!mounted) {
       return
     }
-    setSteps(
-      Object.entries(steps as StepObject)
+    setSteps((previousSteps) => {
+      return Object.entries(previousSteps as StepObject)
         .filter(([key]) => key !== stepName)
-        .reduce((obj, [key, val]) => Object.assign(obj, { [key]: val }), {}),
-    )
+        .reduce((obj, [key, val]) => Object.assign(obj, { [key]: val }), {})
+    })
   }
 
   const getCurrentStep = () => currentStep
