@@ -71,10 +71,14 @@ export const TourGuideProvider = ({
   }, [visible, currentStep])
 
   useEffect(() => {
-    if (mounted && Object.entries(steps).length > 0) {
-      setCanStart(true)
-      if (startAtMount) {
-        start()
+    if (mounted) {
+      if (Object.entries(steps).length > 0) {
+        setCanStart(true)
+        if (startAtMount) {
+          start()
+        }
+      } else {
+        setCanStart(false)
       }
     }
   }, [mounted, steps])
@@ -137,11 +141,11 @@ export const TourGuideProvider = ({
     if (!mounted) {
       return
     }
-    setSteps(
-      Object.entries(steps as StepObject)
+    setSteps((previousSteps) => {
+      return Object.entries(previousSteps as StepObject)
         .filter(([key]) => key !== stepName)
-        .reduce((obj, [key, val]) => Object.assign(obj, { [key]: val }), {}),
-    )
+        .reduce((obj, [key, val]) => Object.assign(obj, { [key]: val }), {})
+    })
   }
 
   const getCurrentStep = () => currentStep
