@@ -37,7 +37,7 @@ export const Tooltip = ({
   >
     <View style={styles.tooltipContainer}>
       <Text testID='stepDescription' style={styles.tooltipText}>
-        {currentStep.text}
+        {currentStep && currentStep.text}
       </Text>
     </View>
     <View style={[styles.bottomBar]}>
