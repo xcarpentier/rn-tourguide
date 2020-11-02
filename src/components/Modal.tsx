@@ -272,7 +272,12 @@ export class Modal extends React.Component<ModalProps, State> {
   )
 
   renderTooltip() {
-    const { tooltipComponent: TooltipComponent } = this.props
+    const { tooltipComponent: TooltipComponent, visible } = this.props
+
+    if (!visible) {
+      return null
+    }
+
     const { opacity } = this.state
     return (
       <Animated.View
