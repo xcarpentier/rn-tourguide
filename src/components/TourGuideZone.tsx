@@ -16,6 +16,8 @@ export interface TourGuideZoneProps {
   keepTooltipPosition?: boolean
   tooltipBottomOffset?: number
   borderRadiusObject?: BorderRadiusObject
+  insideScroll?: boolean
+  scrollAdjustment?: number
 }
 
 export const TourGuideZone = ({
@@ -30,6 +32,8 @@ export const TourGuideZone = ({
   keepTooltipPosition,
   tooltipBottomOffset,
   borderRadiusObject,
+  insideScroll = false,
+  scrollAdjustment = -300,
 }: TourGuideZoneProps) => {
   if (!isTourGuide) {
     return <>{children}</>
@@ -40,6 +44,8 @@ export const TourGuideZone = ({
       text={text ?? `Zone ${zone}`}
       order={zone}
       name={`${zone}`}
+      insideScroll={insideScroll}
+      scrollAdjustment={scrollAdjustment}
       {...{
         shape,
         maskOffset,

@@ -15,6 +15,8 @@ interface Props {
   keepTooltipPosition?: boolean
   tooltipBottomOffset?: number
   borderRadiusObject?: BorderRadiusObject
+  insideScroll: boolean
+  scrollAdjustment?: number
 }
 
 export const Step = (props: Props) => {

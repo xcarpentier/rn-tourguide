@@ -6,6 +6,7 @@ import {
   LayoutChangeEvent,
   Platform,
   StyleProp,
+  TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native'
@@ -171,31 +172,35 @@ export class SvgMask extends Component<Props, State> {
     })
   }
 
+  onPressOverlay = () => {}
+
   render() {
     if (!this.state.canvasSize) {
       return null
     }
     return (
-      <View
-        style={this.props.style}
-        onLayout={this.handleLayout}
-        pointerEvents='none'
-      >
-        <Svg
+      <TouchableOpacity onPress={this.onPressOverlay} style={this.props.style} activeOpacity={1}>
+        <View
+          style={this.props.style}
+          onLayout={this.handleLayout}
           pointerEvents='none'
-          width={this.state.canvasSize.x}
-          height={this.state.canvasSize.y}
         >
-          <AnimatedSvgPath
-            ref={this.mask}
-            fill={this.props.backdropColor}
-            strokeWidth={0}
-            fillRule='evenodd'
-            d={FIRST_PATH}
-            opacity={this.state.opacity as any}
-          />
-        </Svg>
-      </View>
+          <Svg
+            pointerEvents='none'
+            width={this.state.canvasSize.x}
+            height={this.state.canvasSize.y}
+          >
+            <AnimatedSvgPath
+              ref={this.mask}
+              fill={this.props.backdropColor}
+              strokeWidth={0}
+              fillRule='evenodd'
+              d={FIRST_PATH}
+              opacity={this.state.opacity as any}
+            />
+          </Svg>
+        </View>
+      </TouchableOpacity>
     )
   }
 }

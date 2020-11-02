@@ -1,6 +1,6 @@
 import mitt from 'mitt'
 import * as React from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle, Animated, ScrollView, findNodeHandle } from 'react-native'
 import { TourGuideContext } from '../components/TourGuideContext'
 import { useIsMounted } from '../hooks/useIsMounted'
 import { IStep, Labels, StepObject, Steps } from '../types'
@@ -50,6 +50,7 @@ export const TourGuideProvider = ({
   const [currentStep, updateCurrentStep] = useState<IStep | undefined>()
   const [steps, setSteps] = useState<Steps>({})
   const [canStart, setCanStart] = useState<boolean>(false)
+  const [scrollView, setScrollView] = useState<React.RefObject<Animated.LegacyRef<ScrollView>> | undefined>(undefined);
 
   const startTries = useRef<number>(0)
   const mounted = useIsMounted()
@@ -94,14 +95,24 @@ export const TourGuideProvider = ({
     })
   }
 
-  const setCurrentStep = (step?: IStep) =>
-    new Promise<void>((resolve) => {
-      updateCurrentStep(() => {
-        eventEmitter.emit('stepChange', step)
-        resolve()
-        return step
-      })
-    })
+  const setCurrentStep = async (step?: IStep ) => {
+    updateCurrentStep(() => {
+        eventEmitter.emit('stepChange', step);
+        return step;
+    });
+
+    if (scrollView) {
+        if (step?.insideScroll) {
+            await step.wrapper.measureLayout(
+                findNodeHandle(scrollView?.current?.getNode() as any), (_x: number, y: number, _w: number, h: number) => {
+                  const yOffset = y > 0 ? y - step.scrollAdjustment - (h / 2) : - step.scrollAdjustment;
+                  scrollView?.current?.getNode().scrollTo({ y: yOffset, animated: false });
+                });
+        }else{
+            scrollView?.current?.getNode().scrollTo({ y: step?.scrollAdjustment ?? 0, animated: false });
+        }
+    }
+};
 
   const getNextStep = (step: IStep | undefined = currentStep) =>
     utils.getNextStep(steps!, step)
@@ -150,7 +161,7 @@ export const TourGuideProvider = ({
 
   const getCurrentStep = () => currentStep
 
-  const start = async (fromStep?: number) => {
+  const start = async (fromStep?: number, scrollView?: React.RefObject<Animated.LegacyRef<ScrollView>>) => {
     const currentStep = fromStep
       ? (steps as StepObject)[fromStep]
       : getFirstStep()
@@ -159,6 +170,11 @@ export const TourGuideProvider = ({
       startTries.current = 0
       return
     }
+
+    if (scrollView) {
+      setScrollView(scrollView)
+    }
+
     if (!currentStep) {
       startTries.current += 1
       requestAnimationFrame(() => start(fromStep))
