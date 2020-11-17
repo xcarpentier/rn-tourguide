@@ -89,8 +89,8 @@ export const TourGuideProvider = ({
     await modal.current?.animateMove({
       width: size.width + OFFSET_WIDTH,
       height: size.height + OFFSET_WIDTH,
-      left: size.x - OFFSET_WIDTH / 2,
-      top: size.y - OFFSET_WIDTH / 2 + (verticalOffset || 0),
+      left: Math.round(size.x) - OFFSET_WIDTH / 2,
+      top: Math.round(size.y) - OFFSET_WIDTH / 2 + (verticalOffset || 0),
     })
   }
 
