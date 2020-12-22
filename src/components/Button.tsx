@@ -11,7 +11,7 @@ interface Props {
 
 export const Button = ({ wrapperStyle, style, children, ...rest }: Props) => (
   <View style={[styles.button, wrapperStyle]}>
-    <Text style={[styles.buttonText, style]} {...rest}>
+    <Text style={[styles.buttonText, style]} testID={'TourGuideButtonText'} {...rest}>
       {children}
     </Text>
   </View>
