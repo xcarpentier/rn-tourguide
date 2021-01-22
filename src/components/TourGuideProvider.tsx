@@ -85,7 +85,9 @@ export const TourGuideProvider = ({
 
   const moveToCurrentStep = async () => {
     const size = await currentStep!.target.measure()
-
+    if (isNaN(size.width) || isNaN(size.height) || isNaN(size.x) || isNaN(size.y)) {
+      return;
+    }
     await modal.current?.animateMove({
       width: size.width + OFFSET_WIDTH,
       height: size.height + OFFSET_WIDTH,
