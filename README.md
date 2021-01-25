@@ -101,6 +101,7 @@ const AppContent = () => {
       eventEmitter.off('start', handleOnStart)
       eventEmitter.off('stop', handleOnStop)
       eventEmitter.off('stepChange', handleOnStepChange)
+    }
   }, [])
 
   return (
