@@ -48,6 +48,7 @@ export const TourGuideProvider = ({
 }: TourGuideProviderProps) => {
   const [visible, setVisible] = useState<boolean | undefined>(undefined)
   const [currentStep, updateCurrentStep] = useState<IStep | undefined>()
+  const [currentSize, setCurrentSize] = useState({});
   const [steps, setSteps] = useState<Steps>({})
   const [canStart, setCanStart] = useState<boolean>(false)
 
@@ -92,9 +93,15 @@ export const TourGuideProvider = ({
       left: Math.round(size.x) - OFFSET_WIDTH / 2,
       top: Math.round(size.y) - OFFSET_WIDTH / 2 + (verticalOffset || 0),
     })
+
+    currentStep.target.setNativeProps({ style: { opacity: 0 } });
+    setCurrentSize(size);
   }
 
-  const setCurrentStep = (step?: IStep) =>
+  const setCurrentStep = (step?: IStep) => {
+    setCurrentSize({})
+    currentStep && currentStep.target.setNativeProps({ style: { opacity: 1 } });
+
     new Promise<void>((resolve) => {
       updateCurrentStep(() => {
         eventEmitter.emit('stepChange', step)
@@ -102,6 +109,7 @@ export const TourGuideProvider = ({
         return step
       })
     })
+  }
 
   const getNextStep = (step: IStep | undefined = currentStep) =>
     utils.getNextStep(steps!, step)
@@ -194,6 +202,7 @@ export const TourGuideProvider = ({
             isFirstStep,
             isLastStep,
             currentStep,
+            currentSize,
             labels,
             tooltipComponent,
             tooltipStyle,

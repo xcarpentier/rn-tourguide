@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { StyleProp, ViewStyle } from 'react-native'
+import { StyleProp, ViewStyle, View } from 'react-native'
 import { BorderRadiusObject, Shape } from '../types'
 import { Step } from './Step'
 import { Wrapper } from './Wrapper'
@@ -32,7 +32,7 @@ export const TourGuideZone = ({
   borderRadiusObject,
 }: TourGuideZoneProps) => {
   if (!isTourGuide) {
-    return <>{children}</>
+    return <View style={style}>{children}</View>
   }
 
   return (

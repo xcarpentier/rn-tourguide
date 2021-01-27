@@ -42,7 +42,6 @@ export const TourGuideZoneByPosition = ({
 
   return (
     <View
-      pointerEvents='none'
       style={[StyleSheet.absoluteFillObject, containerStyle]}
     >
       <TourGuideZone

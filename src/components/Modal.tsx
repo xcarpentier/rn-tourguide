@@ -281,7 +281,6 @@ export class Modal extends React.Component<ModalProps, State> {
     const { opacity } = this.state
     return (
       <Animated.View
-        pointerEvents='box-none'
         key='tooltip'
         style={[
           styles.tooltip,
@@ -305,6 +304,39 @@ export class Modal extends React.Component<ModalProps, State> {
     )
   }
 
+  getCloneChildren() {
+    const cloneElements = React.cloneElement(this.props.currentStep.children.props.children, {
+      style: StyleSheet.flatten([
+        this.props.currentStep.children.props.children.props.style, {
+          position: 'absolute',
+          pointerEvents: 'auto',
+          width: Math.ceil(this.props.currentSize.width),
+          height: Math.ceil(this.props.currentSize.height),
+          top: Math.ceil(this.props.currentSize.y) || -999,
+          left: Math.ceil(this.props.currentSize.x) || -999
+        }
+      ])
+    })
+
+    function setPropClone (cloneElements) {
+      if (typeof cloneElements === 'string') return cloneElements;
+
+      return React.Children.map(cloneElements, child => {
+        let childProps = {};
+        if (React.isValidElement(child)) {
+          childProps = { isTourGuide: false };
+        }
+        if (child.props) {
+          childProps.children = setPropClone(child.props.children);
+          return React.cloneElement(child, { ...child.props, ...childProps });
+        }
+        return child;
+      })
+    }
+
+    return setPropClone(cloneElements)
+  }
+
   render() {
     const containerVisible = this.state.containerVisible || this.props.visible
     const contentVisible = this.state.layout && containerVisible
@@ -319,11 +351,11 @@ export class Modal extends React.Component<ModalProps, State> {
         <View
           style={styles.container}
           onLayout={this.handleLayoutChange}
-          pointerEvents='box-none'
         >
           {contentVisible && (
             <>
               {this.renderMask()}
+              {this.props.currentStep && this.getCloneChildren()}
               {this.renderTooltip()}
             </>
           )}

@@ -179,10 +179,8 @@ export class SvgMask extends Component<Props, State> {
       <View
         style={this.props.style}
         onLayout={this.handleLayout}
-        pointerEvents='none'
       >
         <Svg
-          pointerEvents='none'
           width={this.state.canvasSize.x}
           height={this.state.canvasSize.y}
         >
@@ -192,6 +190,7 @@ export class SvgMask extends Component<Props, State> {
             strokeWidth={0}
             fillRule='evenodd'
             d={FIRST_PATH}
+            pointerEvents='auto'
             opacity={this.state.opacity as any}
           />
         </Svg>

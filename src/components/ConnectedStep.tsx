@@ -96,7 +96,7 @@ export class ConnectedStep extends React.Component<Props> {
               resolve({
                 x,
                 y,
-                width,
+                width: width + 1,
                 height,
               }),
             reject,
