@@ -87,11 +87,11 @@ const AppContent = () => {
       start()
     }
   }, [canStart]) // 👈 don't miss it!
-  
+
   const handleOnStart = () => console.log('start')
   const handleOnStop = () => console.log('stop')
   const handleOnStepChange = () => console.log(`stepChange`)
-  
+
   React.useEffect(() => {
     eventEmitter.on('start', handleOnStart)
     eventEmitter.on('stop', handleOnStop)
@@ -201,6 +201,7 @@ export interface TourGuideProviderProps {
   borderRadius?: number
   animationDuration?: number
   children: React.ReactNode
+  dismissOnPress: boolean
 }
 
 interface TooltipProps {
