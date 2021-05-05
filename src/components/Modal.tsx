@@ -36,6 +36,7 @@ export interface ModalProps {
   stop(): void
   next(): void
   prev(): void
+  dismissOnPress: boolean
 }
 
 interface Layout {
@@ -268,6 +269,7 @@ export class Modal extends React.Component<ModalProps, State> {
       currentStep={this.props.currentStep}
       maskOffset={this.props.maskOffset}
       borderRadius={this.props.borderRadius}
+      dismissOnPress={this.props.dismissOnPress}
     />
   )
 

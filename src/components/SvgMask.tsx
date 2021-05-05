@@ -8,6 +8,7 @@ import {
   StyleProp,
   View,
   ViewStyle,
+  TouchableWithoutFeedback
 } from 'react-native'
 import Svg, { PathProps } from 'react-native-svg'
 import { IStep, ValueXY } from '../types'
@@ -17,6 +18,7 @@ import { AnimatedSvgPath } from './AnimatedPath'
 const windowDimensions = Dimensions.get('window')
 
 interface Props {
+  dismissOnPress: boolean
   size: ValueXY
   position: ValueXY
   style: StyleProp<ViewStyle>
@@ -175,8 +177,10 @@ export class SvgMask extends Component<Props, State> {
     if (!this.state.canvasSize) {
       return null
     }
+    const { dismissOnPress, stop } = this.props
+    const Wrapper = dismissOnPress ? TouchableWithoutFeedback : View
     return (
-      <View
+      <Wrapper
         style={this.props.style}
         onLayout={this.handleLayout}
         pointerEvents='none'
@@ -195,7 +199,7 @@ export class SvgMask extends Component<Props, State> {
             opacity={this.state.opacity as any}
           />
         </Svg>
-      </View>
+      </Wrapper>
     )
   }
 }
