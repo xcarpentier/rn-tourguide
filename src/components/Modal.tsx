@@ -33,9 +33,9 @@ export interface ModalProps {
   backdropColor: string
   labels: Labels
   easing(value: number): number
-  stop(): void
   next(): void
   prev(): void
+  stop(): void
   dismissOnPress: boolean
 }
 
@@ -270,6 +270,7 @@ export class Modal extends React.Component<ModalProps, State> {
       maskOffset={this.props.maskOffset}
       borderRadius={this.props.borderRadius}
       dismissOnPress={this.props.dismissOnPress}
+      stop={this.props.stop}
     />
   )
 

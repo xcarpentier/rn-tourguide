@@ -28,6 +28,7 @@ interface Props {
   borderRadius?: number
   currentStep?: IStep
   easing?(value: number): number
+  stop(): void
 }
 
 interface State {
@@ -178,12 +179,13 @@ export class SvgMask extends Component<Props, State> {
       return null
     }
     const { dismissOnPress, stop } = this.props
-    const Wrapper = dismissOnPress ? TouchableWithoutFeedback : View
+    const Wrapper = dismissOnPress ? TouchableWithoutFeedback : View as React.ElementType
     return (
       <Wrapper
         style={this.props.style}
         onLayout={this.handleLayout}
         pointerEvents='none'
+        onPress={dismissOnPress ? stop : undefined}
       >
         <Svg
           pointerEvents='none'
@@ -199,7 +201,7 @@ export class SvgMask extends Component<Props, State> {
             opacity={this.state.opacity as any}
           />
         </Svg>
-      </Wrapper>
+          </Wrapper>
     )
   }
 }
