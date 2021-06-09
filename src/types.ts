@@ -4,6 +4,13 @@ export type Shape =
   | 'circle_and_keep'
   | 'rectangle_and_keep'
 
+export interface Offset {
+  top?: number
+  bottom?: number
+  left?: number
+  right?: number
+};
+
 export interface IStep {
   name: string
   order: number
@@ -12,7 +19,7 @@ export interface IStep {
   text: string
   wrapper: any
   shape?: Shape
-  maskOffset?: number
+  maskOffset?: Offset
   borderRadius?: number
   keepTooltipPosition?: boolean
   tooltipBottomOffset?: number
@@ -48,7 +55,7 @@ export interface SVGMaskPathMorphParam {
     position: ValueXY
     size: ValueXY
     shape?: Shape
-    maskOffset?: number
+    maskOffset?: Offset
     borderRadius?: number
     borderRadiusObject?: BorderRadiusObject
   }

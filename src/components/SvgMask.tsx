@@ -11,7 +11,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native'
 import Svg, { PathProps } from 'react-native-svg'
-import { IStep, ValueXY } from '../types'
+import { IStep, Offset, ValueXY } from '../types'
 import { svgMaskPathMorph } from '../utilities'
 import { AnimatedSvgPath } from './AnimatedPath'
 
@@ -24,7 +24,7 @@ interface Props {
   animationDuration?: number
   backdropColor: string
   dismissOnPress: boolean
-  maskOffset?: number
+  maskOffset?: Offset
   borderRadius?: number
   currentStep?: IStep
   easing?(value: number): number
@@ -52,7 +52,7 @@ export class SvgMask extends Component<Props, State> {
     easing: Easing.linear,
     size: { x: 0, y: 0 },
     position: { x: 0, y: 0 },
-    maskOffset: 0,
+    maskOffset: { top: 0, bottom: 0, left: 0, right: 0 },
   }
 
   listenerID: string
