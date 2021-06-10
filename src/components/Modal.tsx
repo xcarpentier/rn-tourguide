@@ -270,6 +270,7 @@ export class Modal extends React.Component<ModalProps, State> {
       maskOffset={this.props.maskOffset}
       borderRadius={this.props.borderRadius}
       dismissOnPress={this.props.dismissOnPress}
+      stop={this.props.stop}
     />
   )
 

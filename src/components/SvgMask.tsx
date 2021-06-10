@@ -23,7 +23,8 @@ interface Props {
   style: StyleProp<ViewStyle>
   animationDuration?: number
   backdropColor: string
-  dismissOnPress: boolean
+  dismissOnPress?: boolean
+  stop?(): void
   maskOffset?: Offset
   borderRadius?: number
   currentStep?: IStep
@@ -178,7 +179,7 @@ export class SvgMask extends Component<Props, State> {
       return null
     }
     const { dismissOnPress, stop } = this.props
-    const Wrapper = dismissOnPress ? TouchableWithoutFeedback : View
+    const Wrapper: any = dismissOnPress ? TouchableWithoutFeedback : View
 
     return (
       <Wrapper
