@@ -203,15 +203,14 @@ const getInterpolator = memoize(
         }),
         options,
       )
-    const getCircleInterpolator = () => {
-      return toCircle(
+    const getCircleInterpolator = () =>
+      toCircle(
         previousPath,
         position.x + size.x / 2,
         position.y + size.y / 2,
         Math.max(size.x, size.y) / 2,
         options,
       );
-    }
 
     switch (shape) {
       case 'circle':
