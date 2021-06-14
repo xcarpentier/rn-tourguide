@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { BorderRadiusObject, Shape } from '../types'
+import { BorderRadiusObject, Offset, Shape } from '../types'
 import { ITourGuideContext } from './TourGuideContext'
 
 declare var __TEST__: boolean
@@ -12,7 +12,7 @@ interface Props {
   shape?: Shape
   context: ITourGuideContext
   children?: any
-  maskOffset?: number
+  maskOffset?: number | Offset
   borderRadiusObject?: BorderRadiusObject
   borderRadius?: number
   keepTooltipPosition?: boolean

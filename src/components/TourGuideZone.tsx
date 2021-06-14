@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
-import { BorderRadiusObject, Shape } from '../types'
+import { BorderRadiusObject, Offset, Shape } from '../types'
 import { Step } from './Step'
 import { Wrapper } from './Wrapper'
 
@@ -9,7 +9,7 @@ export interface TourGuideZoneProps {
   isTourGuide?: boolean
   text?: string
   shape?: Shape
-  maskOffset?: number
+  maskOffset?: number | Offset
   borderRadius?: number
   children?: React.ReactNode
   style?: StyleProp<ViewStyle>

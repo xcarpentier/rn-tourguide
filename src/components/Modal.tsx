@@ -10,7 +10,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
-import { BorderRadiusObject, IStep, Labels, ValueXY } from '../types'
+import { BorderRadiusObject, IStep, Labels, Offset, ValueXY } from '../types'
 import styles, { MARGIN } from './style'
 import { SvgMask } from './SvgMask'
 import { Tooltip, TooltipProps } from './Tooltip'
@@ -26,7 +26,7 @@ export interface ModalProps {
   animationDuration?: number
   tooltipComponent: React.ComponentType<TooltipProps>
   tooltipStyle?: StyleProp<ViewStyle>
-  maskOffset?: number
+  maskOffset?: number | Offset
   borderRadius?: number
   borderRadiusObject?: BorderRadiusObject
   androidStatusBarVisible: boolean
@@ -270,6 +270,7 @@ export class Modal extends React.Component<ModalProps, State> {
       maskOffset={this.props.maskOffset}
       borderRadius={this.props.borderRadius}
       dismissOnPress={this.props.dismissOnPress}
+      stop={this.props.stop}
     />
   )
 
