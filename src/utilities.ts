@@ -131,18 +131,16 @@ const sanitizeOffsets = (maskOffset?: number | Offset): Offset => {
     right: 0,
   }
 
-  if (maskOffset) {
-    if (typeof maskOffset === 'number') {
-      offsets.top = maskOffset;
-      offsets.bottom = maskOffset;
-      offsets.left = maskOffset;
-      offsets.right = maskOffset;
-    } else {
-      offsets.top = maskOffset.top || 0;
-      offsets.bottom = maskOffset.bottom || 0;
-      offsets.left = maskOffset.left || 0;
-      offsets.right = maskOffset.right || 0;
-    }
+  if (typeof maskOffset === 'number') {
+    offsets.top = maskOffset;
+    offsets.bottom = maskOffset;
+    offsets.left = maskOffset;
+    offsets.right = maskOffset;
+  } else if (maskOffset) {
+    offsets.top = maskOffset.top || 0;
+    offsets.bottom = maskOffset.bottom || 0;
+    offsets.left = maskOffset.left || 0;
+    offsets.right = maskOffset.right || 0;
   }
 
   return offsets;
