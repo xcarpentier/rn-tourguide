@@ -9,7 +9,7 @@ export interface TourGuideZoneProps {
   isTourGuide?: boolean
   text?: string
   shape?: Shape
-  maskOffset?: Offset
+  maskOffset?: number | Offset
   borderRadius?: number
   children?: React.ReactNode
   style?: StyleProp<ViewStyle>

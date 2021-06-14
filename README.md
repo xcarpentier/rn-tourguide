@@ -179,7 +179,7 @@ interface TourGuideZoneProps {
   isTourGuide?: boolean // return children without wrapping id false
   text?: string // text in tooltip
   shape?: Shape // which shape
-  maskOffset?: Offset // offset around zone for each direction
+  maskOffset?: number | Offset // offset around zone for each direction
   borderRadius?: number // round corner when rectangle
   startAtMount?: boolean //  start at mount
   keepTooltipPosition?: boolean
@@ -197,7 +197,7 @@ export interface TourGuideProviderProps {
   backdropColor?: string
   verticalOffset?: number
   wrapperStyle?: StyleProp<ViewStyle>
-  maskOffset?: Offset
+  maskOffset?: number | Offset
   borderRadius?: number
   animationDuration?: number
   children: React.ReactNode

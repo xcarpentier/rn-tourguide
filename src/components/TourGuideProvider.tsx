@@ -26,7 +26,7 @@ export interface TourGuideProviderProps {
   backdropColor?: string
   verticalOffset?: number
   wrapperStyle?: StyleProp<ViewStyle>
-  maskOffset?: Offset
+  maskOffset?: number | Offset
   borderRadius?: number
   animationDuration?: number
   children: React.ReactNode

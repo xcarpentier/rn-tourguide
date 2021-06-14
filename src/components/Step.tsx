@@ -9,7 +9,7 @@ interface Props {
   text: string
   shape?: Shape
   active?: boolean
-  maskOffset?: Offset
+  maskOffset?: number | Offset
   borderRadius?: number
   children: React.ReactNode
   keepTooltipPosition?: boolean

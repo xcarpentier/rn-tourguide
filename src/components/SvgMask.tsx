@@ -25,7 +25,7 @@ interface Props {
   backdropColor: string
   dismissOnPress?: boolean
   stop?(): void
-  maskOffset?: Offset
+  maskOffset?: number | Offset
   borderRadius?: number
   currentStep?: IStep
   easing?(value: number): number

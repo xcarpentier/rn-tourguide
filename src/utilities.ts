@@ -123,7 +123,7 @@ export const circleSvgPath = ({
   ].join('')
 }
 
-const sanitizeOffsets = (maskOffset?: Offset): Offset => {
+const sanitizeOffsets = (maskOffset?: number | Offset): Offset => {
   let offsets: Offset = {
     top: 0,
     bottom: 0,
@@ -132,16 +132,23 @@ const sanitizeOffsets = (maskOffset?: Offset): Offset => {
   }
 
   if (maskOffset) {
-    offsets.top = maskOffset.top || 0;
-    offsets.bottom = maskOffset.bottom || 0;
-    offsets.left = maskOffset.left || 0;
-    offsets.right = maskOffset.right || 0;
+    if (typeof maskOffset === 'number') {
+      offsets.top = maskOffset;
+      offsets.bottom = maskOffset;
+      offsets.left = maskOffset;
+      offsets.right = maskOffset;
+    } else {
+      offsets.top = maskOffset.top || 0;
+      offsets.bottom = maskOffset.bottom || 0;
+      offsets.left = maskOffset.left || 0;
+      offsets.right = maskOffset.right || 0;
+    }
   }
 
   return offsets;
 }
 
-const sizeOffset = memoize((size: ValueXY, maskOffset?: Offset) => {
+const sizeOffset = memoize((size: ValueXY, maskOffset?: number | Offset) => {
   const offsets = sanitizeOffsets(maskOffset);
 
   return {
@@ -150,7 +157,7 @@ const sizeOffset = memoize((size: ValueXY, maskOffset?: Offset) => {
   }
 })
 
-const positionOffset = memoize((position: ValueXY, maskOffset?: Offset) => {
+const positionOffset = memoize((position: ValueXY, maskOffset?: number | Offset) => {
   const offsets = sanitizeOffsets(maskOffset);
   return {
     x: position.x - offsets.left!,
@@ -182,7 +189,7 @@ const getInterpolator = memoize(
     shape: Shape,
     position: ValueXY,
     size: ValueXY,
-    maskOffset?: Offset,
+    maskOffset: number | Offset = 0,
     borderRadius: number = 0,
     borderRadiusObject?: BorderRadiusObject,
   ) => {

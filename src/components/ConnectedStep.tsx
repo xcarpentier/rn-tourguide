@@ -12,7 +12,7 @@ interface Props {
   shape?: Shape
   context: ITourGuideContext
   children?: any
-  maskOffset?: Offset
+  maskOffset?: number | Offset
   borderRadiusObject?: BorderRadiusObject
   borderRadius?: number
   keepTooltipPosition?: boolean

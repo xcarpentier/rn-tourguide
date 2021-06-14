@@ -26,7 +26,7 @@ export interface ModalProps {
   animationDuration?: number
   tooltipComponent: React.ComponentType<TooltipProps>
   tooltipStyle?: StyleProp<ViewStyle>
-  maskOffset?: Offset
+  maskOffset?: number | Offset
   borderRadius?: number
   borderRadiusObject?: BorderRadiusObject
   androidStatusBarVisible: boolean
