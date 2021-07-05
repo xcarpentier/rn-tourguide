@@ -9,6 +9,7 @@ import {
   View,
   ViewStyle,
   TouchableWithoutFeedback,
+  StatusBar,
 } from 'react-native'
 import Svg, { PathProps } from 'react-native-svg'
 import { IStep, ValueXY } from '../types'
@@ -40,7 +41,7 @@ interface State {
 }
 
 const FIRST_PATH = `M0,0H${screenDimensions.width}V${
-  screenDimensions.height
+  screenDimensions.height + StatusBar.currentHeight
 }H0V0ZM${screenDimensions.width / 2},${
   screenDimensions.height / 2
 } h 1 v 1 h -1 Z`
