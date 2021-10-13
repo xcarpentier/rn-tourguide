@@ -26,7 +26,6 @@ interface Props {
   maskOffset?: number
   borderRadius?: number
   currentStep?: IStep
-  isHorizontal?: boolean
   easing?(value: number): number
   stop?(): void
 }
@@ -60,15 +59,7 @@ export class SvgMask extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props)
-
-    const localScreenDimensions = Dimensions.get('screen')
-    this.screenDimensions = props.isHorizontal
-      ? {
-          ...localScreenDimensions,
-          width: localScreenDimensions.height,
-          height: localScreenDimensions.width,
-        }
-      : localScreenDimensions
+    this.screenDimensions = Dimensions.get('screen')
     this.firstPath = `M0,0H${this.screenDimensions.width}V${
       this.screenDimensions.height
     }H0V0ZM${this.screenDimensions.width / 2},${
