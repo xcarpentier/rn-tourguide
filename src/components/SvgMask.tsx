@@ -28,6 +28,7 @@ interface Props {
   currentStep?: IStep
   isHorizontal?: boolean
   easing?(value: number): number
+  stop?(): void
 }
 
 interface State {
@@ -189,7 +190,7 @@ export class SvgMask extends Component<Props, State> {
       return null
     }
     const { dismissOnPress, stop } = this.props
-    const Wrapper = dismissOnPress ? TouchableWithoutFeedback : View
+    const Wrapper: any = dismissOnPress ? TouchableWithoutFeedback : View
 
     return (
       <Wrapper

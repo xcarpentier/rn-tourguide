@@ -3,7 +3,7 @@ import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { BorderRadiusObject, Shape } from '../types'
 import { TourGuideZone } from './TourGuideZone'
 
-interface TourGuideZoneByPositionProps {
+export interface TourGuideZoneByPositionProps {
   zone: number
   isTourGuide?: boolean
   top?: number | string
