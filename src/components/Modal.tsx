@@ -33,6 +33,7 @@ export interface ModalProps {
   backdropColor: string
   labels: Labels
   dismissOnPress: boolean
+  isHorizontal?: boolean
   easing(value: number): number
   stop(): void
   next(): void
@@ -73,6 +74,7 @@ export class Modal extends React.Component<ModalProps, State> {
     androidStatusBarVisible: false,
     backdropColor: 'rgba(0, 0, 0, 0.4)',
     labels: {},
+    isHorizontal: false,
   }
 
   layout?: Layout = {
@@ -270,6 +272,7 @@ export class Modal extends React.Component<ModalProps, State> {
       maskOffset={this.props.maskOffset}
       borderRadius={this.props.borderRadius}
       dismissOnPress={this.props.dismissOnPress}
+      isHorizontal={this.props.isHorizontal}
     />
   )
 

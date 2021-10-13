@@ -9,13 +9,12 @@ import {
   View,
   ViewStyle,
   TouchableWithoutFeedback,
+  ScaledSize,
 } from 'react-native'
 import Svg, { PathProps } from 'react-native-svg'
 import { IStep, ValueXY } from '../types'
 import { svgMaskPathMorph } from '../utilities'
 import { AnimatedSvgPath } from './AnimatedPath'
-
-const screenDimensions = Dimensions.get('screen')
 
 interface Props {
   size: ValueXY
@@ -27,6 +26,7 @@ interface Props {
   maskOffset?: number
   borderRadius?: number
   currentStep?: IStep
+  isHorizontal?: boolean
   easing?(value: number): number
 }
 
@@ -39,12 +39,6 @@ interface State {
   previousPath: string
 }
 
-const FIRST_PATH = `M0,0H${screenDimensions.width}V${
-  screenDimensions.height
-}H0V0ZM${screenDimensions.width / 2},${
-  screenDimensions.height / 2
-} h 1 v 1 h -1 Z`
-
 const IS_WEB = Platform.OS !== 'web'
 
 export class SvgMask extends Component<Props, State> {
@@ -53,25 +47,42 @@ export class SvgMask extends Component<Props, State> {
     size: { x: 0, y: 0 },
     position: { x: 0, y: 0 },
     maskOffset: 0,
+    isHorizontal: false,
   }
 
   listenerID: string
   rafID: number
   mask: React.RefObject<PathProps> = React.createRef()
 
+  screenDimensions: ScaledSize | null = null
+  firstPath: string | undefined
+
   constructor(props: Props) {
     super(props)
 
+    const localScreenDimensions = Dimensions.get('screen')
+    this.screenDimensions = props.isHorizontal
+      ? {
+          ...localScreenDimensions,
+          width: localScreenDimensions.height,
+          height: localScreenDimensions.width,
+        }
+      : localScreenDimensions
+    this.firstPath = `M0,0H${this.screenDimensions.width}V${
+      this.screenDimensions.height
+    }H0V0ZM${this.screenDimensions.width / 2},${
+      this.screenDimensions.height / 2
+    } h 1 v 1 h -1 Z`
     this.state = {
       canvasSize: {
-        x: screenDimensions.width,
-        y: screenDimensions.height,
+        x: this.screenDimensions.width,
+        y: this.screenDimensions.height,
       },
       size: props.size,
       position: props.position,
       opacity: new Animated.Value(0),
       animation: new Animated.Value(0),
-      previousPath: FIRST_PATH,
+      previousPath: this.firstPath,
     }
 
     this.listenerID = this.state.animation.addListener(this.animationListener)
@@ -197,7 +208,7 @@ export class SvgMask extends Component<Props, State> {
             fill={this.props.backdropColor}
             strokeWidth={0}
             fillRule='evenodd'
-            d={FIRST_PATH}
+            d={this.firstPath}
             opacity={this.state.opacity as any}
           />
         </Svg>

@@ -31,6 +31,7 @@ export interface TourGuideProviderProps {
   animationDuration?: number
   children: React.ReactNode
   dismissOnPress: boolean
+  isHorizontal?: boolean
 }
 
 export const TourGuideProvider = ({
@@ -47,6 +48,7 @@ export const TourGuideProvider = ({
   verticalOffset,
   startAtMount = false,
   dismissOnPress = false,
+  isHorizontal = false,
 }: TourGuideProviderProps) => {
   const [visible, setVisible] = useState<boolean | undefined>(undefined)
   const [currentStep, updateCurrentStep] = useState<IStep | undefined>()
@@ -87,8 +89,13 @@ export const TourGuideProvider = ({
 
   const moveToCurrentStep = async () => {
     const size = await currentStep!.target.measure()
-    if (isNaN(size.width) || isNaN(size.height) || isNaN(size.x) || isNaN(size.y)) {
-      return;
+    if (
+      isNaN(size.width) ||
+      isNaN(size.height) ||
+      isNaN(size.x) ||
+      isNaN(size.y)
+    ) {
+      return
     }
     await modal.current?.animateMove({
       width: size.width + OFFSET_WIDTH,
@@ -117,9 +124,10 @@ export const TourGuideProvider = ({
 
   const getLastStep = () => utils.getLastStep(steps!)
 
-  const isFirstStep = useMemo(() => currentStep === getFirstStep(), [
-    currentStep,
-  ])
+  const isFirstStep = useMemo(
+    () => currentStep === getFirstStep(),
+    [currentStep],
+  )
 
   const isLastStep = useMemo(() => currentStep === getLastStep(), [currentStep])
 
@@ -207,6 +215,7 @@ export const TourGuideProvider = ({
             maskOffset,
             borderRadius,
             dismissOnPress,
+            isHorizontal,
           }}
         />
       </TourGuideContext.Provider>
