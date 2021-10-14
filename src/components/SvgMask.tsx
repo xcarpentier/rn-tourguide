@@ -54,21 +54,24 @@ export class SvgMask extends Component<Props, State> {
   rafID: number
   mask: React.RefObject<PathProps> = React.createRef()
 
-  screenDimensions: ScaledSize | null = null
+  windowDimensions: ScaledSize | null = null
   firstPath: string | undefined
 
   constructor(props: Props) {
     super(props)
-    this.screenDimensions = Dimensions.get('screen')
-    this.firstPath = `M0,0H${this.screenDimensions.width}V${
-      this.screenDimensions.height
-    }H0V0ZM${this.screenDimensions.width / 2},${
-      this.screenDimensions.height / 2
+
+    this.windowDimensions = Dimensions.get('window')
+
+    this.firstPath = `M0,0H${this.windowDimensions.width}V${
+      this.windowDimensions.height
+    }H0V0ZM${this.windowDimensions.width / 2},${
+      this.windowDimensions.height / 2
     } h 1 v 1 h -1 Z`
+
     this.state = {
       canvasSize: {
-        x: this.screenDimensions.width,
-        y: this.screenDimensions.height,
+        x: this.windowDimensions.width,
+        y: this.windowDimensions.height,
       },
       size: props.size,
       position: props.position,
