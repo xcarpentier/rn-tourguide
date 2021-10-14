@@ -32,7 +32,7 @@ export interface ModalProps {
   androidStatusBarVisible: boolean
   backdropColor: string
   labels: Labels
-  dismissOnPress: boolean
+  dismissOnPress?: boolean
   easing(value: number): number
   stop(): void
   next(): void

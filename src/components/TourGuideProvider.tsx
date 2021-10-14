@@ -30,7 +30,7 @@ export interface TourGuideProviderProps {
   borderRadius?: number
   animationDuration?: number
   children: React.ReactNode
-  dismissOnPress: boolean
+  dismissOnPress?: boolean
 }
 
 export const TourGuideProvider = ({

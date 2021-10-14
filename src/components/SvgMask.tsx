@@ -22,7 +22,7 @@ interface Props {
   style: StyleProp<ViewStyle>
   animationDuration?: number
   backdropColor: string
-  dismissOnPress: boolean
+  dismissOnPress?: boolean
   maskOffset?: number
   borderRadius?: number
   currentStep?: IStep
