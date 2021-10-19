@@ -202,6 +202,7 @@ export interface TourGuideProviderProps {
   animationDuration?: number
   children: React.ReactNode
   dismissOnPress?: boolean
+  persistTooltip?: boolean // do not hide tooltip on step change
 }
 
 interface TooltipProps {
