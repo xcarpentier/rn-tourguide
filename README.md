@@ -176,12 +176,12 @@ const AppContent = () => {
 ```ts
 interface TourGuideZoneProps {
   zone: number // A positive number indicating the order of the step in the entire walkthrough.
+  tourKey?: string // A string indicating which tour the zone belongs to
   isTourGuide?: boolean // return children without wrapping id false
   text?: string // text in tooltip
   shape?: Shape // which shape
   maskOffset?: number // offset around zone
   borderRadius?: number // round corner when rectangle
-  startAtMount?: boolean //  start at mount
   keepTooltipPosition?: boolean
   tooltipBottomOffset?: number
   children: React.ReactNode
@@ -193,6 +193,7 @@ export interface TourGuideProviderProps {
   tooltipComponent?: React.ComponentType<TooltipProps>
   tooltipStyle?: StyleProp<ViewStyle>
   labels?: Labels
+  startAtMount?: boolean | string //  start at mount, boolean for single tours, string for multiple tours
   androidStatusBarVisible?: boolean
   backdropColor?: string
   verticalOffset?: number
@@ -242,6 +243,52 @@ export default HomeScreen
 ```
 
 If you are looking for a working example, please check out [this link](https://github.com/xcarpentier/rn-tourguide/blob/master/App.tsx).
+
+## Using Multiple Tours
+
+If you'd like to have multiple tours (different pages, differnt user types, etc) you can pass in a `tourKey` to `useTourGuideController` to create a tour that is keyed to that `tourKey`. **Important** If you use a keyed tour, in order for the `TourGuideZone` components to register correctly you _must_ do one of two things. Either (1) pass along the `tourKey` to the `TourGuideZone` components, or (2) extract the `TourGuideZone` components from the hook itself
+
+(1) If you want to pass along the tourKey
+
+```ts
+import { TourGuideZone, useTourGuideController } from 'rn-tourguide'
+const {
+  canStart, // <-- These are all keyed to the tourKey
+  start, // <-- These are all keyed to the tourKey
+  stop, // <-- These are all keyed to the tourKey
+  eventEmitter, // <-- These are all keyed to the tourKey
+  tourKey, // <-- Extract the tourKey
+} = useTourGuideController('results')
+
+return (
+  <TourGuideZone
+    tourKey={tourKey} // <-- Pass in the tourKey
+    zone={2}
+    text='Check on your results'
+  >
+    {/** Children */}
+  </TourGuideZone>
+)
+```
+
+Or (2) if you want to extract the components directly from the hook
+
+```ts
+import { useTourGuideController } from 'rn-tourguide'
+const { canStart, start, stop, TourGuideZone } =
+  useTourGuideController('results')
+
+return (
+  <TourGuideZone // <-- No need to pass in the tourKey
+    zone={2}
+    text='Check on your results'
+  >
+    {/** Children */}
+  </TourGuideZone>
+)
+```
+
+If you use multiple tours and would like to use the `startAtMount` prop on the `TourGuideProvider` component, then pass in the string of the tour you'd like to start
 
 ### Custom tooltip component
 
