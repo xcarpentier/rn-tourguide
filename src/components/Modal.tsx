@@ -215,8 +215,13 @@ export class Modal extends React.Component<ModalProps, State> {
     ) {
       animations.push(translateAnim)
     }
-    if (this.props.isFirstStep || !this.props.persistTooltip) {
+    if (!this.props.persistTooltip) {
       this.state.opacity.setValue(0)
+      animations.push(opacityAnim)
+    } else if (
+      // @ts-ignore
+      this.state.opacity._value !== 1
+    ) {
       animations.push(opacityAnim)
     }
     Animated.parallel(animations).start()
