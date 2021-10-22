@@ -21,7 +21,7 @@ const uri =
 // Add <TourGuideProvider/> at the root of you app!
 function App() {
   return (
-    <TourGuideProvider {...{ borderRadius: 16 }}>
+    <TourGuideProvider {...{ borderRadius: 16, androidStatusBarVisible: true }}>
       <AppContent />
     </TourGuideProvider>
   )
@@ -85,7 +85,7 @@ const AppContent = () => {
       </View>
       <View style={styles.row}>
         <TourGuideZone zone={4} shape={'circle'} tooltipBottomOffset={200}>
-          <Ionicons name='ios-contact' {...iconProps} />
+          <Ionicons name='ios-add-circle' {...iconProps} />
         </TourGuideZone>
         <Ionicons name='ios-chatbubbles' {...iconProps} />
         <Ionicons name='ios-globe' {...iconProps} />
@@ -96,19 +96,27 @@ const AppContent = () => {
           <Ionicons name='ios-rainy' {...iconProps} />
         </TourGuideZone>
       </View>
+      <View
+        style={[
+          StyleSheet.absoluteFillObject,
+          {
+            top: 250,
+            left: 50,
+            width: 64,
+            height: 64,
+            backgroundColor: 'red',
+          },
+        ]}
+      />
       {Platform.OS !== 'web' ? (
         <TourGuideZoneByPosition
           zone={1}
-          shape={'rectangle_and_keep'}
+          shape={'circle'}
           isTourGuide
-          top={191}
-          left={88}
+          top={250}
+          left={50}
           width={64}
           height={64}
-          borderRadiusObject={{
-            topLeft: 0,
-            bottomRight: 0,
-          }}
         />
       ) : null}
     </View>
