@@ -237,7 +237,8 @@ export class SvgMask extends Component<Props, State> {
             strokeWidth={0}
             fillRule='evenodd'
             d={this.state.composedSvgPath}
-            opacity={this.state.opacity as any}
+            // @ts-ignore
+            opacity={this.state.opacity._value as any}
           />
         </Svg>
       </Wrapper>
