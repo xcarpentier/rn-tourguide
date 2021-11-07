@@ -26,7 +26,6 @@ interface Props {
   maskOffset?: number
   borderRadius?: number
   currentStep?: IStep
-  windowDimensions: ScaledSize | null
   easing?(value: number): number
   stop?(): void
 }
@@ -65,9 +64,8 @@ export class SvgMask extends Component<Props, State> {
   rafID: number
   mask: React.RefObject<PathProps> = React.createRef()
 
-  windowDimensions: ScaledSize | null = null
+  windowDimensions: ScaledSize
   dimensionsSubscription: any
-  firstPath: string | undefined
 
   constructor(props: Props) {
     super(props)
