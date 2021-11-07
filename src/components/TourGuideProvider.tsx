@@ -53,6 +53,8 @@ export const TourGuideProvider = ({
   const [steps, setSteps] = useState<Steps>({})
   const [canStart, setCanStart] = useState<boolean>(false)
 
+  const [windowIsResized, setWindowResized] = useState(false)
+
   const startTries = useRef<number>(0)
   const mounted = useIsMounted()
 
@@ -67,10 +69,25 @@ export const TourGuideProvider = ({
   }, [visible])
 
   useEffect(() => {
-    if (visible || currentStep) {
+    if (visible || (windowIsResized && currentStep) || currentStep) {
       moveToCurrentStep()
+      setWindowResized(false)
     }
-  }, [visible, currentStep])
+  }, [visible, currentStep, windowIsResized])
+
+  const setWindowIsResized = () => {
+    setWindowResized(true)
+  }
+
+  useEffect(() => {
+    if (!utils.IS_NATIVE) {
+      window.addEventListener('resize', setWindowIsResized)
+    }
+
+    return () => {
+      window.removeEventListener('resize', setWindowIsResized)
+    }
+  }, [])
 
   useEffect(() => {
     if (mounted) {

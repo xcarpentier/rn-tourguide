@@ -13,7 +13,7 @@ import {
 } from 'react-native'
 import Svg, { PathProps } from 'react-native-svg'
 import { IStep, ValueXY } from '../types'
-import { svgMaskPathMorph } from '../utilities'
+import { svgMaskPathMorph, IS_NATIVE } from '../utilities'
 import { AnimatedSvgPath } from './AnimatedPath'
 
 interface Props {
@@ -26,6 +26,7 @@ interface Props {
   maskOffset?: number
   borderRadius?: number
   currentStep?: IStep
+  windowDimensions: ScaledSize | null
   easing?(value: number): number
   stop?(): void
 }
@@ -37,9 +38,19 @@ interface State {
   animation: Animated.Value
   canvasSize: ValueXY
   previousPath: string
+  nextSvgPath: string
+  composedSvgPath: string
+  viewBoxDimentions: string
 }
 
-const IS_WEB = Platform.OS !== 'web'
+const getSvgPath = () =>
+  `M0,0H${Dimensions.get('window').width}V${
+    Dimensions.get('window').height
+  }H0V0ZM${Dimensions.get('window').width / 2},${
+    Dimensions.get('window').height / 2
+  } h 1 v 1 h -1 Z`
+const getViewBoxDimentions = () =>
+  `0 0 ${Dimensions.get('window').width} ${Dimensions.get('window').height}`
 
 export class SvgMask extends Component<Props, State> {
   static defaultProps = {
@@ -50,6 +61,7 @@ export class SvgMask extends Component<Props, State> {
   }
 
   listenerID: string
+  resizeListenerID: string | null
   rafID: number
   mask: React.RefObject<PathProps> = React.createRef()
 
@@ -64,12 +76,6 @@ export class SvgMask extends Component<Props, State> {
       default: Dimensions.get('window'),
     })
 
-    this.firstPath = `M0,0H${this.windowDimensions.width}V${
-      this.windowDimensions.height
-    }H0V0ZM${this.windowDimensions.width / 2},${
-      this.windowDimensions.height / 2
-    } h 1 v 1 h -1 Z`
-
     this.state = {
       canvasSize: {
         x: this.windowDimensions.width,
@@ -79,10 +85,14 @@ export class SvgMask extends Component<Props, State> {
       position: props.position,
       opacity: new Animated.Value(0),
       animation: new Animated.Value(0),
-      previousPath: this.firstPath,
+      previousPath: getSvgPath(),
+      viewBoxDimentions: getViewBoxDimentions(),
+      nextSvgPath: getSvgPath(),
+      composedSvgPath: getSvgPath(),
     }
 
     this.listenerID = this.state.animation.addListener(this.animationListener)
+    !IS_NATIVE && window.addEventListener('resize', this.recalculatePath)
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -90,7 +100,7 @@ export class SvgMask extends Component<Props, State> {
       prevProps.position !== this.props.position ||
       prevProps.size !== this.props.size
     ) {
-      this.animate()
+      this.recalculatePath()
     }
   }
 
@@ -101,6 +111,7 @@ export class SvgMask extends Component<Props, State> {
     if (this.rafID) {
       cancelAnimationFrame(this.rafID)
     }
+    !IS_NATIVE && window.removeEventListener('resize', this.recalculatePath)
   }
 
   getPath = () => {
@@ -125,7 +136,7 @@ export class SvgMask extends Component<Props, State> {
     const d = this.getPath()
     this.rafID = requestAnimationFrame(() => {
       if (this.mask && this.mask.current) {
-        if (IS_WEB) {
+        if (IS_NATIVE) {
           // @ts-ignore
           this.mask.current.setNativeProps({ d })
         } else {
@@ -181,6 +192,16 @@ export class SvgMask extends Component<Props, State> {
     })
   }
 
+  recalculatePath = () => {
+    this.setState((state) => ({
+      ...state,
+      previousPath: getSvgPath(),
+      viewBoxDimentions: getViewBoxDimentions(),
+    }))
+    this.setState((state) => ({ ...state, composedSvgPath: this.getPath() }))
+    this.animate()
+  }
+
   render() {
     if (!this.state.canvasSize) {
       return null
@@ -199,13 +220,14 @@ export class SvgMask extends Component<Props, State> {
           pointerEvents='none'
           width={this.state.canvasSize.x}
           height={this.state.canvasSize.y}
+          viewBox={this.state.viewBoxDimentions}
         >
           <AnimatedSvgPath
             ref={this.mask}
             fill={this.props.backdropColor}
             strokeWidth={0}
             fillRule='evenodd'
-            d={this.firstPath}
+            d={this.state.composedSvgPath}
             opacity={this.state.opacity as any}
           />
         </Svg>
