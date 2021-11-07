@@ -66,6 +66,7 @@ export class SvgMask extends Component<Props, State> {
   mask: React.RefObject<PathProps> = React.createRef()
 
   windowDimensions: ScaledSize | null = null
+  dimensionsSubscription: any
   firstPath: string | undefined
 
   constructor(props: Props) {
@@ -92,7 +93,15 @@ export class SvgMask extends Component<Props, State> {
     }
 
     this.listenerID = this.state.animation.addListener(this.animationListener)
-    !IS_NATIVE && window.addEventListener('resize', this.recalculatePath)
+  }
+
+  componentDidMount() {
+    IS_NATIVE
+      ? (this.dimensionsSubscription = Dimensions.addEventListener(
+          'change',
+          this.recalculatePath,
+        ))
+      : window.addEventListener('resize', this.recalculatePath)
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -111,7 +120,9 @@ export class SvgMask extends Component<Props, State> {
     if (this.rafID) {
       cancelAnimationFrame(this.rafID)
     }
-    !IS_NATIVE && window.removeEventListener('resize', this.recalculatePath)
+    IS_NATIVE
+      ? this.dimensionsSubscription?.remove()
+      : window.removeEventListener('resize', this.recalculatePath)
   }
 
   getPath = () => {

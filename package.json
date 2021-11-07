@@ -72,6 +72,8 @@
     }
   },
   "dependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/runtime": "^7.16.0",
     "flubber": "~0.4.2",
     "hoist-non-react-statics": "~3.0.1",
     "lodash.clamp": "~4.0.3",

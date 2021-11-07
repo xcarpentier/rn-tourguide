@@ -1,6 +1,12 @@
 import mitt from 'mitt'
 import * as React from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import {
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+  Dimensions,
+} from 'react-native'
 import { TourGuideContext } from '../components/TourGuideContext'
 import { useIsMounted } from '../hooks/useIsMounted'
 import { IStep, Labels, StepObject, Steps } from '../types'
@@ -80,12 +86,17 @@ export const TourGuideProvider = ({
   }
 
   useEffect(() => {
-    if (!utils.IS_NATIVE) {
+    let subscription: any
+    if (utils.IS_NATIVE) {
+      subscription = Dimensions.addEventListener('change', setWindowIsResized)
+    } else {
       window.addEventListener('resize', setWindowIsResized)
     }
 
     return () => {
-      window.removeEventListener('resize', setWindowIsResized)
+      utils.IS_NATIVE
+        ? subscription?.remove()
+        : window.removeEventListener('resize', setWindowIsResized)
     }
   }, [])
 
