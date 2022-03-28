@@ -84,6 +84,7 @@ export class ConnectedStep extends React.Component<Props> {
       const measure = () => {
         // Wait until the wrapper element appears
         if (this.wrapper && this.wrapper.measure) {
+          const {borderRadius} = this.props;
           this.wrapper.measure(
             (
               _ox: number,
@@ -94,9 +95,9 @@ export class ConnectedStep extends React.Component<Props> {
               y: number,
             ) =>
               resolve({
-                x,
+                x: borderRadius ? x + borderRadius : x,
                 y,
-                width,
+                width: borderRadius ? width - borderRadius * 2 : width,
                 height,
               }),
             reject,
