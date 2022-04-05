@@ -33,9 +33,14 @@ export interface ModalProps {
   backdropColor: string
   labels: Labels
   dismissOnPress?: boolean
+  preventOutsideInteraction?: boolean
+
   easing(value: number): number
+
   stop(): void
+
   next(): void
+
   prev(): void
 }
 
@@ -74,6 +79,7 @@ export class Modal extends React.Component<ModalProps, State> {
     backdropColor: 'rgba(0, 0, 0, 0.4)',
     labels: {},
     isHorizontal: false,
+    preventOutsideInteraction: false,
   }
 
   layout?: Layout = {
@@ -189,9 +195,9 @@ export class Modal extends React.Component<ModalProps, State> {
       verticalPosition === 'bottom'
         ? tooltip.top
         : obj.top -
-          MARGIN -
-          135 -
-          (this.props.currentStep!.tooltipBottomOffset || 0)
+        MARGIN -
+        135 -
+        (this.props.currentStep!.tooltipBottomOffset || 0)
     const translateAnim = Animated.timing(this.state.tooltipTranslateY, {
       toValue,
       duration,
@@ -290,6 +296,7 @@ export class Modal extends React.Component<ModalProps, State> {
           styles.tooltip,
           this.props.tooltipStyle,
           {
+            zIndex: 99,
             opacity,
             transform: [{ translateY: this.state.tooltipTranslateY }],
           },
@@ -308,6 +315,12 @@ export class Modal extends React.Component<ModalProps, State> {
     )
   }
 
+  renderNonInteractionPlaceholder() {
+    return this.props.preventOutsideInteraction ? <View
+      style={[StyleSheet.absoluteFill, styles.nonInteractionPlaceholder]} /> : null
+  }
+
+
   render() {
     const containerVisible = this.state.containerVisible || this.props.visible
     const contentVisible = this.state.layout && containerVisible
@@ -324,9 +337,12 @@ export class Modal extends React.Component<ModalProps, State> {
           onLayout={this.handleLayoutChange}
           pointerEvents='box-none'
         >
+
+
           {contentVisible && (
             <>
               {this.renderMask()}
+              {this.renderNonInteractionPlaceholder()}
               {this.renderTooltip()}
             </>
           )}
