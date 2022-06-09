@@ -10,9 +10,9 @@ export interface TooltipProps {
   isLastStep?: boolean
   currentStep: IStep
   labels?: Labels
-  handleNext?(): void
-  handlePrev?(): void
-  handleStop?(): void
+  handleNext?: () => void
+  handlePrev?: () => void
+  handleStop?: () => void
 }
 
 export const Tooltip = ({

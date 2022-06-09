@@ -26,8 +26,8 @@ interface Props {
   maskOffset?: number
   borderRadius?: number
   currentStep?: IStep
-  easing?(value: number): number
-  stop?(): void
+  easing: (value: number) => number
+  stop: () => void
 }
 
 interface State {
