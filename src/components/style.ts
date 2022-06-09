@@ -13,6 +13,7 @@ export interface IStyle {
   buttonText: TextStyle
   bottomBar: ViewStyle
   overlayContainer: ViewStyle
+  nonInteractionPlaceholder: ViewStyle
 }
 
 export default StyleSheet.create<IStyle>({
@@ -34,6 +35,11 @@ export default StyleSheet.create<IStyle>({
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 16,
+    zIndex: Z_INDEX - 1,
+  },
+  nonInteractionPlaceholder: {
+    backgroundColor: 'transparent',
+    zIndex: Z_INDEX - 2,
   },
   tooltipText: {
     textAlign: 'center',

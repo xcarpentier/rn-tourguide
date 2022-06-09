@@ -203,6 +203,7 @@ export interface TourGuideProviderProps {
   animationDuration?: number
   children: React.ReactNode
   dismissOnPress?: boolean
+  preventOutsideInteraction?:boolean
 }
 
 interface TooltipProps {
@@ -365,6 +366,19 @@ List of available events is:
 - `start` — Copilot tutorial has started.
 - `stop` — Copilot tutorial has ended or skipped.
 - `stepChange` — Next step is triggered. Passes [`Step`](https://github.com/mohebifar/react-native-copilot/blob/master/src/types.js#L2) instance as event handler argument.
+
+
+### Prevent Outside Interaction
+
+Sometimes you need to prevent users to interact with app while tour is shown, in such case `preventOutsideInteraction` prop is up for you.
+
+```default: false```
+
+```jsx
+<TourGuideProvider preventOutsideInteraction>
+  <AppContent />
+</TourGuideProvider>
+```
 
 ## Contributing
 

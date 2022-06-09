@@ -1,6 +1,6 @@
 {
   "name": "rn-tourguide",
-  "version": "3.1.2",
+  "version": "3.3.0-rc2",
   "description": "Make an interactive step by step tour guide for your react-native app (a rewrite of react-native-copilot)",
   "main": "node_modules/expo/AppEntry.js",
   "types": "lib/index.d.ts",
@@ -44,37 +44,29 @@
     "@types/hoist-non-react-statics": "3.3.1",
     "@types/jest": "25.2.3",
     "@types/lodash.clamp": "4.0.6",
-    "@types/react": "^16.9.11",
-    "@types/react-dom": "16.9.4",
-    "@types/react-native": "^0.60.22",
+    "@types/react": "~17.0.21",
+    "@types/react-dom": "~17.0.9",
+    "@types/react-native": "~0.64.12",
     "@types/react-test-renderer": "16.9.2",
-    "babel-preset-expo": "^8.1.0",
-    "expo": "^37.0.0",
+    "babel-preset-expo": "8.5.1",
+    "expo": "^43.0.0",
     "gh-pages": "2.2.0",
     "jest": "^26.0.1",
+    "jest-expo": "^43.0.1",
     "jest-react-native": "^18.0.0",
     "json": "^10.0.0",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz",
-    "react-native-svg": "11.0.1",
-    "react-native-web": "0.12.2",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-native": "0.64.2",
+    "react-native-svg": "12.1.1",
+    "react-native-web": "0.17.1",
     "react-test-renderer": ">=16.8.0",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.8.3"
+    "typescript": "~4.3.5"
   },
   "jest": {
-    "preset": "react-native",
-    "transform": {
-      "^.+\\.tsx?$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element)"
-    ],
-    "modulePathIgnorePatterns": [
-      "example"
-    ],
+    "preset": "jest-expo",
     "globals": {
       "__TEST__": true
     }
