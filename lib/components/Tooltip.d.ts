@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { IStep, Labels } from '../types';
 export interface TooltipProps {
     isFirstStep?: boolean;

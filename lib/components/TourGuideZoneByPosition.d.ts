@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { StyleProp, ViewStyle } from 'react-native';
 import { BorderRadiusObject, Shape } from '../types';
 export interface TourGuideZoneByPositionProps {

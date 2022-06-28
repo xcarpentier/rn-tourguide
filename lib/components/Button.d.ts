@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { StyleProp, ViewStyle } from 'react-native';
 interface Props {
     wrapperStyle?: StyleProp<ViewStyle>;
