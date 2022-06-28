@@ -18,6 +18,7 @@ export interface ModalProps {
     backdropColor: string;
     labels: Labels;
     dismissOnPress?: boolean;
+    persistTooltip?: boolean;
     easing: (value: number) => number;
     stop: () => void;
     next: () => void;

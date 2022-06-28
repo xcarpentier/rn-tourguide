@@ -16,6 +16,7 @@ export interface TourGuideProviderProps {
     animationDuration?: number;
     children: React.ReactNode;
     dismissOnPress?: boolean;
+    persistTooltip?: boolean;
     preventOutsideInteraction?: boolean;
 }
-export declare const TourGuideProvider: ({ children, wrapperStyle, labels, tooltipComponent, tooltipStyle, androidStatusBarVisible, backdropColor, animationDuration, maskOffset, borderRadius, verticalOffset, startAtMount, dismissOnPress, preventOutsideInteraction, }: TourGuideProviderProps) => JSX.Element;
+export declare const TourGuideProvider: ({ children, wrapperStyle, labels, tooltipComponent, tooltipStyle, androidStatusBarVisible, backdropColor, animationDuration, maskOffset, borderRadius, verticalOffset, startAtMount, dismissOnPress, persistTooltip, preventOutsideInteraction, }: TourGuideProviderProps) => JSX.Element;
