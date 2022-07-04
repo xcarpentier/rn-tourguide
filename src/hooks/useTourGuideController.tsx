@@ -10,10 +10,12 @@ export const useTourGuideController = (tourKey?: string) => {
   const { start, canStart, stop, eventEmitter, getCurrentStep, setTourKey } =
     React.useContext(TourGuideContext)
 
-  let key = tourKey ?? '_default'
+  const key = tourKey ?? '_default'
 
   const _start = (fromStep?: number) => {
-    setTourKey && setTourKey(key)
+    if (setTourKey) {
+      setTourKey(key)
+    }
     if (start) {
       start(key, fromStep)
     }
@@ -33,7 +35,9 @@ export const useTourGuideController = (tourKey?: string) => {
   }
 
   React.useEffect(() => {
-    setTourKey && setTourKey(key)
+    if (setTourKey) {
+      setTourKey(key)
+    }
   }, [])
 
   const KeyedTourGuideZone: React.FC<Omit<TourGuideZoneProps, 'tourKey'>> =

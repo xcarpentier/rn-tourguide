@@ -9,7 +9,7 @@ export interface Emitter {
 }
 export type Ctx<T extends any> = Record<string, T> & { _default: T }
 
-export type ITourGuideContext = {
+export interface ITourGuideContext {
   setTourKey?: (tourKey: string) => void
   eventEmitter?: Ctx<Emitter>
   canStart: Ctx<boolean>
