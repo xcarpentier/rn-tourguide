@@ -21,7 +21,7 @@ const uri =
 // Add <TourGuideProvider/> at the root of you app!
 function App() {
   return (
-    <TourGuideProvider {...{ borderRadius: 16, androidStatusBarVisible: true }}>
+    <TourGuideProvider {...{ persistTooltip: true, androidStatusBarVisible: true }}>
       <AppContent />
     </TourGuideProvider>
   )
@@ -50,7 +50,6 @@ const AppContent = () => {
     <View style={styles.container}>
       {/* Use TourGuideZone only to wrap */}
       <TourGuideZone
-        keepTooltipPosition
         zone={2}
         text={'A react-native-copilot remastered! 🎉'}
         borderRadius={16}

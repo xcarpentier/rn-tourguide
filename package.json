@@ -2,7 +2,7 @@
   "name": "rn-tourguide",
   "version": "3.3.0",
   "description": "Make an interactive step by step tour guide for your react-native app (a rewrite of react-native-copilot)",
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "private": false,
   "scripts": {
@@ -12,7 +12,7 @@
     "tsc": "node_modules/.bin/tsc --noEmit",
     "tsc:watch": "node_modules/.bin/tsc --noEmit --watch",
     "build": "rm -rf lib/ && node_modules/.bin/tsc",
-    "config:dev": "json -I -f package.json -e 'this.main=\"node_modules/expo/AppEntry.js\"'",
+    "config:dev": "json -I -f package.json -e 'this.main=\"lib/index.js\"'",
     "config:npm": "json -I -f package.json -e 'this.main=\"lib/index.js\"'",
     "lint": "tslint --project .",
     "verify": "yarn test && yarn lint && yarn tsc && yarn build",
@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xcarpentier/rn-tourguide.git"
+    "url": "git+https://github.com/turnaroundfactor/rn-tourguide.git"
   },
   "keywords": [
     "react-native",
@@ -37,7 +37,7 @@
   "author": "Xavier Carpentier <xcapetir@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/xcarpentier/rn-tourguide/issues"
+    "url": "https://github.com/turnaroundfactor/rn-tourguide/issues"
   },
   "homepage": "https://xcarpentier.github.io/rn-tourguide/",
   "devDependencies": {
@@ -49,7 +49,7 @@
     "@types/react-native": "~0.64.12",
     "@types/react-test-renderer": "16.9.2",
     "babel-preset-expo": "8.5.1",
-    "expo": "^43.0.0",
+    "expo": "^45.0.6",
     "gh-pages": "2.2.0",
     "jest": "^26.0.1",
     "jest-expo": "^43.0.1",
@@ -72,6 +72,7 @@
     }
   },
   "dependencies": {
+    "expo": "^44.0.0",
     "flubber": "~0.4.2",
     "hoist-non-react-statics": "~3.0.1",
     "lodash.clamp": "~4.0.3",
