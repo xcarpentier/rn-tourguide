@@ -3,6 +3,7 @@ import * as React from 'react'
 import {
   Image,
   Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -29,14 +30,14 @@ function App() {
 
 const AppContent = () => {
   const iconProps = { size: 40, color: '#888' }
-
+  const scrollRef = React.useRef(null);
   // Use Hooks to control!
   const { start, canStart, stop, eventEmitter } = useTourGuideController()
 
   React.useEffect(() => {
     // start at mount
     if (canStart) {
-      start()
+      start(1,scrollRef)
     }
   }, [canStart]) // wait until everything is registered
 
@@ -47,11 +48,71 @@ const AppContent = () => {
     return () => eventEmitter.off('*', null)
   }, [])
   return (
+    <ScrollView
+        ref={(r)=> {scrollRef.current = r}}
+        contentContainerStyle={{ flexGrow: 1 }}
+        scrollEventThrottle={16}
+        keyboardShouldPersistTaps={'always'}
+      >
     <View style={styles.container}>
       {/* Use TourGuideZone only to wrap */}
+      <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
+      <Text style={styles.title}>
+          {'Welcome to the demo of\n"rn-tourguide"'}
+        </Text>
       <TourGuideZone
         keepTooltipPosition
-        zone={2}
+        zone={6}
         text={'A react-native-copilot remastered! 🎉'}
         borderRadius={16}
       >
@@ -92,7 +153,7 @@ const AppContent = () => {
         <TourGuideZone zone={5}>
           <Ionicons name='ios-navigate' {...iconProps} />
         </TourGuideZone>
-        <TourGuideZone zone={6} shape={'circle'}>
+        <TourGuideZone zone={2} shape={'circle'}>
           <Ionicons name='ios-rainy' {...iconProps} />
         </TourGuideZone>
       </View>
@@ -120,6 +181,7 @@ const AppContent = () => {
         />
       ) : null}
     </View>
+    </ScrollView>
   )
 }
 

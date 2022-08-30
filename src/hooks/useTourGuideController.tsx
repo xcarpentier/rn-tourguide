@@ -12,12 +12,12 @@ export const useTourGuideController = (tourKey?: string) => {
 
   const key = tourKey ?? '_default'
 
-  const _start = (fromStep?: number) => {
+  const _start = (fromStep?: number,scrollRef?: React.RefObject<any>) => {
     if (setTourKey) {
       setTourKey(key)
     }
     if (start) {
-      start(key, fromStep)
+      start(key, fromStep,scrollRef)
     }
   }
   const _stop = () => {
