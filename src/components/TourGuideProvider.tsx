@@ -145,7 +145,7 @@ export const TourGuideProvider = ({
       if (scrollRef && step) {
         await step.wrapper.measureLayout(
           findNodeHandle(scrollRef.current),
-          (x: number, y: number, w: number, h: number) => {
+          (_x: number, y: number, _w: number, h: number) => {
             const yOffsett = y > 0 ? y - h / 2 : 0
             scrollRef.current.scrollTo({ y: yOffsett, animated: false })
           },
