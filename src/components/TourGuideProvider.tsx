@@ -150,9 +150,17 @@ export const TourGuideProvider = ({
             scrollRef.current.scrollTo({ y: yOffsett, animated: false })
           },
         )
+        setTimeout(() => {
+          updateCurrentStep((currentStep) => {
+            const newStep = { ...currentStep }
+            newStep[key] = step
+            eventEmitter[key]?.emit('stepChange', step)
+            return newStep
+          })
+          resolve()
+        }, 100);
       }
-
-      setTimeout(() => {
+      else {
         updateCurrentStep((currentStep) => {
           const newStep = { ...currentStep }
           newStep[key] = step
@@ -160,7 +168,7 @@ export const TourGuideProvider = ({
           return newStep
         })
         resolve()
-      }, scrollRef ? 100 : 0);
+      }
       
     })
 
