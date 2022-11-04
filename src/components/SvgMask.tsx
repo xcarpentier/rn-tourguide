@@ -207,6 +207,7 @@ export class SvgMask extends Component<Props, State> {
             fillRule='evenodd'
             d={this.firstPath}
             opacity={this.state.opacity as any}
+            onPress={() => {}}
           />
         </Svg>
       </Wrapper>
