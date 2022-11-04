@@ -25,7 +25,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wagelyapp/rn-tourguide.git"
+    "url": "git+https://github.com/xcarpentier/rn-tourguide.git"
   },
   "keywords": [
     "react-native",
