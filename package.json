@@ -6,8 +6,8 @@
   "types": "lib/index.d.ts",
   "private": false,
   "scripts": {
-    "start": "yarn config:dev && expo start -c",
-    "start:web": "yarn config:dev && expo start -c -w",
+    "start": "npm run config:dev && expo start -c",
+    "start:web": "npm run config:dev && expo start -c -w",
     "test": "TZ=Europe/Paris jest --no-watchman",
     "tsc": "node_modules/.bin/tsc --noEmit",
     "tsc:watch": "node_modules/.bin/tsc --noEmit --watch",
@@ -15,13 +15,13 @@
     "config:dev": "json -I -f package.json -e 'this.main=\"node_modules/expo/AppEntry.js\"'",
     "config:npm": "json -I -f package.json -e 'this.main=\"lib/index.js\"'",
     "lint": "tslint --project .",
-    "verify": "yarn test && yarn lint && yarn tsc && yarn build",
-    "prepublishOnly": "yarn verify && yarn config:npm",
-    "postpublish": "yarn config:dev",
+    "verify": "npm run test && npm run lint && npm run tsc && npm run build",
+    "prepublishOnly": "npm run verify && npm run config:npm",
+    "postpublish": "npm run config:dev",
     "cleaning": "rm -rf node_modules && rm -f yarn.lock && yarn cache clean && yarn install && watchman watch-del-all && rm -fr $TMPDIR/react-*",
     "deploy": "gh-pages -d web-build",
-    "predeploy": "yarn verify && expo build:web",
-    "prepare": "npm run deploy"
+    "predeploy": "npm run verify && expo build:web",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
