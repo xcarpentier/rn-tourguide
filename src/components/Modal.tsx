@@ -107,6 +107,7 @@ export class Modal extends React.Component<ModalProps, State> {
 
   handleLayoutChange = ({ nativeEvent: { layout } }: LayoutChangeEvent) => {
     this.layout = layout
+    console.log("test");
   }
 
   measure(): Promise<Layout> {
