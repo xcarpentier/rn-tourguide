@@ -61,6 +61,7 @@ export class SvgMask extends Component<Props, State> {
 
     this.windowDimensions = Platform.select({
       android: Dimensions.get('screen'),
+      web: Dimensions.get('screen'),
       default: Dimensions.get('window'),
     })
 
