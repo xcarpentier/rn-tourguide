@@ -2,7 +2,7 @@
   "name": "rn-tourguide",
   "version": "3.3.0",
   "description": "Make an interactive step by step tour guide for your react-native app (a rewrite of react-native-copilot)",
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "private": false,
   "scripts": {
