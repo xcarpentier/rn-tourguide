@@ -24,6 +24,7 @@ export interface TourGuideProviderProps {
   startAtMount?: string | boolean
   backdropColor?: string
   verticalOffset?: number
+  horizontalOffset?: number
   wrapperStyle?: StyleProp<ViewStyle>
   maskOffset?: number
   borderRadius?: number
@@ -45,6 +46,7 @@ export const TourGuideProvider = ({
   maskOffset,
   borderRadius,
   verticalOffset,
+  horizontalOffset,
   startAtMount = false,
   dismissOnPress = false,
   preventOutsideInteraction = false,
@@ -128,7 +130,7 @@ export const TourGuideProvider = ({
     await modal.current?.animateMove({
       width: size.width + OFFSET_WIDTH,
       height: size.height + OFFSET_WIDTH,
-      left: Math.round(size.x) - OFFSET_WIDTH / 2,
+      left: Math.round(size.x) - OFFSET_WIDTH / 2 + (horizontalOffset || 0),
       top: Math.round(size.y) - OFFSET_WIDTH / 2 + (verticalOffset || 0),
     })
   }
