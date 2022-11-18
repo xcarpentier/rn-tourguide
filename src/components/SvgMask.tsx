@@ -39,7 +39,7 @@ interface State {
   previousPath: string
 }
 
-const IS_WEB = Platform.OS !== 'web'
+const IS_NATIVE = Platform.OS !== 'web'
 
 export class SvgMask extends Component<Props, State> {
   static defaultProps = {
@@ -72,7 +72,9 @@ export class SvgMask extends Component<Props, State> {
 
     this.state = {
       canvasSize: {
-        x: this.windowDimensions.width,
+        x: IS_NATIVE
+          ? this.windowDimensions.width
+          : 0.494 * this.windowDimensions.height,
         y: this.windowDimensions.height,
       },
       size: props.size,
@@ -125,7 +127,7 @@ export class SvgMask extends Component<Props, State> {
     const d = this.getPath()
     this.rafID = requestAnimationFrame(() => {
       if (this.mask && this.mask.current) {
-        if (IS_WEB) {
+        if (IS_NATIVE) {
           // @ts-ignore
           this.mask.current.setNativeProps({ d })
         } else {
