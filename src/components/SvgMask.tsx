@@ -133,7 +133,7 @@ export class SvgMask extends Component<Props, State> {
   }
 
   getPath = () => {
-    const { previousPath, animation, canvasSize } = this.state
+    const { previousPath, animation } = this.state
     const { size, position, currentStep, maskOffset, borderRadius } = this.props
     const customPosition =
       this.windowDimensions && this.windowDimensions?.width > 480
