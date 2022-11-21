@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta httpequiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1.00001,viewport-fit=cover"
+    />
+    <title>rn-tourguide</title>
+    <style>
+      #root,
+      body,
+      html {
+        /* width: 100%; */
+        -webkit-overflow-scrolling: touch;
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+      }
+
+      #root {
+        flex-shrink: 0;
+        flex-basis: auto;
+        flex-grow: 1;
+        display: flex;
+        flex: 1;
+        max-width: calc(0.494 * 100vh);
+        margin: 0 auto;
+      }
+
+      @media only screen and (max-device-width: 480px) {
+        #root {
+          max-width: 100vw !important;
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
+
+      html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+        height: calc(100% + env(safe-area-inset-top));
+      }
+      body {
+        display: flex;
+        overflow-y: auto;
+        overscroll-behavior-y: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        -ms-overflow-style: scrollbar;
+      }
+    </style>
+    <meta name="description" content="rn-tourguide" />
+    <link rel="manifest" href="/rn-tourguide/manifest.json" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="rn-tourguide" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+  </head>
+  <body>
+    <noscript
+      ><form
+        action=""
+        style="
+          background-color: #fff;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 9999;
+        "
+      >
+        <div
+          style="
+            font-size: 18px;
+            font-family: Helvetica, sans-serif;
+            line-height: 24px;
+            margin: 10%;
+            width: 80%;
+          "
+        >
+          <p>Oh no! It looks like JavaScript is not enabled in your browser.</p>
+          <p style="margin: 20px 0">
+            <button
+              type="submit"
+              style="
+                background-color: #4630eb;
+                border-radius: 100px;
+                border: none;
+                box-shadow: none;
+                color: #fff;
+                cursor: pointer;
+                font-weight: 700;
+                line-height: 20px;
+                padding: 6px 16px;
+              "
+            >
+              Reload
+            </button>
+          </p>
+        </div>
+      </form></noscript
+    >
+    <div id="root"></div>
+    <script src="/rn-tourguide/static/js/runtime~app.ea2dbe6b.js"></script>
+    <script src="/rn-tourguide/static/js/2.465bdeb6.chunk.js"></script>
+    <script src="/rn-tourguide/static/js/app.38c9df3c.chunk.js"></script>
+  </body>
+</html>

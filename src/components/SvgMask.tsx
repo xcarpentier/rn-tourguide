@@ -61,7 +61,6 @@ export class SvgMask extends Component<Props, State> {
 
     this.windowDimensions = Platform.select({
       android: Dimensions.get('screen'),
-      web: Dimensions.get('screen'),
       default: Dimensions.get('window'),
     })
 
@@ -73,16 +72,17 @@ export class SvgMask extends Component<Props, State> {
 
     this.state = {
       canvasSize: {
-        x: IS_NATIVE
-          ? this.windowDimensions.width
-          : 0.494 * this.windowDimensions.height,
-        y: this.windowDimensions.height,
+        x: 0, // native layout width
+        y: 0, // native layout height
       },
       size: props.size,
       position: props.position,
       opacity: new Animated.Value(0),
       animation: new Animated.Value(0),
-      previousPath: this.firstPath,
+      previousPath: this.getFirstPath(
+        this.windowDimensions.width,
+        this.windowDimensions.height,
+      ),
     }
 
     this.listenerID = this.state.animation.addListener(this.animationListener)
@@ -106,15 +106,45 @@ export class SvgMask extends Component<Props, State> {
     }
   }
 
+  getFirstPath(width: any, height: any) {
+    return `M0,0H${width}V${height}H0V0ZM${width / 2},${
+      height / 2
+    } h 1 v 1 h -1 Z`
+  }
+
+  handleLayout = ({
+    nativeEvent: {
+      layout: { width, height },
+    },
+  }: LayoutChangeEvent) => {
+    this.getFirstPath(width, height)
+    this.setState({
+      canvasSize: {
+        x: width, // max 347 , if < 480 --> ikutan
+        y: height,
+      },
+    })
+  }
+
+  calculateMargin = () => {
+    return this.windowDimensions
+      ? (this.windowDimensions?.width - this.state.canvasSize.x) / 2
+      : 0
+  }
+
   getPath = () => {
-    const { previousPath, animation } = this.state
+    const { previousPath, animation, canvasSize } = this.state
     const { size, position, currentStep, maskOffset, borderRadius } = this.props
+    const customPosition =
+      this.windowDimensions && this.windowDimensions?.width > 480
+        ? { x: position.x - this.calculateMargin(), y: position.y }
+        : position
 
     return svgMaskPathMorph({
       animation: animation as any,
       previousPath,
       to: {
-        position,
+        position: customPosition,
         size,
         shape: currentStep?.shape,
         maskOffset: currentStep?.maskOffset || maskOffset,
@@ -171,23 +201,7 @@ export class SvgMask extends Component<Props, State> {
     })
   }
 
-  handleLayout = ({
-    nativeEvent: {
-      layout: { width, height },
-    },
-  }: LayoutChangeEvent) => {
-    this.setState({
-      canvasSize: {
-        x: width,
-        y: height,
-      },
-    })
-  }
-
   render() {
-    if (!this.state.canvasSize) {
-      return null
-    }
     const { dismissOnPress, stop } = this.props
     const Wrapper: any = dismissOnPress ? TouchableWithoutFeedback : View
 
@@ -208,7 +222,10 @@ export class SvgMask extends Component<Props, State> {
             fill={this.props.backdropColor}
             strokeWidth={0}
             fillRule='evenodd'
-            d={this.firstPath}
+            d={this.getFirstPath(
+              this.state.canvasSize.x,
+              this.state.canvasSize.y,
+            )}
             opacity={this.state.opacity as any}
             onPress={() => {}}
           />
