@@ -30,6 +30,9 @@ export const getStepNumber = (steps: Steps, step?: IStep): number | undefined =>
   step &&
   Object.values(steps).filter((_step) => _step.order <= step.order).length
 
+export const getStepByNumber = (steps: Steps, order: number) =>
+  steps && Object.values(steps).find((_step) => _step.order === order)
+
 export const getPrevStep = (steps: Steps, step?: IStep): IStep | null =>
   Object.values(steps)
     .filter((_step) => _step.order < step!.order)

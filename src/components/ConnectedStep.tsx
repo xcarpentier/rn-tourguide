@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { BorderRadiusObject, Shape } from '../types'
+import { BorderRadiusObject, CustomPosition, Shape } from '../types'
 import { ITourGuideContext } from './TourGuideContext'
 
 declare var __TEST__: boolean
@@ -12,18 +12,22 @@ interface Props {
   active?: boolean
   shape?: Shape
   context: ITourGuideContext
-  children?: any
+  children: any
   maskOffset?: number
   borderRadiusObject?: BorderRadiusObject
   borderRadius?: number
   keepTooltipPosition?: boolean
   tooltipBottomOffset?: number
+  customPosition?: Partial<CustomPosition>
+  enableArrow?: boolean
+  arrowHorizontalOffset?: number
 }
 
 export class ConnectedStep extends React.Component<Props> {
   static defaultProps = {
     active: true,
   }
+
   wrapper: any
   componentDidMount() {
     if (this.props.active) {

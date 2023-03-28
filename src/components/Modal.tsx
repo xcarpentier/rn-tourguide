@@ -37,9 +37,9 @@ export interface ModalProps {
   stop: () => void
   next: () => void
   prev: () => void
+  skipTo: (key: string, order: number) => void
   preventOutsideInteraction?: boolean
 }
-
 interface Layout {
   x?: number
   y?: number
@@ -57,7 +57,6 @@ interface State {
   tooltipTranslateY: Animated.Value
   opacity: Animated.Value
 }
-
 interface Move {
   top: number
   left: number
@@ -169,38 +168,33 @@ export class Modal extends React.Component<ModalProps, State> {
       left: 0,
     }
 
+    const customTop = this.props.currentStep?.customPosition?.top || 0;
+    const customBottom = this.props.currentStep?.customPosition?.bottom || 0;
+
     if (verticalPosition === 'bottom') {
-      tooltip.top = obj.top + obj.height + MARGIN
+      tooltip.top = obj.top + obj.height + MARGIN + customTop - customBottom;
     } else {
-      tooltip.bottom = layout.height! - (obj.top - MARGIN)
+      tooltip.bottom = layout.height! - (obj.top - MARGIN) + customTop - customBottom;
     }
 
     if (horizontalPosition === 'left') {
-      tooltip.right = Math.max(layout.width! - (obj.left + obj.width), 0)
-      tooltip.right =
-        tooltip.right === 0 ? tooltip.right + MARGIN : tooltip.right
-      tooltip.maxWidth = layout.width! - tooltip.right - MARGIN
+      tooltip.right = Math.max(layout.width! - (obj.left + obj.width), 0);
+      tooltip.right = tooltip.right === 0 ? tooltip.right + MARGIN : tooltip.right;
+      tooltip.maxWidth = layout.width! - tooltip.right - MARGIN;
     } else {
-      tooltip.left = Math.max(obj.left, 0)
-      tooltip.left = tooltip.left === 0 ? tooltip.left + MARGIN : tooltip.left
-      tooltip.maxWidth = layout.width! - tooltip.left - MARGIN
+      tooltip.left = Math.max(obj.left, 0);
+      tooltip.left = tooltip.left === 0 ? tooltip.left + MARGIN : tooltip.left;
+      tooltip.maxWidth = layout.width! - tooltip.left - MARGIN;
     }
-
-    const duration = this.props.animationDuration! + 200
-    const toValue =
-      verticalPosition === 'bottom'
-        ? tooltip.top
-        : obj.top -
-        MARGIN -
-        135 -
-        (this.props.currentStep!.tooltipBottomOffset || 0)
+    const duration = this.props.animationDuration! + 200;
+    const toValue = verticalPosition === 'bottom' ? tooltip.top : obj.top - MARGIN - 135 - customBottom;
     const translateAnim = Animated.timing(this.state.tooltipTranslateY, {
       toValue,
       duration,
       easing: this.props.easing,
       delay: duration,
       useNativeDriver: true,
-    })
+    });
     const opacityAnim = Animated.timing(this.state.opacity, {
       toValue: 1,
       duration,
@@ -230,7 +224,7 @@ export class Modal extends React.Component<ModalProps, State> {
         x: Math.floor(Math.max(obj.left, 0)),
         y: Math.floor(Math.max(obj.top, 0)),
       },
-    })
+    });
   }
 
   animateMove(obj = {}): Promise<void> {
@@ -249,16 +243,23 @@ export class Modal extends React.Component<ModalProps, State> {
   }
 
   handleNext = () => {
+    this.state.opacity.setValue(0)
     this.props.next()
   }
 
   handlePrev = () => {
+    this.state.opacity.setValue(0)
     this.props.prev()
   }
 
   handleStop = () => {
+    this.state.opacity.setValue(0)
     this.reset()
     this.props.stop()
+  }
+  handleSkipTo = (key: string, order: number) => {
+    this.state.opacity.setValue(0)
+    this.props.skipTo(key, order)
   }
 
   renderMask = () => (
@@ -306,6 +307,7 @@ export class Modal extends React.Component<ModalProps, State> {
           handleNext={this.handleNext}
           handlePrev={this.handlePrev}
           handleStop={this.handleStop}
+          handleSkipTo={this.handleSkipTo}
           labels={this.props.labels}
         />
       </Animated.View>
@@ -313,14 +315,17 @@ export class Modal extends React.Component<ModalProps, State> {
   }
 
   renderNonInteractionPlaceholder() {
-    return this.props.preventOutsideInteraction ? <View
-      style={[StyleSheet.absoluteFill, styles.nonInteractionPlaceholder]} /> : null
+    return this.props.preventOutsideInteraction ? (
+      <View
+        style={[StyleSheet.absoluteFill, styles.nonInteractionPlaceholder]}
+      />
+    ) : null
   }
 
-
   render() {
-    const containerVisible = this.state.containerVisible || this.props.visible
-    const contentVisible = this.state.layout && containerVisible
+    const containerVisible = this.state.containerVisible || this.props.visible;
+    const contentVisible = this.state.layout && containerVisible;
+
     if (!containerVisible) {
       return null
     }
@@ -334,8 +339,6 @@ export class Modal extends React.Component<ModalProps, State> {
           onLayout={this.handleLayoutChange}
           pointerEvents='box-none'
         >
-
-
           {contentVisible && (
             <>
               {this.renderMask()}

@@ -13,6 +13,7 @@ export interface TooltipProps {
   handleNext?: () => void
   handlePrev?: () => void
   handleStop?: () => void
+  handleSkipTo?: (key: string, order: number) => void
 }
 
 export const Tooltip = ({
