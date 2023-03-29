@@ -10,7 +10,13 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
-import { BorderRadiusObject, CustomPosition, IStep, Labels, ValueXY } from '../types'
+import {
+  BorderRadiusObject,
+  CustomPosition,
+  IStep,
+  Labels,
+  ValueXY,
+} from '../types'
 import styles, { MARGIN } from './style'
 import { SvgMask } from './SvgMask'
 import { Tooltip, TooltipProps } from './Tooltip'
@@ -300,7 +306,11 @@ export class Modal extends React.Component<ModalProps, State> {
   )
 
   renderTooltip() {
-    const { tooltipComponent: TooltipComponent, visible, currentStep } = this.props
+    const {
+      tooltipComponent: TooltipComponent,
+      visible,
+      currentStep,
+    } = this.props
 
     if (!visible) {
       return null
@@ -330,8 +340,12 @@ export class Modal extends React.Component<ModalProps, State> {
             zIndex: 99,
             opacity,
             transform: [{ translateY: this.state.tooltipTranslateY }],
-            ...(currentStep?.customPosition?.left && { left: currentStep?.customPosition.left }),
-            ...(currentStep?.customPosition?.right && { right: currentStep?.customPosition.right }),
+            ...(currentStep?.customPosition?.left && {
+              left: currentStep?.customPosition.left,
+            }),
+            ...(currentStep?.customPosition?.right && {
+              right: currentStep?.customPosition.right,
+            }),
           },
         ]}
       >
@@ -353,7 +367,8 @@ export class Modal extends React.Component<ModalProps, State> {
   }
 
   renderNonInteractionPlaceholder() {
-    return this.props.preventOutsideInteraction ? (
+    return this.state.containerVisible &&
+      this.props.preventOutsideInteraction ? (
       <View
         style={[StyleSheet.absoluteFill, styles.nonInteractionPlaceholder]}
       />
@@ -367,6 +382,7 @@ export class Modal extends React.Component<ModalProps, State> {
     if (!containerVisible) {
       return null
     }
+
     return (
       <View
         style={[StyleSheet.absoluteFill, { backgroundColor: 'transparent' }]}
