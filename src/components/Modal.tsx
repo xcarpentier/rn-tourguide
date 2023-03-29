@@ -266,6 +266,7 @@ export class Modal extends React.Component<ModalProps, State> {
     this.setState({
       containerVisible: false,
       layout: undefined,
+      tooltip: {},
     })
   }
 
