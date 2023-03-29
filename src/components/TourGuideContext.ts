@@ -16,7 +16,7 @@ export interface ITourGuideContext {
   registerStep?(key: string, step: IStep): void
   unregisterStep?(key: string, stepName: string): void
   getCurrentStep?(key: string): IStep | undefined
-  setCurrentStep?(key: string, order: number): IStep | undefined
+  setCurrentStep?(key: string, order: number): void
   start?(key: string, fromStep?: number): void
   stop?(key: string): void
 }

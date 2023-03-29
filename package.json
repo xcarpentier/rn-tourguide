@@ -34,9 +34,6 @@
     "intro"
   ],
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Grupo-GCB/rn-tourguide/issues"
-  },
   "devDependencies": {
     "@types/hoist-non-react-statics": "3.3.1",
     "@types/jest": "25.2.3",

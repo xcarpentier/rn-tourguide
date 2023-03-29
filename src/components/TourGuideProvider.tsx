@@ -133,7 +133,7 @@ export const TourGuideProvider = ({
     })
   }
 
-  const setCurrentStep = (key: string, step?: IStep) =>
+  const _setCurrentStep = (key: string, step?: IStep) =>
     new Promise<void>((resolve) => {
       updateCurrentStep((currentStep) => {
         const newStep = { ...currentStep }
@@ -174,13 +174,13 @@ export const TourGuideProvider = ({
     return obj
   }, [currentStep])
 
-  const _next = (key: string) => setCurrentStep(key, getNextStep(key)!)
+  const _next = (key: string) => _setCurrentStep(key, getNextStep(key)!)
 
-  const _prev = (key: string) => setCurrentStep(key, getPrevStep(key)!)
+  const _prev = (key: string) => _setCurrentStep(key, getPrevStep(key)!)
 
   const _stop = (key: string) => {
     setVisible(key, false)
-    setCurrentStep(key, undefined)
+    _setCurrentStep(key, undefined)
   }
 
   const registerStep = (key: string, step: IStep) => {
@@ -226,7 +226,7 @@ export const TourGuideProvider = ({
       requestAnimationFrame(() => start(key, fromStep))
     } else {
       eventEmitter[key]?.emit('start')
-      await setCurrentStep(key, currentStep!)
+      await _setCurrentStep(key, currentStep!)
       setVisible(key, true)
       startTries.current = 0
     }
@@ -234,6 +234,10 @@ export const TourGuideProvider = ({
   const next = () => _next(tourKey)
   const prev = () => _prev(tourKey)
   const stop = () => _stop(tourKey)
+  const setCurrentStep = (key: string, index: number) => {
+    const step = utils.getStepByNumber(steps[key || tourKey], index);
+    _setCurrentStep(key || tourKey, step);
+  };
   return (
     <View style={[styles.container, wrapperStyle]}>
       <TourGuideContext.Provider
@@ -242,6 +246,7 @@ export const TourGuideProvider = ({
           registerStep,
           unregisterStep,
           getCurrentStep,
+          setCurrentStep,
           start,
           stop,
           canStart,
@@ -255,6 +260,7 @@ export const TourGuideProvider = ({
             next,
             prev,
             stop,
+            skipTo: setCurrentStep,
             visible: visible[tourKey],
             isFirstStep: isFirstStep[tourKey],
             isLastStep: isLastStep[tourKey],
