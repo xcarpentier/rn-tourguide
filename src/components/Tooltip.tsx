@@ -14,6 +14,9 @@ export interface TooltipProps {
   handlePrev?: () => void
   handleStop?: () => void
   handleSkipTo?: (key: string, order: number) => void
+  enableArrow?: boolean
+  arrowHorizontalOffset?: number
+  verticalPosition?: string
 }
 
 export const Tooltip = ({

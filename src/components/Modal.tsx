@@ -131,6 +131,34 @@ export class Modal extends React.Component<ModalProps, State> {
       setLayout()
     })
   }
+  _getLayoutPositions(
+    layout: Layout,
+    obj: Move = {
+      top: 0,
+      left: 0,
+      width: 0,
+      height: 0,
+    },
+  ) {
+    if (!this.props.androidStatusBarVisible && Platform.OS === 'android') {
+      obj.top -= StatusBar.currentHeight || 30
+    }
+    const center = {
+      x: obj.left + obj.width / 2,
+      y: obj.top + obj.height / 2,
+    }
+
+    const relativeToLeft = center.x
+    const relativeToTop = center.y
+    const relativeToBottom = Math.abs(center.y - (layout.height || 0))
+    const relativeToRight = Math.abs(center.x - (layout.width || 0))
+
+    const verticalPosition = relativeToBottom > relativeToTop ? 'bottom' : 'top'
+    const horizontalPosition =
+      relativeToLeft > relativeToRight ? 'left' : 'right'
+
+    return { verticalPosition, horizontalPosition }
+  }
 
   async _animateMove(
     obj: Move = {
@@ -141,23 +169,10 @@ export class Modal extends React.Component<ModalProps, State> {
     },
   ) {
     const layout = await this.measure()
-    if (!this.props.androidStatusBarVisible && Platform.OS === 'android') {
-      obj.top -= StatusBar.currentHeight || 30
-    }
-
-    const center = {
-      x: obj.left! + obj.width! / 2,
-      y: obj.top! + obj.height! / 2,
-    }
-
-    const relativeToLeft = center.x
-    const relativeToTop = center.y
-    const relativeToBottom = Math.abs(center.y - layout.height!)
-    const relativeToRight = Math.abs(center.x - layout.width!)
-
-    const verticalPosition = relativeToBottom > relativeToTop ? 'bottom' : 'top'
-    const horizontalPosition =
-      relativeToLeft > relativeToRight ? 'left' : 'right'
+    const { verticalPosition, horizontalPosition } = this._getLayoutPositions(
+      layout,
+      obj,
+    )
 
     const tooltip = {
       top: 0,
@@ -168,33 +183,38 @@ export class Modal extends React.Component<ModalProps, State> {
       left: 0,
     }
 
-    const customTop = this.props.currentStep?.customPosition?.top || 0;
-    const customBottom = this.props.currentStep?.customPosition?.bottom || 0;
+    const customTop = this.props.currentStep?.customPosition?.top || 0
+    const customBottom = this.props.currentStep?.customPosition?.bottom || 0
 
     if (verticalPosition === 'bottom') {
-      tooltip.top = obj.top + obj.height + MARGIN + customTop - customBottom;
+      tooltip.top = obj.top + obj.height + MARGIN + customTop - customBottom
     } else {
-      tooltip.bottom = layout.height! - (obj.top - MARGIN) + customTop - customBottom;
+      tooltip.bottom =
+        layout.height! - (obj.top - MARGIN) + customTop - customBottom
     }
 
     if (horizontalPosition === 'left') {
-      tooltip.right = Math.max(layout.width! - (obj.left + obj.width), 0);
-      tooltip.right = tooltip.right === 0 ? tooltip.right + MARGIN : tooltip.right;
-      tooltip.maxWidth = layout.width! - tooltip.right - MARGIN;
+      tooltip.right = Math.max(layout.width! - (obj.left + obj.width), 0)
+      tooltip.right =
+        tooltip.right === 0 ? tooltip.right + MARGIN : tooltip.right
+      tooltip.maxWidth = layout.width! - tooltip.right - MARGIN
     } else {
-      tooltip.left = Math.max(obj.left, 0);
-      tooltip.left = tooltip.left === 0 ? tooltip.left + MARGIN : tooltip.left;
-      tooltip.maxWidth = layout.width! - tooltip.left - MARGIN;
+      tooltip.left = Math.max(obj.left, 0)
+      tooltip.left = tooltip.left === 0 ? tooltip.left + MARGIN : tooltip.left
+      tooltip.maxWidth = layout.width! - tooltip.left - MARGIN
     }
-    const duration = this.props.animationDuration! + 200;
-    const toValue = verticalPosition === 'bottom' ? tooltip.top : obj.top - MARGIN - 135 - customBottom;
+    const duration = this.props.animationDuration! + 200
+    const toValue =
+      verticalPosition === 'bottom'
+        ? tooltip.top
+        : obj.top - MARGIN - 135 - customBottom
     const translateAnim = Animated.timing(this.state.tooltipTranslateY, {
       toValue,
       duration,
       easing: this.props.easing,
       delay: duration,
       useNativeDriver: true,
-    });
+    })
     const opacityAnim = Animated.timing(this.state.opacity, {
       toValue: 1,
       duration,
@@ -224,7 +244,7 @@ export class Modal extends React.Component<ModalProps, State> {
         x: Math.floor(Math.max(obj.left, 0)),
         y: Math.floor(Math.max(obj.top, 0)),
       },
-    });
+    })
   }
 
   animateMove(obj = {}): Promise<void> {
@@ -285,6 +305,18 @@ export class Modal extends React.Component<ModalProps, State> {
       return null
     }
 
+    const obj = {
+      // @ts-ignore
+      left: this.state.position.x! || 0,
+      // @ts-ignore
+      top: this.state.position.y! || 0,
+      // @ts-ignore
+      width: this.state.size.x! || 0,
+      // @ts-ignore
+      height: this.state.size.y! || 0,
+    }
+    const { verticalPosition } = this._getLayoutPositions(this.layout!, obj)
+
     const { opacity } = this.state
     return (
       <Animated.View
@@ -309,6 +341,9 @@ export class Modal extends React.Component<ModalProps, State> {
           handleStop={this.handleStop}
           handleSkipTo={this.handleSkipTo}
           labels={this.props.labels}
+          enableArrow={this.props.currentStep?.enableArrow}
+          arrowHorizontalOffset={this.props.currentStep?.arrowHorizontalOffset}
+          verticalPosition={verticalPosition}
         />
       </Animated.View>
     )
@@ -323,8 +358,8 @@ export class Modal extends React.Component<ModalProps, State> {
   }
 
   render() {
-    const containerVisible = this.state.containerVisible || this.props.visible;
-    const contentVisible = this.state.layout && containerVisible;
+    const containerVisible = this.state.containerVisible || this.props.visible
+    const contentVisible = this.state.layout && containerVisible
 
     if (!containerVisible) {
       return null

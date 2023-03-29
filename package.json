@@ -1,6 +1,6 @@
 {
-  "name": "rn-tourguide",
-  "version": "3.3.0",
+  "name": "test-rn-tourguide",
+  "version": "1.0.1",
   "main": "node_modules/expo/AppEntry.js",
   "types": "lib/index.d.ts",
   "private": false,
@@ -38,9 +38,9 @@
     "@types/hoist-non-react-statics": "3.3.1",
     "@types/jest": "25.2.3",
     "@types/lodash.clamp": "4.0.6",
-    "@types/react": "~17.0.21",
+    "@types/react": "~17.0.1",
     "@types/react-dom": "~17.0.9",
-    "@types/react-native": "~0.64.12",
+    "@types/react-native": "~0.64.2",
     "@types/react-test-renderer": "16.9.2",
     "babel-preset-expo": "8.5.1",
     "expo": "^43.0.0",
@@ -75,6 +75,8 @@
   "resolutions": {
     "logkitty": "^0.7.1",
     "mem": "^4.0.0",
-    "set-value": "^4.0.1"
+    "set-value": "^4.0.1",
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "17.0.2"
   }
 }
