@@ -1,13 +1,13 @@
 {
-  "name": "peerbr-rn-tourguide",
+  "name": "peerbr-tourguide",
   "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "private": false,
   "scripts": {
     "start": "yarn config:dev && expo start -c",
     "start:web": "yarn config:dev && expo start -c -w",
-    "test": "TZ=Europe/Paris jest --no-watchman",
+    "test": "jest --no-watchman",
     "tsc": "node_modules/.bin/tsc --noEmit",
     "tsc:watch": "node_modules/.bin/tsc --noEmit --watch",
     "build": "rm -rf lib/ && node_modules/.bin/tsc",
