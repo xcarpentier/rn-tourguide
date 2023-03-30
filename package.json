@@ -1,6 +1,6 @@
 {
-  "name": "test-rn-tourguide",
-  "version": "1.0.3",
+  "name": "peerbr-rn-tourguide",
+  "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "types": "lib/index.d.ts",
   "private": false,
