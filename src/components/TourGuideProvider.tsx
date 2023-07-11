@@ -65,6 +65,7 @@ export const TourGuideProvider = ({
   const [steps, setSteps] = useState<Ctx<Steps>>({ _default: [] })
 
   const [canStart, setCanStart] = useState<Ctx<boolean>>({ _default: false })
+  const [isAnimationRunning, setIsAnimationRunning] = useState<boolean>(false)
 
   const startTries = useRef<number>(0)
   const { current: mounted } = useIsMounted()
@@ -91,7 +92,8 @@ export const TourGuideProvider = ({
     if (mounted) {
       if (steps[tourKey]) {
         if (
-          (Array.isArray(steps[tourKey]) && steps[tourKey].length as number > 0) ||
+          (Array.isArray(steps[tourKey]) &&
+            (steps[tourKey].length as number) > 0) ||
           Object.entries(steps[tourKey]).length > 0
         ) {
           setCanStart((obj) => {
@@ -235,9 +237,9 @@ export const TourGuideProvider = ({
   const prev = () => _prev(tourKey)
   const stop = () => _stop(tourKey)
   const setCurrentStep = (key: string, index: number) => {
-    const step = utils.getStepByNumber(steps[key || tourKey], index);
-    _setCurrentStep(key || tourKey, step);
-  };
+    const step = utils.getStepByNumber(steps[key || tourKey], index)
+    _setCurrentStep(key || tourKey, step)
+  }
   return (
     <View style={[styles.container, wrapperStyle]}>
       <TourGuideContext.Provider
@@ -250,6 +252,7 @@ export const TourGuideProvider = ({
           start,
           stop,
           canStart,
+          isAnimationRunning,
           setTourKey,
         }}
       >
@@ -265,6 +268,7 @@ export const TourGuideProvider = ({
             isFirstStep: isFirstStep[tourKey],
             isLastStep: isLastStep[tourKey],
             currentStep: currentStep[tourKey],
+            setIsAnimationRunning,
             labels,
             tooltipComponent,
             tooltipStyle,

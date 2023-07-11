@@ -13,6 +13,7 @@ export interface ITourGuideContext {
   setTourKey?: (tourKey: string) => void
   eventEmitter?: Ctx<Emitter>
   canStart: Ctx<boolean>
+  isAnimationRunning: boolean
   registerStep?(key: string, step: IStep): void
   unregisterStep?(key: string, stepName: string): void
   getCurrentStep?(key: string): IStep | undefined
@@ -23,4 +24,5 @@ export interface ITourGuideContext {
 
 export const TourGuideContext = React.createContext<ITourGuideContext>({
   canStart: { _default: false },
+  isAnimationRunning: false,
 })

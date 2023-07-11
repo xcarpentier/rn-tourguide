@@ -7,8 +7,16 @@ import {
 } from '../components/TourGuideZoneByPosition'
 
 export const useTourGuideController = (tourKey?: string) => {
-  const { start, canStart, stop, eventEmitter, getCurrentStep, setTourKey, setCurrentStep } =
-    React.useContext(TourGuideContext)
+  const {
+    start,
+    canStart,
+    isAnimationRunning,
+    stop,
+    eventEmitter,
+    getCurrentStep,
+    setTourKey,
+    setCurrentStep,
+  } = React.useContext(TourGuideContext)
 
   const key = tourKey ?? '_default'
 
@@ -35,9 +43,9 @@ export const useTourGuideController = (tourKey?: string) => {
   }
   const _setCurrentStep = (key: string, order: number) => {
     if (setCurrentStep) {
-      return setCurrentStep(key, order);
+      return setCurrentStep(key, order)
     }
-    return undefined;
+    return undefined
   }
 
   React.useEffect(() => {
@@ -74,6 +82,7 @@ export const useTourGuideController = (tourKey?: string) => {
     setCurrentStep: _setCurrentStep,
     canStart: _canStart,
     tourKey: key,
+    isAnimationRunning,
     TourGuideZone: KeyedTourGuideZone,
     TourGuideZoneByPosition: KeyedTourGuideZoneByPosition,
   }

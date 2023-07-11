@@ -46,6 +46,7 @@ export interface ModalProps {
   skipTo: (key: string, order: number) => void
   preventOutsideInteraction?: boolean
   customPosition?: Partial<CustomPosition>
+  setIsAnimationRunning: React.Dispatch<React.SetStateAction<boolean>>
 }
 interface Layout {
   x?: number
@@ -271,8 +272,14 @@ export class Modal extends React.Component<ModalProps, State> {
 
   animateMove(obj = {}): Promise<void> {
     return new Promise((resolve) => {
+      this.props.setIsAnimationRunning(true)
       this.setState({ containerVisible: true }, () =>
-        this._animateMove(obj as any).then(resolve),
+        this._animateMove(obj as any).then(() => {
+          resolve()
+          setTimeout(() => {
+            this.props.setIsAnimationRunning(false)
+          }, 200)
+        }),
       )
     })
   }
