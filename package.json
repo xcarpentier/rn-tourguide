@@ -1,6 +1,6 @@
 {
-  "name": "peerbr-tourguide",
-  "version": "1.0.1",
+  "name": "peerbr-tourguide-test",
+  "version": "1.0.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "private": false,
@@ -10,7 +10,7 @@
     "test": "jest --no-watchman",
     "tsc": "node_modules/.bin/tsc --noEmit",
     "tsc:watch": "node_modules/.bin/tsc --noEmit --watch",
-    "build": "rm -rf lib/ && node_modules/.bin/tsc",
+    "build": "node_modules/.bin/tsc",
     "config:dev": "json -I -f package.json -e 'this.main=\"node_modules/expo/AppEntry.js\"'",
     "config:npm": "json -I -f package.json -e 'this.main=\"lib/index.js\"'",
     "lint": "tslint --project .",

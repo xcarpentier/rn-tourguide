@@ -295,20 +295,24 @@ export class Modal extends React.Component<ModalProps, State> {
   }
 
   handleNext = () => {
+    this.props.setIsAnimationRunning(true)
     this.state.opacity.setValue(0)
     this.props.next()
   }
 
   handlePrev = () => {
+    this.props.setIsAnimationRunning(true)
     this.state.opacity.setValue(0)
     this.props.prev()
   }
 
   handleStop = () => {
+    this.props.setIsAnimationRunning(true)
     this.props.stop()
     this.reset()
   }
   handleSkipTo = (key: string, order: number) => {
+    this.props.setIsAnimationRunning(true)
     this.state.opacity.setValue(0)
     this.props.skipTo(key, order)
   }
