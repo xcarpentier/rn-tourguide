@@ -1,5 +1,5 @@
 {
-  "name": "peerbr-tourguide-test",
+  "name": "peerbr-tourguide",
   "version": "1.0.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Grupo-GCB/rn-tourguide/feat/add-isAnimationRunning"
+    "url": "https://github.com/Grupo-GCB/rn-tourguide"
   },
   "keywords": [
     "react-native",
