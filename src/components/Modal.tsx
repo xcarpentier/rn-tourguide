@@ -48,6 +48,8 @@ interface Layout {
 }
 
 interface State {
+  isFirstStep: boolean
+  isLastStep: boolean
   tooltip: object
   notAnimated?: boolean
   containerVisible: boolean
@@ -56,6 +58,7 @@ interface State {
   position?: ValueXY
   tooltipTranslateY: Animated.Value
   opacity: Animated.Value
+  currentStep?: IStep
 }
 
 interface Move {
@@ -86,6 +89,8 @@ export class Modal extends React.Component<ModalProps, State> {
   }
 
   state = {
+    isFirstStep: false,
+    isLastStep: false,
     tooltip: {},
     containerVisible: false,
     tooltipTranslateY: new Animated.Value(400),
@@ -93,6 +98,7 @@ export class Modal extends React.Component<ModalProps, State> {
     layout: undefined,
     size: undefined,
     position: undefined,
+    currentStep: undefined,
   }
 
   constructor(props: ModalProps) {
@@ -209,6 +215,12 @@ export class Modal extends React.Component<ModalProps, State> {
       useNativeDriver: true,
     })
     this.state.opacity.setValue(0)
+    // Set the tooltip content when the opacity is 0
+    this.setState({
+      isFirstStep: this.props.isFirstStep,
+      isLastStep: this.props.isLastStep,
+      currentStep: this.props.currentStep,
+    })
     if (
       // @ts-ignore
       toValue !== this.state.tooltipTranslateY._value &&
@@ -300,9 +312,9 @@ export class Modal extends React.Component<ModalProps, State> {
         ]}
       >
         <TooltipComponent
-          isFirstStep={this.props.isFirstStep}
-          isLastStep={this.props.isLastStep}
-          currentStep={this.props.currentStep!}
+          isFirstStep={this.state.isFirstStep}
+          isLastStep={this.state.isLastStep}
+          currentStep={this.state.currentStep!}
           handleNext={this.handleNext}
           handlePrev={this.handlePrev}
           handleStop={this.handleStop}
