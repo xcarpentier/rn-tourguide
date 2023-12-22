@@ -1,5 +1,6 @@
 // @ts-ignore
 import { interpolate, separate, splitPathString, toCircle } from 'flubber'
+import { Platform } from 'react-native'
 import clamp from 'lodash.clamp'
 import memoize from 'memoize-one'
 import {
@@ -11,6 +12,8 @@ import {
   SvgPath,
   ValueXY,
 } from './types'
+
+export const IS_NATIVE = Platform.OS !== 'web'
 
 export const getFirstStep = (steps: Steps): IStep | null =>
   steps &&
