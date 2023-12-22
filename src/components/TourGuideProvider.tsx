@@ -118,6 +118,7 @@ export const TourGuideProvider = ({
   const moveToCurrentStep = async (key: string) => {
     const size = await currentStep[key]?.target.measure()
     if (
+      size === undefined ||
       isNaN(size.width) ||
       isNaN(size.height) ||
       isNaN(size.x) ||
