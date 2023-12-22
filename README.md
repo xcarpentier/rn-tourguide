@@ -184,6 +184,7 @@ interface TourGuideZoneProps {
   borderRadius?: number // round corner when rectangle
   keepTooltipPosition?: boolean
   tooltipBottomOffset?: number
+  tooltipLeftOffset?: number
   children: React.ReactNode
 }
 
