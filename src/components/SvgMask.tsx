@@ -5,11 +5,10 @@ import {
   Easing,
   LayoutChangeEvent,
   Platform,
-  StyleProp,
-  View,
-  ViewStyle,
-  TouchableWithoutFeedback,
+  Pressable,
   ScaledSize,
+  StyleProp,
+  ViewStyle,
 } from 'react-native'
 import Svg, { PathProps } from 'react-native-svg'
 import { IStep, ValueXY } from '../types'
@@ -186,13 +185,12 @@ export class SvgMask extends Component<Props, State> {
       return null
     }
     const { dismissOnPress, stop } = this.props
-    const Wrapper: any = dismissOnPress ? TouchableWithoutFeedback : View
 
     return (
-      <Wrapper
+      <Pressable
         style={this.props.style}
         onLayout={this.handleLayout}
-        pointerEvents='none'
+        pointerEvents={dismissOnPress ? undefined : 'none'}
         onPress={dismissOnPress ? stop : undefined}
       >
         <Svg
@@ -209,7 +207,7 @@ export class SvgMask extends Component<Props, State> {
             opacity={this.state.opacity as any}
           />
         </Svg>
-      </Wrapper>
+      </Pressable>
     )
   }
 }
