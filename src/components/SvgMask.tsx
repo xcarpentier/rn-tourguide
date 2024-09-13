@@ -64,7 +64,7 @@ export class SvgMask extends Component<Props, State> {
       default: Dimensions.get('window'),
     })
 
-    this.firstPath = `M0,0H${this.windowDimensions.width}V${
+    this.firstPath = `M0,0H${this.windowDimensions.width+50}V${
       this.windowDimensions.height
     }H0V0ZM${this.windowDimensions.width / 2},${
       this.windowDimensions.height / 2
@@ -72,7 +72,7 @@ export class SvgMask extends Component<Props, State> {
 
     this.state = {
       canvasSize: {
-        x: this.windowDimensions.width,
+        x: this.windowDimensions.width+50,
         y: this.windowDimensions.height,
       },
       size: props.size,
