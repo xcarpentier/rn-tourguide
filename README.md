@@ -62,6 +62,7 @@ import {
 // Add <TourGuideProvider/> at the root of you app!
 function App() {
   return (
+// If you added a statusbar in Andoid set androidStatusBarVisible: true as well to avoid vertical position issues
     <TourGuideProvider {...{ borderRadius: 16 }}>
       <AppContent />
     </TourGuideProvider>
