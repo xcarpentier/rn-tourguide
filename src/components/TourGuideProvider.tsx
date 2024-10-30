@@ -1,6 +1,12 @@
 import mitt, { Emitter } from 'mitt'
 import * as React from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import {
+  findNodeHandle,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from 'react-native'
 import { TourGuideContext, Ctx } from './TourGuideContext'
 import { useIsMounted } from '../hooks/useIsMounted'
 import { IStep, Labels, StepObject, Steps } from '../types'
@@ -49,6 +55,7 @@ export const TourGuideProvider = ({
   dismissOnPress = false,
   preventOutsideInteraction = false,
 }: TourGuideProviderProps) => {
+  const [scrollRef, setScrollRef] = useState<React.RefObject<any>>()
   const [tourKey, setTourKey] = useState<string | '_default'>('_default')
   const [visible, updateVisible] = useState<Ctx<boolean | undefined>>({
     _default: false,
@@ -134,15 +141,36 @@ export const TourGuideProvider = ({
     })
   }
 
-  const setCurrentStep = (key: string, step?: IStep) =>
-    new Promise<void>((resolve) => {
-      updateCurrentStep((currentStep) => {
-        const newStep = { ...currentStep }
-        newStep[key] = step
-        eventEmitter[key]?.emit('stepChange', step)
-        return newStep
-      })
-      resolve()
+  const setCurrentStep = async (key: string, step?: IStep) =>
+    new Promise<void>(async (resolve) => {
+      if (scrollRef && step) {
+        await step.wrapper.measureLayout(
+          findNodeHandle(scrollRef.current),
+          (_x: number, y: number, _w: number, h: number) => {
+            const yOffsett = y > 0 ? y - h / 2 : 0
+            scrollRef.current.scrollTo({ y: yOffsett, animated: false })
+          },
+        )
+        setTimeout(() => {
+          updateCurrentStep((currentStep) => {
+            const newStep = { ...currentStep }
+            newStep[key] = step
+            eventEmitter[key]?.emit('stepChange', step)
+            return newStep
+          })
+          resolve()
+        }, 100);
+      }
+      else {
+        updateCurrentStep((currentStep) => {
+          const newStep = { ...currentStep }
+          newStep[key] = step
+          eventEmitter[key]?.emit('stepChange', step)
+          return newStep
+        })
+        resolve()
+      }
+      
     })
 
   const getNextStep = (
@@ -213,7 +241,14 @@ export const TourGuideProvider = ({
 
   const getCurrentStep = (key: string) => currentStep[key]
 
-  const start = async (key: string, fromStep?: number) => {
+  const start = async (
+    key: string,
+    fromStep?: number,
+    _scrollRef?: React.RefObject<any>,
+  ) => {
+    if (!scrollRef) {
+      setScrollRef(_scrollRef)
+    }
     const currentStep = fromStep
       ? (steps[key] as StepObject)[fromStep]
       : getFirstStep(key)
