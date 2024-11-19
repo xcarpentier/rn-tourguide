@@ -1,6 +1,12 @@
 import mitt, { Emitter } from 'mitt'
 import * as React from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import {
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+  Dimensions,
+} from 'react-native'
 import { TourGuideContext, Ctx } from './TourGuideContext'
 import { useIsMounted } from '../hooks/useIsMounted'
 import { IStep, Labels, StepObject, Steps } from '../types'
@@ -66,6 +72,8 @@ export const TourGuideProvider = ({
 
   const [canStart, setCanStart] = useState<Ctx<boolean>>({ _default: false })
 
+  const [windowIsResized, setWindowResized] = useState(false)
+
   const startTries = useRef<number>(0)
   const { current: mounted } = useIsMounted()
 
@@ -82,10 +90,30 @@ export const TourGuideProvider = ({
   }, [visible])
 
   useEffect(() => {
-    if (visible[tourKey] || currentStep[tourKey]) {
-      moveToCurrentStep(tourKey)
+    if (visible || (windowIsResized && currentStep) || currentStep) {
+      moveToCurrentStep()
+      setWindowResized(false)
     }
-  }, [visible, currentStep])
+  }, [visible, currentStep, windowIsResized])
+
+  const setWindowIsResized = () => {
+    setWindowResized(true)
+  }
+
+  useEffect(() => {
+    let subscription: any
+    if (utils.IS_NATIVE) {
+      subscription = Dimensions.addEventListener('change', setWindowIsResized)
+    } else {
+      window.addEventListener('resize', setWindowIsResized)
+    }
+
+    return () => {
+      utils.IS_NATIVE
+        ? subscription?.remove()
+        : window.removeEventListener('resize', setWindowIsResized)
+    }
+  }, [])
 
   useEffect(() => {
     if (mounted) {
